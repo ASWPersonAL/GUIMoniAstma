@@ -1,47 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
 <?import java.util.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-
 <?import javafx.scene.control.cell.*?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="800.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="guimoniasthma.MoniAstmaController">
+<AnchorPane id="AnchorPane" prefHeight="650.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
     <children>
-        <Button fx:id="buttonSearch" layoutX="494.0" layoutY="40.0" onAction="#handleSearchAction" text="Search By Comment">
+        <Button fx:id="buttonSearch" layoutX="499.0" layoutY="370.0" onAction="#handleSearchAction" text="Search By Comment">
          <font>
             <Font size="14.0" />
          </font></Button>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <TextField fx:id="textFieldSearch" layoutX="43.0" layoutY="41.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />
-      <TableView fx:id="tableView" layoutX="9.0" layoutY="108.0" prefHeight="468.0" prefWidth="750.0">
+      <TextField fx:id="textFieldSearch" layoutX="14.0" layoutY="370.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />
+      <TableView fx:id="tableView" layoutX="9.0" layoutY="419.0" prefHeight="214.0" prefWidth="750.0">
         <columns>
-          <TableColumn prefWidth="150.0" text="Id" >
+          <TableColumn prefWidth="150.0" text="Id">
               <cellValueFactory>
-                  <PropertyValueFactory property="pfMeasureid"/>
+                  <PropertyValueFactory property="pfMeasureid" />
               </cellValueFactory>
               </TableColumn>
-            <TableColumn prefWidth="200.0" text="Value" >
+            <TableColumn prefWidth="200.0" text="Value">
                  <cellValueFactory>
-                  <PropertyValueFactory property="pfValue"/>
+                  <PropertyValueFactory property="pfValue" />
               </cellValueFactory>
                 
             </TableColumn>
-            <TableColumn prefWidth="200.0" text="Date" >
+            <TableColumn prefWidth="200.0" text="Date">
                  <cellValueFactory>
-                  <PropertyValueFactory property="pfDate"/>
+                  <PropertyValueFactory property="pfDate" />
               </cellValueFactory>
             </TableColumn>
-            <TableColumn prefWidth="200.0" text="Comment" >
+            <TableColumn prefWidth="200.0" text="Comment">
                  <cellValueFactory>
-                  <PropertyValueFactory property="pfComment"/>
+                  <PropertyValueFactory property="pfComment" />
               </cellValueFactory>
             </TableColumn>
         </columns>
       </TableView>
+      
+      
+      <LineChart fx:id="chartPFdata" layoutX="153.0" layoutY="37.0" prefHeight="288.0" prefWidth="424.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      
+      
     </children>
 </AnchorPane>
