@@ -139,32 +139,26 @@ public class MoniAstmaController implements Initializable {
           
                  //String a = p.getPfDate().toString();
                  //Number b = p.getPfValue();
+              
                  //series30.getData().add(new XYChart.Data<String,Number>(a,b));
                  
                   ////Putter hver objekt ind i serien - her går det galt :)
-                 series30.getData().add(new XYChart.Data<String, Number>("ggg", 44));
-                 
-                 //series30.getData().add(new XYChart.Data<String,Number>(p.getPfDate().toString(), p.getPfValue()));
-                
-                 ////Tilføjer serie til observableList
-                
-                 
-                 System.out.println(p);
-                }
-              
-             
-             lineChartData.add(series30);
-             
-             ////////Del af test/////
-               ////Putter hver objekt ind i serien - her går det galt :)
                  //series30.getData().add(new XYChart.Data<String, Number>("ggg", 44));
-          ////Tilføjer serie til observableList
-                 //lineChartData.add(series30);
+                 
+                 series30.getData().add(new XYChart.Data<String,Number>(p.getPfComment(), p.getPfValue()));
+
                  
                  
+                 System.out.println(p.getPfComment());
+                 System.out.println(p.getPfValue());
+                }
+             
+              ////Tilføjer serie til observableList
+                  lineChartData.add(series30);
+  
       ////Sætter observable list in i grafen til xml view.
       chart.setData(lineChartData);
-      //chart.getData().add(series30);
+      //chart.getData().add(lineChartData);
       chart.createSymbolsProperty();
  
    }
