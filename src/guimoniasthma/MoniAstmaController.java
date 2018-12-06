@@ -5,6 +5,7 @@
  */
 package guimoniasthma;
 
+
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,13 +16,16 @@ import java.util.List;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -60,8 +64,20 @@ public class MoniAstmaController implements Initializable {
     final NumberAxis yAxisPF = new NumberAxis();
     
     @FXML 
-    LineChart<String, Number> chartPFdata; 
+    private LineChart<String, Number> chartPFdata; 
     
+    //linechart data def with webservice.
+    
+       @FXML
+    CategoryAxis xAxis = new CategoryAxis();
+    
+    @FXML
+    NumberAxis yAxis = new NumberAxis();
+    
+  
+    @FXML
+    private LineChart<String,Number> chart;
+   
     
     //Methods
     
@@ -88,21 +104,74 @@ public class MoniAstmaController implements Initializable {
        }
        
    }
-    
-    @Override
-    public void initialize(URL url, ResourceBundle rb) {
-        handleSearchAction();
-        
-//        WebTarget clientTarget;
-//        
-//        Client client = ClientBuilder.newClient();
-//        
-//        clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow");
-//        
+  
+   
+   
+   
+   
+     private void GetLineChartData(){
+         
+         ////API url client
+         WebTarget clientTarget;
+         
+         ////http clienten
+         Client client = ClientBuilder.newClient();
+         
+         client.register(PeakflowMessageBodyReader.class);
 
-        
-        
-             Connection con1;
+         ////her sættes clienten med url metode.
+         clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow");
+         
+            ////Erklære en liste med Peakflow objecter.
+            GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
+             
+            ////Får en liste med Json objekter
+            List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
+            
+            ////Liste deklaration til chart i xml.
+            ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
+       
+            ////Erklære en serie til chart data
+            LineChart.Series<String,Number> series30 = new LineChart.Series<String,Number>();
+            
+             ////Foreacher over listen med json objekter?
+             for(Peakflow p : peakflows){
+          
+                 //String a = p.getPfDate().toString();
+                 //Number b = p.getPfValue();
+                 //series30.getData().add(new XYChart.Data<String,Number>(a,b));
+                 
+                  ////Putter hver objekt ind i serien - her går det galt :)
+                 series30.getData().add(new XYChart.Data<String, Number>("ggg", 44));
+                 
+                 //series30.getData().add(new XYChart.Data<String,Number>(p.getPfDate().toString(), p.getPfValue()));
+                
+                 ////Tilføjer serie til observableList
+                
+                 
+                 System.out.println(p);
+                }
+              
+             
+             lineChartData.add(series30);
+             
+             ////////Del af test/////
+               ////Putter hver objekt ind i serien - her går det galt :)
+                 //series30.getData().add(new XYChart.Data<String, Number>("ggg", 44));
+          ////Tilføjer serie til observableList
+                 //lineChartData.add(series30);
+                 
+                 
+      ////Sætter observable list in i grafen til xml view.
+      chart.setData(lineChartData);
+      //chart.getData().add(series30);
+      chart.createSymbolsProperty();
+ 
+   }
+   
+   private void GetLineChartDataDB(){
+    
+       Connection con1;
         try{
             con1 = DriverManager.getConnection("jdbc:derby://localhost:1527/fifi", "fifi", "fifi");
             Statement stmt = con1.createStatement();
@@ -123,7 +192,18 @@ public class MoniAstmaController implements Initializable {
         catch (SQLException ex){
             Logger.getLogger(GUIMoniAsthma.class.getName()).log(Level.SEVERE, null, ex);
         }
-//        
+   }
+   
+ 
+   
+    
+    @Override
+    public void initialize(URL url, ResourceBundle rb) {
+        handleSearchAction();
+        GetLineChartDataDB();
+        GetLineChartData();
+                 
+   
         
     }    
     

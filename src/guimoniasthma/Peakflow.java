@@ -19,6 +19,17 @@ public class Peakflow implements Serializable {
     
     private Date pfDate;
     private String pfComment;
+    
+    
+    public Peakflow(){
+        
+    }
+    
+    public Peakflow(Date pfdate, int pfvalue){
+        this.pfDate = pfdate;
+        this.pfValue = pfvalue;
+        
+    }
 
     public Integer getPfMeasureid() {
         return pfMeasureid;
