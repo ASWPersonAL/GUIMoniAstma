@@ -7,15 +7,8 @@ package guimoniasthma;
 
 
 import java.net.URL;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -23,9 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
@@ -137,17 +128,7 @@ public class MoniAstmaController implements Initializable {
              ////Foreacher over listen med json objekter?
              for(Peakflow p : peakflows){
           
-                 //String a = p.getPfDate().toString();
-                 //Number b = p.getPfValue();
-              
-                 //series30.getData().add(new XYChart.Data<String,Number>(a,b));
-                 
-                  ////Putter hver objekt ind i serien - her går det galt :)
-                 //series30.getData().add(new XYChart.Data<String, Number>("ggg", 44));
-                 
                  series30.getData().add(new XYChart.Data<String,Number>(p.getPfComment(), p.getPfValue()));
-
-                 
                  
                  System.out.println(p.getPfComment());
                  System.out.println(p.getPfValue());

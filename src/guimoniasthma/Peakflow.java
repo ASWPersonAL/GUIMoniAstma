@@ -18,6 +18,8 @@ public class Peakflow implements Serializable {
     private Integer pfMeasureid;
     private int pfValue;
     
+    
+    //Skal bruge en data konverter til visning af date i liste og derefter på graf.
     private Date pfDate;
     private String pfComment;
     
