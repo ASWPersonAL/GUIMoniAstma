@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.json.Json;
 import javax.json.stream.JsonParser;
@@ -62,7 +63,7 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
                                 peakflow.setPfValue(parser.getInt());
                                 break;
                             case "pfDate" :
-                                peakflow.getPfDate();
+                                peakflow.setPfDate(new Date(parser.getLong()));
                                 break;
                             case "pfComment":
                                 peakflow.setPfComment(parser.getString());

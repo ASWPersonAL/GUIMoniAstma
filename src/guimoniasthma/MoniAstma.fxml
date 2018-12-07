@@ -11,7 +11,7 @@
 
 <AnchorPane id="AnchorPane" prefHeight="658.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
     <children>
-        <Button fx:id="buttonSearch" layoutX="664.0" layoutY="471.0" onAction="#handleSearchAction" text="Search By Comment">
+        <Button fx:id="buttonSearch" layoutX="664.0" layoutY="471.0" onAction="#GetLineChartData2" text="Search By Comment">
          <font>
             <Font size="14.0" />
          </font></Button>
@@ -72,8 +72,8 @@
         </yAxis>
       </LineChart>
       <Text layoutX="375.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LineChart for humidy data: Openweatherurl" />
-      <DatePicker layoutX="421.0" layoutY="419.0" promptText="Start date" />
-      <DatePicker layoutX="657.0" layoutY="419.0" promptText="End date" />
+      <DatePicker layoutX="421.0" layoutY="419.0" promptText="Start date" fx:id="fromDatePicker" />
+      <DatePicker layoutX="657.0" layoutY="419.0" promptText="End date" fx:id="toDatePicker" />
       <Text layoutX="245.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select date range for charts:" />
       <TextArea layoutX="14.0" layoutY="82.0" prefHeight="270.0" prefWidth="103.0" text="Denne del er til POST af Peak flow,&#10;attributter:&#10;pfvalue,&#10;pfcomment,&#10;pfdate&#10; (Datepicker)" />
       

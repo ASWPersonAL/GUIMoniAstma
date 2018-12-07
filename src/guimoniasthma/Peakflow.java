@@ -22,13 +22,11 @@ public class Peakflow implements Serializable {
     //Skal bruge en data konverter til visning af date i liste og derefter på graf.
     private Date pfDate;
     private String pfComment;
+    private SimpleDateFormat dateFormat;
     
     
     public Peakflow(){
-        
-        //SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        //Date date = format.parse(pfDate);
-        
+        dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     }
 
     public Integer getPfMeasureid() {
@@ -47,8 +45,8 @@ public class Peakflow implements Serializable {
         this.pfValue = pfValue;
     }
 
-    public Date getPfDate() {
-        return pfDate;
+    public String getPfDate() {
+        return dateFormat.format(pfDate);
     }
 
     public void setPfDate(Date pfDate) {

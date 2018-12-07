@@ -7,7 +7,11 @@ package guimoniasthma;
 
 
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,9 +23,11 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.util.StringConverter;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -43,8 +49,11 @@ public class MoniAstmaController implements Initializable {
     private Button buttonSearch;
     
     @FXML
-    private TableView<Peakflow> tableView; 
+    private TableView<Peakflow> tableView;
     
+    private String baseUrl = "http://localhost:8080/ServerSideMoniAsthma/webresources";
+
+    private SimpleDateFormat dateFormat;
     
 //    //Line chart with local db data Select from syntax
 //    
@@ -60,13 +69,17 @@ public class MoniAstmaController implements Initializable {
     
     //linechart data def with webservice.
     
-       @FXML
+    @FXML
     CategoryAxis xAxis = new CategoryAxis();
     
     @FXML
     NumberAxis yAxis = new NumberAxis();
     
-  
+    @FXML
+    DatePicker fromDatePicker = new DatePicker();
+    @FXML
+    DatePicker toDatePicker = new DatePicker();
+
     //@FXML
     //private LineChart<String,Number> chart;
     
@@ -76,14 +89,14 @@ public class MoniAstmaController implements Initializable {
     
     //Methods
     
-    @FXML
-   private void handleSearchAction(){
+   @FXML
+   private void handleSearchAction() {
        
-       //INITIATING API CLIENT
+       // INITIATING API CLIENT.
        WebTarget clientTarget;
-       //Declaring variable data. It is an observable list of type peakflow and equald instance field tableView items.
+       // Declaring variable data. It is an observable list of type peakflow and equald instance field tableView items.
        ObservableList<Peakflow> data = tableView.getItems();
-      //Clear table view before GET url for data is made.
+       // Clear table view before GET url for data is made.
        data.clear();
        
        //Initiating http client.
@@ -93,7 +106,7 @@ public class MoniAstmaController implements Initializable {
        client.register(PeakflowMessageBodyReader.class);
        //Conditional statement. If textfield is used then call the search url method. And give the answer.
        if(textFieldSearch.getText().length() > 0){
-           clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow/search/{beginBy}");
+       clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow/search/{beginBy}");
            clientTarget = clientTarget.resolveTemplate("beginBy", textFieldSearch.getText());
        }else{
            //if textfield is not used just show all elements in list using peakflow GET url.
@@ -112,7 +125,81 @@ public class MoniAstmaController implements Initializable {
        
    }
   
-   
+   @FXML
+   private void handleSearchDate() {
+       
+       // INITIATING API CLIENT.
+       WebTarget clientTarget;
+       // Declaring variable data. It is an observable list of type peakflow and equald instance field tableView items.
+       ObservableList<Peakflow> data = tableView.getItems();
+       // Clear table view before GET url for data is made.
+       data.clear();
+       
+       //Initiating http client.
+       Client client = ClientBuilder.newClient();
+       
+       //Jsonparser registered to client. Reads json and convert to java types.
+       client.register(PeakflowMessageBodyReader.class);
+       //Conditional statement. If textfield is used then call the search url method. And give the answer.
+       if(textFieldSearch.getText().length() > 0){
+       clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow/searchByDate/{beginBy}");
+           clientTarget = clientTarget.resolveTemplate("beginBy", textFieldSearch.getText());
+       }else{
+           //if textfield is not used just show all elements in list using peakflow GET url.
+           clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow");
+       }
+       //Define list of type peakflow
+       GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
+            };
+       //Put json into list of type peak flow.
+       List<Peakflow> peakflows = clientTarget.request("application/json").get(listpf);
+       //Foreach though the elements in json list. Add them to variable data that is equal to the tableview in view.
+       for(Peakflow p : peakflows){
+           data.add(p);
+           System.out.println(p.toString());
+       }
+       
+   }
+  
+   @FXML
+    private void GetLineChartData2(){
+       WebTarget clientTarget;
+       Client client = ClientBuilder.newClient();
+       client.register(PeakflowMessageBodyReader.class);
+       
+       String fromDate = "NULL";
+       String toDate = "NULL";
+       DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+       if (fromDatePicker.getValue() != null) {
+           fromDate = fromDatePicker.getValue().format(dateTimeFormatter);
+       }
+       if (toDatePicker.getValue() != null) {
+           toDate = toDatePicker.getValue().format(dateTimeFormatter);
+       }
+
+       clientTarget = client
+               .target(this.baseUrl + "/peakflow/searchByDate/{fromDate}/{toDate}")
+               .resolveTemplate("fromDate", fromDate)
+               .resolveTemplate("toDate", toDate);
+
+       GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
+       List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
+
+       System.out.println(peakflows.size());
+       
+       ObservableList<XYChart.Series<String, Number>> scatterChartData = FXCollections.observableArrayList();
+       ScatterChart.Series<String,Number> seriesS = new ScatterChart.Series<String,Number>();
+       for(Peakflow p : peakflows){
+         seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
+         System.out.println(p.getPfComment());
+                 System.out.println(p.getPfValue());
+                }
+                  
+                  scatterChartData.add(seriesS);
+  
+      schart.setData(scatterChartData);
+   }
+ 
      private void GetLineChartData(){
          
          ////API url client
@@ -124,7 +211,13 @@ public class MoniAstmaController implements Initializable {
          client.register(PeakflowMessageBodyReader.class);
 
          ////her sættes clienten med url metode.
-         clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow");
+         
+         // IVAN
+         // StringBuilder a = new StringBuilder(this.baseUrl);
+         // a.append("/preakflow");
+         // clientTarget = client.target(a.toString());
+         
+         clientTarget = client.target(this.baseUrl + "/peakflow");
          
             ////Erklære en liste med Peakflow objecter.
             GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
@@ -147,7 +240,7 @@ public class MoniAstmaController implements Initializable {
           
                  //series30.getData().add(new XYChart.Data<String,Number>(p.getPfComment(), p.getPfValue()));
                  
-                 seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfComment(),p.getPfValue()));
+                 seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
                  
                  System.out.println(p.getPfComment());
                  System.out.println(p.getPfValue());
@@ -189,7 +282,32 @@ public class MoniAstmaController implements Initializable {
    
     
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb) { 
+         StringConverter stringConverter = new StringConverter<LocalDate>() {
+            private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            
+            @Override
+            public String toString(LocalDate localDate) {
+                if (localDate == null) {
+                    return "";
+                }
+                return dateTimeFormatter.format(localDate);
+            }
+            
+            @Override
+            public LocalDate fromString(String dateString) {
+                if (dateString == null || dateString.trim().isEmpty()) {
+                    return null;
+                }
+                return LocalDate.parse(dateString, dateTimeFormatter);
+            }
+        };
+
+        fromDatePicker.setConverter(stringConverter);
+        toDatePicker.setConverter(stringConverter);
+        
+        dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+
         handleSearchAction();
         //GetLineChartDataDB();
         
