@@ -54,17 +54,17 @@ public class MoniAstmaController implements Initializable {
     private TableView<Peakflow> tableView; 
     
     
-    //Line chart
-    
-    
-     @FXML
-    final CategoryAxis xAxisPF = new CategoryAxis();
-    
-    @FXML
-    final NumberAxis yAxisPF = new NumberAxis();
-    
-    @FXML 
-    private LineChart<String, Number> chartPFdata; 
+//    //Line chart with local db data Select from syntax
+//    
+//    
+//     @FXML
+//    final CategoryAxis xAxisPF = new CategoryAxis();
+//    
+//    @FXML
+//    final NumberAxis yAxisPF = new NumberAxis();
+//    
+//    @FXML 
+//    private LineChart<String, Number> chartPFdata; 
     
     //linechart data def with webservice.
     
@@ -163,30 +163,30 @@ public class MoniAstmaController implements Initializable {
  
    }
    
-   private void GetLineChartDataDB(){
-    
-       Connection con1;
-        try{
-            con1 = DriverManager.getConnection("jdbc:derby://localhost:1527/fifi", "fifi", "fifi");
-            Statement stmt = con1.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT * FROM FIFI.PEAKFLOW");
-            //FETCH FIRST 3 ROWS ONLY");
-            
-            LineChart.Series<String,Number> series10 = new LineChart.Series<String,Number>();
-            while(rs.next())
-            {
-                
-                series10.getData().add(new XYChart.Data<String,Number>(rs.getDate(3).toString(),rs.getInt(2)));
-                
-            } 
-
-             chartPFdata.getData().add(series10);
-          
-        }
-        catch (SQLException ex){
-            Logger.getLogger(GUIMoniAsthma.class.getName()).log(Level.SEVERE, null, ex);
-        }
-   }
+//   private void GetLineChartDataDB(){
+//    
+//       Connection con1;
+//        try{
+//            con1 = DriverManager.getConnection("jdbc:derby://localhost:1527/fifi", "fifi", "fifi");
+//            Statement stmt = con1.createStatement();
+//            ResultSet rs = stmt.executeQuery("SELECT * FROM FIFI.PEAKFLOW");
+//            //FETCH FIRST 3 ROWS ONLY");
+//            
+//            LineChart.Series<String,Number> series10 = new LineChart.Series<String,Number>();
+//            while(rs.next())
+//            {
+//                
+//                series10.getData().add(new XYChart.Data<String,Number>(rs.getDate(3).toString(),rs.getInt(2)));
+//                
+//            } 
+//
+//             chartPFdata.getData().add(series10);
+//          
+//        }
+//        catch (SQLException ex){
+//            Logger.getLogger(GUIMoniAsthma.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//   }
    
  
    
@@ -194,7 +194,9 @@ public class MoniAstmaController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         handleSearchAction();
-        GetLineChartDataDB();
+        //GetLineChartDataDB();
+        
+        
         GetLineChartData();
                  
    

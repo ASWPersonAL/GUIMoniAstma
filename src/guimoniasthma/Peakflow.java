@@ -24,12 +24,6 @@ public class Peakflow implements Serializable {
     public Peakflow(){
         
     }
-    
-    public Peakflow(Date pfdate, int pfvalue){
-        this.pfDate = pfdate;
-        this.pfValue = pfvalue;
-        
-    }
 
     public Integer getPfMeasureid() {
         return pfMeasureid;
@@ -63,6 +57,9 @@ public class Peakflow implements Serializable {
         this.pfComment = pfComment;
     }
     
-    
+      @Override
+    public String toString() {
+        return "com.samples.entity.Peakflow[ pfMeasureid=" + pfMeasureid + " ]";
+    }
     
 }
