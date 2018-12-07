@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -66,29 +67,44 @@ public class MoniAstmaController implements Initializable {
     NumberAxis yAxis = new NumberAxis();
     
   
+    //@FXML
+    //private LineChart<String,Number> chart;
+    
     @FXML
-    private LineChart<String,Number> chart;
+    private ScatterChart<String,Number> schart;
    
     
     //Methods
     
     @FXML
    private void handleSearchAction(){
+       
+       //INITIATING API CLIENT
        WebTarget clientTarget;
+       //Declaring variable data. It is an observable list of type peakflow and equald instance field tableView items.
        ObservableList<Peakflow> data = tableView.getItems();
+      //Clear table view before GET url for data is made.
        data.clear();
+       
+       //Initiating http client.
        Client client = ClientBuilder.newClient();
+       
+       //Jsonparser registered to client. Reads json and convert to java types.
        client.register(PeakflowMessageBodyReader.class);
+       //Conditional statement. If textfield is used then call the search url method. And give the answer.
        if(textFieldSearch.getText().length() > 0){
            clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow/search/{beginBy}");
            clientTarget = clientTarget.resolveTemplate("beginBy", textFieldSearch.getText());
        }else{
+           //if textfield is not used just show all elements in list using peakflow GET url.
            clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow");
        }
+       //Define list of type peakflow
        GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
             };
+       //Put json into list of type peak flow.
        List<Peakflow> peakflows = clientTarget.request("application/json").get(listpf);
-       
+       //Foreach though the elements in json list. Add them to variable data that is equal to the tableview in view.
        for(Peakflow p : peakflows){
            data.add(p);
            System.out.println(p.toString());
@@ -96,9 +112,6 @@ public class MoniAstmaController implements Initializable {
        
    }
   
-   
-   
-   
    
      private void GetLineChartData(){
          
@@ -120,49 +133,52 @@ public class MoniAstmaController implements Initializable {
             List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
             
             ////Liste deklaration til chart i xml.
-            ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
+            //ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
        
+            ObservableList<XYChart.Series<String, Number>> scatterChartData = FXCollections.observableArrayList();
+            
             ////Erklære en serie til chart data
-            LineChart.Series<String,Number> series30 = new LineChart.Series<String,Number>();
+            //LineChart.Series<String,Number> series30 = new LineChart.Series<String,Number>();
+            
+            ScatterChart.Series<String,Number> seriesS = new ScatterChart.Series<String,Number>();
             
              ////Foreacher over listen med json objekter?
              for(Peakflow p : peakflows){
           
-                 series30.getData().add(new XYChart.Data<String,Number>(p.getPfComment(), p.getPfValue()));
+                 //series30.getData().add(new XYChart.Data<String,Number>(p.getPfComment(), p.getPfValue()));
+                 
+                 seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfComment(),p.getPfValue()));
                  
                  System.out.println(p.getPfComment());
                  System.out.println(p.getPfValue());
                 }
              
               ////Tilføjer serie til observableList
-                  lineChartData.add(series30);
+                  //lineChartData.add(series30);
+                  
+                  scatterChartData.add(seriesS);
   
       ////Sætter observable list in i grafen til xml view.
-      chart.setData(lineChartData);
-      //chart.getData().add(lineChartData);
-      chart.createSymbolsProperty();
+      //chart.setData(lineChartData);
+      
+      schart.setData(scatterChartData);
+      //chart.createSymbolsProperty();
  
    }
    
 //   private void GetLineChartDataDB(){
-//    
 //       Connection con1;
 //        try{
 //            con1 = DriverManager.getConnection("jdbc:derby://localhost:1527/fifi", "fifi", "fifi");
 //            Statement stmt = con1.createStatement();
 //            ResultSet rs = stmt.executeQuery("SELECT * FROM FIFI.PEAKFLOW");
 //            //FETCH FIRST 3 ROWS ONLY");
-//            
 //            LineChart.Series<String,Number> series10 = new LineChart.Series<String,Number>();
 //            while(rs.next())
 //            {
-//                
 //                series10.getData().add(new XYChart.Data<String,Number>(rs.getDate(3).toString(),rs.getInt(2)));
-//                
 //            } 
-//
 //             chartPFdata.getData().add(series10);
-//          
 //        }
 //        catch (SQLException ex){
 //            Logger.getLogger(GUIMoniAsthma.class.getName()).log(Level.SEVERE, null, ex);
