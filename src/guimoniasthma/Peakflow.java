@@ -6,6 +6,7 @@
 package guimoniasthma;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -22,6 +23,9 @@ public class Peakflow implements Serializable {
     
     
     public Peakflow(){
+        
+        //SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        //Date date = format.parse(pfDate);
         
     }
 

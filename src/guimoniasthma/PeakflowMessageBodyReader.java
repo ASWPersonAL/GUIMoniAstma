@@ -33,6 +33,9 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
         return true;
     }
     
+    
+    
+    
     @Override
     public List<Peakflow> readFrom(Class<List<Peakflow>> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, String> mm, InputStream in) throws IOException, WebApplicationException{
         if(mt.getType().equals("application") && mt.getSubtype().equals("json")){
