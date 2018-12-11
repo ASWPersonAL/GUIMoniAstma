@@ -11,12 +11,44 @@
 
 <AnchorPane id="AnchorPane" prefHeight="658.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
     <children>
-        <Button fx:id="buttonSearch" layoutX="664.0" layoutY="471.0" onAction="#GetLineChartData2" text="Search By Comment">
+        <Button fx:id="buttonSearch" layoutX="610.0" layoutY="471.0" onAction="#GetChartDataFromSearchDate" text="Search By Date in Peakflow Chart">
          <font>
             <Font size="14.0" />
          </font></Button>
         <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-      <TextField fx:id="textFieldSearch" layoutX="69.0" layoutY="471.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />
+
+      
+      
+      <ScatterChart fx:id="schart" layoutX="114.0" layoutY="32.0" prefHeight="194.0" prefWidth="750.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </ScatterChart>
+      <Text layoutX="387.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ScatterChart with Peak flow data:" />
+      <LineChart fx:id="hchart" layoutX="126.0" layoutY="254.0" prefHeight="165.0" prefWidth="737.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      <Text layoutX="375.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LineChart for humidy data: " />
+      <DatePicker fx:id="fromDatePicker" layoutX="421.0" layoutY="419.0" promptText="Start date" />
+      <DatePicker fx:id="toDatePicker" layoutX="657.0" layoutY="419.0" promptText="End date" />
+      <Text layoutX="245.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select date range for charts:" />
+      <TextArea layoutX="14.0" layoutY="82.0" prefHeight="270.0" prefWidth="103.0" text="Denne del er til POST af Peak flow,&#10;attributter:&#10;pfvalue,&#10;pfcomment,&#10;pfdate&#10; (Datepicker)" />
+      
+      
+    </children>
+</AnchorPane>
+
+
+
+<!--      <TextField fx:id="textFieldSearch" layoutX="69.0" layoutY="471.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />
       <TableView fx:id="tableView" layoutX="69.0" layoutY="513.0" prefHeight="144.0" prefWidth="750.0">
         <columns>
           <TableColumn prefWidth="150.0" text="Id">
@@ -42,7 +74,7 @@
             </TableColumn>
         </columns>
       </TableView>
-      
+      -->
       
 <!--      <LineChart fx:id="chartPFdata" layoutX="14.0" layoutY="49.0" prefHeight="275.0" prefWidth="398.0">
         <xAxis>
@@ -52,31 +84,3 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>-->
-      
-      
-      <ScatterChart fx:id="schart" layoutX="114.0" layoutY="32.0" prefHeight="194.0" prefWidth="750.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </ScatterChart>
-      <Text layoutX="387.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ScatterChart with Peak flow data:" />
-      <LineChart layoutX="126.0" layoutY="254.0" prefHeight="165.0" prefWidth="737.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </LineChart>
-      <Text layoutX="375.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LineChart for humidy data: Openweatherurl" />
-      <DatePicker layoutX="421.0" layoutY="419.0" promptText="Start date" fx:id="fromDatePicker" />
-      <DatePicker layoutX="657.0" layoutY="419.0" promptText="End date" fx:id="toDatePicker" />
-      <Text layoutX="245.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select date range for charts:" />
-      <TextArea layoutX="14.0" layoutY="82.0" prefHeight="270.0" prefWidth="103.0" text="Denne del er til POST af Peak flow,&#10;attributter:&#10;pfvalue,&#10;pfcomment,&#10;pfdate&#10; (Datepicker)" />
-      
-      
-    </children>
-</AnchorPane>

@@ -83,86 +83,19 @@ public class MoniAstmaController implements Initializable {
     //@FXML
     //private LineChart<String,Number> chart;
     
+    //// Scattered chart for peakflow values.
     @FXML
     private ScatterChart<String,Number> schart;
    
+    //// LineChart for humidity values.
+    @FXML
+    private LineChart<String,Number> hchart;
     
-    //Methods
-    
+    //// class Methods.
+
+//  
    @FXML
-   private void handleSearchAction() {
-       
-       // INITIATING API CLIENT.
-       WebTarget clientTarget;
-       // Declaring variable data. It is an observable list of type peakflow and equald instance field tableView items.
-       ObservableList<Peakflow> data = tableView.getItems();
-       // Clear table view before GET url for data is made.
-       data.clear();
-       
-       //Initiating http client.
-       Client client = ClientBuilder.newClient();
-       
-       //Jsonparser registered to client. Reads json and convert to java types.
-       client.register(PeakflowMessageBodyReader.class);
-       //Conditional statement. If textfield is used then call the search url method. And give the answer.
-       if(textFieldSearch.getText().length() > 0){
-       clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow/search/{beginBy}");
-           clientTarget = clientTarget.resolveTemplate("beginBy", textFieldSearch.getText());
-       }else{
-           //if textfield is not used just show all elements in list using peakflow GET url.
-           clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow");
-       }
-       //Define list of type peakflow
-       GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
-            };
-       //Put json into list of type peak flow.
-       List<Peakflow> peakflows = clientTarget.request("application/json").get(listpf);
-       //Foreach though the elements in json list. Add them to variable data that is equal to the tableview in view.
-       for(Peakflow p : peakflows){
-           data.add(p);
-           System.out.println(p.toString());
-       }
-       
-   }
-  
-   @FXML
-   private void handleSearchDate() {
-       
-       // INITIATING API CLIENT.
-       WebTarget clientTarget;
-       // Declaring variable data. It is an observable list of type peakflow and equald instance field tableView items.
-       ObservableList<Peakflow> data = tableView.getItems();
-       // Clear table view before GET url for data is made.
-       data.clear();
-       
-       //Initiating http client.
-       Client client = ClientBuilder.newClient();
-       
-       //Jsonparser registered to client. Reads json and convert to java types.
-       client.register(PeakflowMessageBodyReader.class);
-       //Conditional statement. If textfield is used then call the search url method. And give the answer.
-       if(textFieldSearch.getText().length() > 0){
-       clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow/searchByDate/{beginBy}");
-           clientTarget = clientTarget.resolveTemplate("beginBy", textFieldSearch.getText());
-       }else{
-           //if textfield is not used just show all elements in list using peakflow GET url.
-           clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow");
-       }
-       //Define list of type peakflow
-       GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
-            };
-       //Put json into list of type peak flow.
-       List<Peakflow> peakflows = clientTarget.request("application/json").get(listpf);
-       //Foreach though the elements in json list. Add them to variable data that is equal to the tableview in view.
-       for(Peakflow p : peakflows){
-           data.add(p);
-           System.out.println(p.toString());
-       }
-       
-   }
-  
-   @FXML
-    private void GetLineChartData2(){
+    private void GetChartDataFromSearchDate(){
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(PeakflowMessageBodyReader.class);
@@ -199,18 +132,18 @@ public class MoniAstmaController implements Initializable {
   
       schart.setData(scatterChartData);
    }
- 
-     private void GetLineChartData(){
+  
+     private void GetScatterChartData(){
          
-         ////API url client
+         //// Initialiazing API url client.
          WebTarget clientTarget;
          
-         ////http clienten
+         //// Initizializing http client.
          Client client = ClientBuilder.newClient();
          
          client.register(PeakflowMessageBodyReader.class);
 
-         ////her sættes clienten med url metode.
+         //// her sættes clienten med url metode.
          
          // IVAN
          // StringBuilder a = new StringBuilder(this.baseUrl);
@@ -230,26 +163,17 @@ public class MoniAstmaController implements Initializable {
        
             ObservableList<XYChart.Series<String, Number>> scatterChartData = FXCollections.observableArrayList();
             
-            ////Erklære en serie til chart data
-            //LineChart.Series<String,Number> series30 = new LineChart.Series<String,Number>();
-            
             ScatterChart.Series<String,Number> seriesS = new ScatterChart.Series<String,Number>();
             
-             ////Foreacher over listen med json objekter?
+             //// Foreacher over listen med json objekter.
              for(Peakflow p : peakflows){
           
-                 //series30.getData().add(new XYChart.Data<String,Number>(p.getPfComment(), p.getPfValue()));
-                 
                  seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
                  
                  System.out.println(p.getPfComment());
                  System.out.println(p.getPfValue());
                 }
-             
-              ////Tilføjer serie til observableList
-                  //lineChartData.add(series30);
-                  
-                  scatterChartData.add(seriesS);
+             scatterChartData.add(seriesS);
   
       ////Sætter observable list in i grafen til xml view.
       //chart.setData(lineChartData);
@@ -258,28 +182,6 @@ public class MoniAstmaController implements Initializable {
       //chart.createSymbolsProperty();
  
    }
-   
-//   private void GetLineChartDataDB(){
-//       Connection con1;
-//        try{
-//            con1 = DriverManager.getConnection("jdbc:derby://localhost:1527/fifi", "fifi", "fifi");
-//            Statement stmt = con1.createStatement();
-//            ResultSet rs = stmt.executeQuery("SELECT * FROM FIFI.PEAKFLOW");
-//            //FETCH FIRST 3 ROWS ONLY");
-//            LineChart.Series<String,Number> series10 = new LineChart.Series<String,Number>();
-//            while(rs.next())
-//            {
-//                series10.getData().add(new XYChart.Data<String,Number>(rs.getDate(3).toString(),rs.getInt(2)));
-//            } 
-//             chartPFdata.getData().add(series10);
-//        }
-//        catch (SQLException ex){
-//            Logger.getLogger(GUIMoniAsthma.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//   }
-   
- 
-   
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
@@ -302,20 +204,91 @@ public class MoniAstmaController implements Initializable {
                 return LocalDate.parse(dateString, dateTimeFormatter);
             }
         };
-
         fromDatePicker.setConverter(stringConverter);
         toDatePicker.setConverter(stringConverter);
         
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-        handleSearchAction();
-        //GetLineChartDataDB();
-        
-        
-        GetLineChartData();
-                 
-   
-        
+        //// This method implements the peakflow data into the scatter chart. 
+        GetScatterChartData();
     }    
-    
 }
+
+
+    
+//   @FXML
+//   private void handleSearchAction() {
+//       
+//       // INITIATING API CLIENT.
+//       WebTarget clientTarget;
+//       // Declaring variable data. It is an observable list of type peakflow and equald instance field tableView items.
+//       ObservableList<Peakflow> data = tableView.getItems();
+//       // Clear table view before GET url for data is made.
+//       data.clear();
+//       
+//       //Initiating http client.
+//       Client client = ClientBuilder.newClient();
+//       
+//       //Jsonparser registered to client. Reads json and convert to java types.
+//       client.register(PeakflowMessageBodyReader.class);
+//       //Conditional statement. If textfield is used then call the search url method. And give the answer.
+//       if(textFieldSearch.getText().length() > 0){
+//       clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow/search/{beginBy}");
+//           clientTarget = clientTarget.resolveTemplate("beginBy", textFieldSearch.getText());
+//       }else{
+//           //if textfield is not used just show all elements in list using peakflow GET url.
+//           clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow");
+//       }
+//       //Define list of type peakflow
+//       GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
+//            };
+//       //Put json into list of type peak flow.
+//       List<Peakflow> peakflows = clientTarget.request("application/json").get(listpf);
+//       //Foreach though the elements in json list. Add them to variable data that is equal to the tableview in view.
+//       for(Peakflow p : peakflows){
+//           data.add(p);
+//           System.out.println(p.toString());
+//       }
+//       
+//   }
+//  
+//   @FXML
+//   private void handleSearchDate() {
+//       
+//       // INITIATING API CLIENT.
+//       WebTarget clientTarget;
+//       // Declaring variable data. It is an observable list of type peakflow and equald instance field tableView items.
+//       ObservableList<Peakflow> data = tableView.getItems();
+//       // Clear table view before GET url for data is made.
+//       data.clear();
+//       
+//       //Initiating http client.
+//       Client client = ClientBuilder.newClient();
+//       
+//       //Jsonparser registered to client. Reads json and convert to java types.
+//       client.register(PeakflowMessageBodyReader.class);
+//       //Conditional statement. If textfield is used then call the search url method. And give the answer.
+//       if(textFieldSearch.getText().length() > 0){
+//       clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow/searchByDate/{beginBy}");
+//           clientTarget = clientTarget.resolveTemplate("beginBy", textFieldSearch.getText());
+//       }else{
+//           //if textfield is not used just show all elements in list using peakflow GET url.
+//           clientTarget = client.target("http://localhost:8080/ServerSideMoniAsthma/webresources/peakflow");
+//       }
+//       //Define list of type peakflow
+//       GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
+//            };
+//       //Put json into list of type peak flow.
+//       List<Peakflow> peakflows = clientTarget.request("application/json").get(listpf);
+//       //Foreach though the elements in json list. Add them to variable data that is equal to the tableview in view.
+//       for(Peakflow p : peakflows){
+//           data.add(p);
+//           System.out.println(p.toString());
+//       }
+//       
+//   }
+
+  //// This method fills the Tableview with a list of peakflow elements. 
+        //handleSearchAction();
+        
+        //GetLineChartDataDB();

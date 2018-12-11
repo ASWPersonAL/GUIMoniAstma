@@ -26,7 +26,7 @@ public class Peakflow implements Serializable {
     
     
     public Peakflow(){
-        dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     }
 
     public Integer getPfMeasureid() {
