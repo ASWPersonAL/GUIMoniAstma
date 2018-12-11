@@ -61,6 +61,7 @@ public class Peakflow implements Serializable {
         this.pfComment = pfComment;
     }
     
+    
       @Override
     public String toString() {
         return "com.samples.entity.Peakflow[ pfMeasureid=" + pfMeasureid + " ]";

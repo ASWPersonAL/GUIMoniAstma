@@ -55,25 +55,9 @@ public class MoniAstmaController implements Initializable {
 
     private SimpleDateFormat dateFormat;
     
-//    //Line chart with local db data Select from syntax
-//    
-//    
-//     @FXML
-//    final CategoryAxis xAxisPF = new CategoryAxis();
-//    
-//    @FXML
-//    final NumberAxis yAxisPF = new NumberAxis();
-//    
-//    @FXML 
-//    private LineChart<String, Number> chartPFdata; 
+
     
-    //linechart data def with webservice.
-    
-    @FXML
-    CategoryAxis xAxis = new CategoryAxis();
-    
-    @FXML
-    NumberAxis yAxis = new NumberAxis();
+ 
     
     @FXML
     DatePicker fromDatePicker = new DatePicker();
@@ -84,10 +68,23 @@ public class MoniAstmaController implements Initializable {
     //private LineChart<String,Number> chart;
     
     //// Scattered chart for peakflow values.
+    
+    @FXML
+    CategoryAxis xAxisScat = new CategoryAxis();
+    
+    @FXML
+    NumberAxis yAxisScat = new NumberAxis();
+    
     @FXML
     private ScatterChart<String,Number> schart;
    
     //// LineChart for humidity values.
+     @FXML
+    CategoryAxis xAxisLine = new CategoryAxis();
+    
+    @FXML
+    NumberAxis yAxisLine = new NumberAxis();
+    
     @FXML
     private LineChart<String,Number> hchart;
     
@@ -158,6 +155,8 @@ public class MoniAstmaController implements Initializable {
             ////Får en liste med Json objekter
             List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
             
+            System.out.println(peakflows);
+            
             ////Liste deklaration til chart i xml.
             //ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
        
@@ -170,7 +169,7 @@ public class MoniAstmaController implements Initializable {
           
                  seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
                  
-                 System.out.println(p.getPfComment());
+                 System.out.println(p.getPfDate());
                  System.out.println(p.getPfValue());
                 }
              scatterChartData.add(seriesS);
@@ -182,6 +181,45 @@ public class MoniAstmaController implements Initializable {
       //chart.createSymbolsProperty();
  
    }
+     
+     
+     public void GetLineChartData(){
+         WebTarget clientTarget1;
+         
+         Client client1 = ClientBuilder.newClient();
+         
+         //System.out.print(client1);
+         
+         client1.register(HumidityMessageBodyReader.class);
+         
+         clientTarget1 = client1.target(this.baseUrl + "/humidity");
+         
+         //System.out.print(clientTarget1);
+         
+         GenericType<List<Humidity>> list1 = new GenericType<List<Humidity>>(){};
+         
+         List<Humidity> humidities = clientTarget1.request("application/json").get(list1);
+         
+         System.out.println(humidities.toString());
+         
+         ObservableList<XYChart.Series<String,Number>> linechartData = FXCollections.observableArrayList();
+         
+         LineChart.Series<String,Number> seriesLine = new LineChart.Series<String,Number>();
+         
+         for(Humidity h : humidities){
+             seriesLine.getData().add(new XYChart.Data<String,Number>(h.gethDate(), h.gethValue()));
+             
+              
+             System.out.println(h.gethValue());
+             //System.out.println(h.gethDate());
+             System.out.println(h.gethComment());
+             System.out.println(h.gethId());
+         }
+         linechartData.add(seriesLine);
+         
+         hchart.setData(linechartData);
+         
+     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
@@ -211,6 +249,9 @@ public class MoniAstmaController implements Initializable {
 
         //// This method implements the peakflow data into the scatter chart. 
         GetScatterChartData();
+        
+        GetLineChartData();
+
     }    
 }
 

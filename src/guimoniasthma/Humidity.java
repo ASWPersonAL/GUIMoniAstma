@@ -23,7 +23,7 @@ public class Humidity implements Serializable {
     private SimpleDateFormat dateFormat;
     
     public Humidity(){
-        dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     }
 
     public Integer gethId() {
@@ -42,8 +42,9 @@ public class Humidity implements Serializable {
         this.hValue = hValue;
     }
 
-    public Date gethDate() {
-        return hDate;
+    public String gethDate() {
+        return dateFormat.format(hDate);
+
     }
 
     public void sethDate(Date hDate) {
@@ -58,9 +59,9 @@ public class Humidity implements Serializable {
         this.hComment = hComment;
     }
     
-       @Override
+   @Override
     public String toString() {
-        return "com.samples.entity.Peakflow[ hId=" + hId + " ]";
+        return "com.samples.entity.Humidity[ hId=" + hId + " ]";
     }
     
 }

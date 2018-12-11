@@ -42,15 +42,19 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
         if(mt.getType().equals("application") && mt.getSubtype().equals("json")){
             Peakflow peakflow = new Peakflow();
             List<Peakflow> peakflows = new ArrayList();
+            
             JsonParser parser = Json.createParser(in);
             while(parser.hasNext()){
                 JsonParser.Event event = parser.next();
                 switch (event) {
                     case START_OBJECT:
                         peakflow = new Peakflow();
+                        System.out.println(peakflow);
+                        System.out.println("SLUT her");
                         break;
                     case END_OBJECT:
                         peakflows.add(peakflow);
+                        System.out.println(peakflows);
                         break;
                     case KEY_NAME:
                         String key = parser.getString();
@@ -78,9 +82,12 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
                     }
                 }
                 return peakflows;
+                
+                
             }
         
         throw new UnsupportedOperationException("Not supported MediaType: " + mt);
+        
     }
     
 }

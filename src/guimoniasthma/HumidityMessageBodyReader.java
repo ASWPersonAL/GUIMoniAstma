@@ -14,9 +14,6 @@ import java.util.Date;
 import java.util.List;
 import javax.json.Json;
 import javax.json.stream.JsonParser;
-import static javax.json.stream.JsonParser.Event.END_OBJECT;
-import static javax.json.stream.JsonParser.Event.KEY_NAME;
-import static javax.json.stream.JsonParser.Event.START_OBJECT;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
@@ -24,65 +21,76 @@ import javax.ws.rs.core.MultivaluedMap;
 import javax.ws.rs.ext.MessageBodyReader;
 import javax.ws.rs.ext.Provider;
 
-
-@Provider
-@Consumes({"application/json"})
 /**
  *
  * @author ASW
  */
-public class HumidityMessageBodyReader implements MessageBodyReader<List<Humidity>>{
-    public boolean isReadable(Class<?> type, Type type1, Annotation[] antns,
-                                                MediaType mt){
-        return true;
-    
-}
-    
 
-@Override
-    public List<Humidity> readFrom(Class<List<Humidity>> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, String> mm, InputStream in) throws IOException, WebApplicationException{
+@Provider
+@Consumes({"application/json"})
+
+public class HumidityMessageBodyReader implements MessageBodyReader<List<Humidity>> {
+    
+    @Override
+    public boolean isReadable(Class<?> type, Type type1, Annotation [] antns, MediaType mt){
+        return true;
+    }
+
+    @Override
+    public List<Humidity> readFrom(Class<List<Humidity>> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, String> mm, InputStream in) throws IOException, WebApplicationException {
         if(mt.getType().equals("application") && mt.getSubtype().equals("json")){
             Humidity humidity = new Humidity();
+            
+            
+            System.out.println(humidity);
+            System.out.println("HALLO");
+            
             List<Humidity> humidities = new ArrayList();
+            
+  
             JsonParser parser = Json.createParser(in);
-            while(parser.hasNext()){
+            while (parser.hasNext()){
                 JsonParser.Event event = parser.next();
                 switch (event) {
                     case START_OBJECT:
                         humidity = new Humidity();
+                        System.out.println(humidity);
                         break;
                     case END_OBJECT:
                         humidities.add(humidity);
+                        System.out.println(humidities);
                         break;
                     case KEY_NAME:
-                        String key = parser.getString();
-                        parser.next();
-                        switch (key){
-                            case "hId":
-                                humidity.sethId(parser.getInt());
-                                break;
-                            case "hValue" :
-                                humidity.sethValue(parser.getInt());
-                                break;
-                            case "hDate" :
-                                humidity.sethDate(new Date(parser.getLong()));
-                                break;
-                            case "hComment":
-                                humidity.sethComment(parser.getString());
-                                break;
-                            default:
-                              break; 
-                        }
-                        break;
+                      String key = parser.getString();
+                      parser.next();
+                      switch (key){
+                          case "hid":
+                            humidity.sethId(parser.getInt());
+                            break;
+                          case "hvalue":
+                            humidity.sethValue(parser.getInt());
+                            break;
+                          case "hdate":
+                            humidity.sethDate(new Date(parser.getLong()));
+                            break;
+                          case "hcomment":
+                            humidity.sethComment(parser.getString());
+                            break;
+                          default:
+                            break;  
+                      }
+                      break;
                     default:
-                        break;
-                                
-                    }
+                      break;  
                 }
-                return humidities;
             }
+            return humidities;
+            
+            
+        }
         
-        throw new UnsupportedOperationException("Not supported MediaType: " + mt);
+        
+        throw new UnsupportedOperationException("Not supported yet. " + mt); //To change body of generated methods, choose Tools | Templates.
     }
     
 }
