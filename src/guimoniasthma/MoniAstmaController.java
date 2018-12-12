@@ -112,7 +112,7 @@ public class MoniAstmaController implements Initializable {
        }
 
        clientTarget = client
-               .target(this.baseUrl + "/peakflow/searchByDate/{fromDate}/{toDate}")
+               .target(this.baseUrl + "/pf/searchByDate/{fromDate}/{toDate}")
                .resolveTemplate("fromDate", fromDate)
                .resolveTemplate("toDate", toDate);
 
@@ -151,7 +151,7 @@ public class MoniAstmaController implements Initializable {
          // a.append("/preakflow");
          // clientTarget = client.target(a.toString());
          
-         clientTarget = client.target(this.baseUrl + "/peakflow");
+         clientTarget = client.target(this.baseUrl + "/pf");
          
             ////Erklære en liste med Peakflow objecter.
             GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
