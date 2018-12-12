@@ -29,7 +29,7 @@ import javax.ws.rs.ext.Provider;
 @Provider
 @Consumes({"application/json"})
 
-public class HumidityMessageBodyReader implements MessageBodyReader<List<Humidity>> {
+public class AllergiesMessageBodyReader implements MessageBodyReader<List<Allergies>> {
     
     @Override
     public boolean isReadable(Class<?> type, Type type1, Annotation [] antns, MediaType mt){
@@ -37,15 +37,15 @@ public class HumidityMessageBodyReader implements MessageBodyReader<List<Humidit
     }
 
     @Override
-    public List<Humidity> readFrom(Class<List<Humidity>> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, String> mm, InputStream in) throws IOException, WebApplicationException {
+    public List<Allergies> readFrom(Class<List<Allergies>> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, String> mm, InputStream in) throws IOException, WebApplicationException {
         if(mt.getType().equals("application") && mt.getSubtype().equals("json")){
-            Humidity humidity = new Humidity();
+            Allergies allergy = new Allergies();
             
             
-            System.out.println(humidity);
-            System.out.println("HALLO");
+            System.out.println(allergy);
+            System.out.println("HALLO_ALlergies!");
             
-            List<Humidity> humidities = new ArrayList();
+            List<Allergies> allergiesList = new ArrayList();
             
   
             JsonParser parser = Json.createParser(in);
@@ -53,28 +53,40 @@ public class HumidityMessageBodyReader implements MessageBodyReader<List<Humidit
                 JsonParser.Event event = parser.next();
                 switch (event) {
                     case START_OBJECT:
-                        humidity = new Humidity();
-                        System.out.println(humidity);
+                        allergy = new Allergies();
+                        System.out.println(allergy);
                         break;
                     case END_OBJECT:
-                        humidities.add(humidity);
-                        System.out.println(humidities);
+                        allergiesList.add(allergy);
+                        System.out.println(allergiesList);
                         break;
                     case KEY_NAME:
                       String key = parser.getString();
                       parser.next();
                       switch (key){
-                          case "huId":
-                            humidity.setHuId(parser.getInt());
+                          case "alId":
+                            allergy.setAlId(parser.getInt());
                             break;
-                          case "huValue":
-                            humidity.setHuValue(parser.getInt());
+                          case "alBirkvalue":
+                            allergy.setAlBirkvalue(parser.getInt());
                             break;
-                          case "huDate":
-                            humidity.setHuDate(new Date(parser.getLong()));
+                          case "alSagebrushvalue":
+                            allergy.setAlSagebrushvalue(parser.getInt());
                             break;
-                          case "huComment":
-                            humidity.setHuComment(parser.getString());
+                          case "alElmvalue":
+                            allergy.setAlElmvalue(parser.getInt());
+                            break;
+                          case "alElvalue":
+                            allergy.setAlElvalue(parser.getInt());
+                            break;  
+                          case "alGrassvalue":
+                            allergy.setAlGrassvalue(parser.getInt());
+                            break;  
+                          case "alDate":
+                            allergy.setAlDate(new Date(parser.getLong()));
+                            break;
+                          case "alComment":
+                            allergy.setAlComment(parser.getString());
                             break;
                           default:
                             break;  
@@ -84,7 +96,7 @@ public class HumidityMessageBodyReader implements MessageBodyReader<List<Humidit
                       break;  
                 }
             }
-            return humidities;
+            return allergiesList;
             
             
         }

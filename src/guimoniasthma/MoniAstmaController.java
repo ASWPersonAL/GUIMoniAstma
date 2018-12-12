@@ -11,12 +11,12 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Locale;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -87,6 +87,10 @@ public class MoniAstmaController implements Initializable {
     
     @FXML
     private LineChart<String,Number> hchart;
+    
+    @FXML
+    private BarChart<String,Number> alchart;
+    
     
     //// class Methods.
 
@@ -207,19 +211,64 @@ public class MoniAstmaController implements Initializable {
          LineChart.Series<String,Number> seriesLine = new LineChart.Series<String,Number>();
          
          for(Humidity h : humidities){
-             seriesLine.getData().add(new XYChart.Data<String,Number>(h.gethDate(), h.gethValue()));
-             
-              
-             System.out.println(h.gethValue());
-             //System.out.println(h.gethDate());
-             System.out.println(h.gethComment());
-             System.out.println(h.gethId());
+             seriesLine.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
          }
          linechartData.add(seriesLine);
          
          hchart.setData(linechartData);
          
      }
+     
+     public void GetBarChart(){
+         
+         WebTarget clientTarget;
+         Client client = ClientBuilder.newClient();
+         
+         //System.out.print(client1);
+         
+         client.register(AllergiesMessageBodyReader.class);
+         
+         clientTarget = client.target(this.baseUrl + "/allergies");
+         
+         //System.out.print(clientTarget1);
+         
+         GenericType<List<Allergies>> list = new GenericType<List<Allergies>>(){};
+         
+         List<Allergies> allergiesList = clientTarget.request("application/json").get(list);
+         
+         System.out.println(allergiesList.toString());
+         
+         ObservableList<XYChart.Series<String,Number>> barchartData = FXCollections.observableArrayList();
+         
+         BarChart.Series<String,Number> seriesbarBirk = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarSage = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarElm = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarEl = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarGrass = new BarChart.Series<String,Number>();
+
+         
+         for(Allergies a : allergiesList){
+             seriesbarBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
+             seriesbarSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
+             seriesbarElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
+             seriesbarEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
+             seriesbarGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
+
+              
+             //System.out.println(h.gethValue());
+             //System.out.println(h.gethDate());
+             //System.out.println(h.gethComment());
+             //System.out.println(h.gethId());
+         }
+         barchartData.add(seriesbarBirk);
+         barchartData.add(seriesbarSage);
+         barchartData.add(seriesbarElm);
+         barchartData.add(seriesbarEl);
+         barchartData.add(seriesbarGrass);
+         
+         alchart.setData(barchartData);
+     }
+     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
@@ -251,6 +300,8 @@ public class MoniAstmaController implements Initializable {
         GetScatterChartData();
         
         GetLineChartData();
+        
+        GetBarChart();
 
     }    
 }

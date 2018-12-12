@@ -15,10 +15,11 @@ import java.util.Date;
  */
 public class Humidity implements Serializable {
     
-    private Integer hId;
-    private int hValue;
-    private Date hDate;
-    private String hComment;
+    private Integer huId;
+    private int huValue;
+    private Date huDate;
+    private String huComment;
+    
     
     private SimpleDateFormat dateFormat;
     
@@ -26,42 +27,42 @@ public class Humidity implements Serializable {
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     }
 
-    public Integer gethId() {
-        return hId;
+    public Integer getHuId() {
+        return huId;
     }
 
-    public void sethId(Integer hId) {
-        this.hId = hId;
+    public void setHuId(Integer huId) {
+        this.huId = huId;
     }
 
-    public int gethValue() {
-        return hValue;
+    public int getHuValue() {
+        return huValue;
     }
 
-    public void sethValue(int hValue) {
-        this.hValue = hValue;
+    public void setHuValue(int huValue) {
+        this.huValue = huValue;
     }
 
-    public String gethDate() {
-        return dateFormat.format(hDate);
+     public String getHuDate() {
+        return dateFormat.format(huDate);
 
     }
 
-    public void sethDate(Date hDate) {
-        this.hDate = hDate;
+    public void setHuDate(Date huDate) {
+        this.huDate = huDate;
     }
 
-    public String gethComment() {
-        return hComment;
+    public String getHuComment() {
+        return huComment;
     }
 
-    public void sethComment(String hComment) {
-        this.hComment = hComment;
+    public void setHuComment(String huComment) {
+        this.huComment = huComment;
     }
     
    @Override
     public String toString() {
-        return "com.samples.entity.Humidity[ hId=" + hId + " ]";
+        return "com.samples.entity.Humidity[ huId=" + huId + " ]";
     }
     
 }

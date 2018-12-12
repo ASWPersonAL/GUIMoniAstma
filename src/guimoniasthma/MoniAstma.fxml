@@ -9,45 +9,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.*?>
 
-<AnchorPane id="AnchorPane" prefHeight="658.0" prefWidth="887.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
-    <children>
-        <Button fx:id="buttonSearch" layoutX="610.0" layoutY="471.0" onAction="#GetChartDataFromSearchDate" text="Search By Date in Peakflow Chart">
-         <font>
-            <Font size="14.0" />
-         </font></Button>
-        <Label fx:id="label" layoutX="126" layoutY="120" minHeight="16" minWidth="69" />
-
-      
-      
-      <ScatterChart fx:id="schart" layoutX="114.0" layoutY="32.0" prefHeight="194.0" prefWidth="750.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </ScatterChart>
-      <Text layoutX="387.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ScatterChart with Peak flow data:" />
-      <LineChart fx:id="hchart" layoutX="126.0" layoutY="254.0" prefHeight="165.0" prefWidth="737.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </LineChart>
-      <Text layoutX="375.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LineChart for humidy data: " />
-      <DatePicker fx:id="fromDatePicker" layoutX="421.0" layoutY="419.0" promptText="Start date" />
-      <DatePicker fx:id="toDatePicker" layoutX="657.0" layoutY="419.0" promptText="End date" />
-      <Text layoutX="245.0" layoutY="437.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select date range for charts:" />
-      <TextArea layoutX="14.0" layoutY="82.0" prefHeight="270.0" prefWidth="103.0" text="Denne del er til POST af Peak flow,&#10;attributter:&#10;pfvalue,&#10;pfcomment,&#10;pfdate&#10; (Datepicker)" />
-      
-      
-    </children>
-</AnchorPane>
-
-
-
 <!--      <TextField fx:id="textFieldSearch" layoutX="69.0" layoutY="471.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />
       <TableView fx:id="tableView" layoutX="69.0" layoutY="513.0" prefHeight="144.0" prefWidth="750.0">
         <columns>
@@ -75,7 +36,6 @@
         </columns>
       </TableView>
       -->
-      
 <!--      <LineChart fx:id="chartPFdata" layoutX="14.0" layoutY="49.0" prefHeight="275.0" prefWidth="398.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" />
@@ -84,3 +44,69 @@
           <NumberAxis side="LEFT" />
         </yAxis>
       </LineChart>-->
+
+<AnchorPane id="AnchorPane" prefHeight="1000.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
+    <children>
+        
+    <Text layoutX="85.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Health IT" wrappingWidth="167.25439453125">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Text>
+      <Text fill="#1f0fd3" layoutX="85.0" layoutY="82.0" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just health it!">
+         <font>
+            <Font name="Avenir Oblique" size="24.0" />
+         </font>
+      </Text>
+
+    <Text layoutX="553.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ScatterChart with Peak flow data:">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
+      <ScatterChart fx:id="schart" layoutX="313.0" layoutY="46.0" prefHeight="194.0" prefWidth="750.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </ScatterChart>
+      
+     <Text layoutX="587.0" layoutY="272.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LineChart for humidy data: ">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
+      <LineChart fx:id="hchart" layoutX="319.0" layoutY="282.0" prefHeight="194.0" prefWidth="737.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
+      
+      <Text layoutX="597.0" layoutY="505.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Barchart for pollen data:">
+         <font>
+            <Font size="18.0" />
+         </font></Text>
+      <BarChart fx:id="alchart" layoutX="319.0" layoutY="512.0" prefHeight="194.0" prefWidth="737.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </BarChart>
+      
+    <Text layoutX="572.0" layoutY="735.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Select date range for peak flow chart " />
+      <DatePicker fx:id="fromDatePicker" layoutX="366.0" layoutY="753.0" promptText="Start date" />
+      <DatePicker fx:id="toDatePicker" layoutX="590.0" layoutY="753.0" promptText="End date" />
+       <Button fx:id="buttonSearch" layoutX="818.0" layoutY="753.0" onAction="#GetChartDataFromSearchDate" text="Search By Date in Peakflow Chart">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
+      
+      
+    </children>
+</AnchorPane>
