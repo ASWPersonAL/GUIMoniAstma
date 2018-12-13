@@ -39,64 +39,206 @@ import javax.ws.rs.core.GenericType;
  */
 public class MoniAstmaController implements Initializable {
     
-    @FXML
-    private Label label;
-    
-    @FXML
-    private TextField textFieldSearch;
-    
-    @FXML
-    private Button buttonSearch;
-    
-    @FXML
-    private TableView<Peakflow> tableView;
-    
+    //// General instans fields.
+   
     private String baseUrl = "http://localhost:8080/ServerSideMoniAsthma/webresources";
 
     private SimpleDateFormat dateFormat;
     
-
-    
- 
+    //// PostBaseline instans fields with FXML tag.
     
     @FXML
-    DatePicker fromDatePicker = new DatePicker();
-    @FXML
-    DatePicker toDatePicker = new DatePicker();
-
-    //@FXML
-    //private LineChart<String,Number> chart;
-    
-    //// Scattered chart for peakflow values.
+    private TextField baselineValue;
     
     @FXML
-    CategoryAxis xAxisScat = new CategoryAxis();
+    private TextField baselineDate;
     
     @FXML
-    NumberAxis yAxisScat = new NumberAxis();
+    private Button saveBaseline;
+    
+    
+    //// Instans fields (with fxml tags) for Scattered chart for peakflow values.
+    @FXML
+    private CategoryAxis xAxisScat;
+    
+    @FXML
+    private NumberAxis yAxisScat;
     
     @FXML
     private ScatterChart<String,Number> schart;
    
-    //// LineChart for humidity values.
-     @FXML
-    CategoryAxis xAxisLine = new CategoryAxis();
+    //// LineChart instans fields with fxml tags.
+    @FXML
+    private CategoryAxis xAxisLine;
     
     @FXML
-    NumberAxis yAxisLine = new NumberAxis();
+    private NumberAxis yAxisLine;
     
     @FXML
     private LineChart<String,Number> hchart;
     
+    //// Barchart instans fields with fxml tags.
+    
+     @FXML
+    private CategoryAxis xAxisBar;
+    
+    @FXML
+    private NumberAxis yAxisBar;
+    
     @FXML
     private BarChart<String,Number> alchart;
     
+    //// FXML tagged instans field for datepickers for the Date search method.
     
-    //// class Methods.
+    @FXML
+    private DatePicker fromDatePicker;
+    @FXML
+    private DatePicker toDatePicker;
+  
+ 
+    //// Class methods.
+    
+    //// Method to Post baseline data. 
+    
+    private void postBaseline(){
+  
+        
+    }
+    
+    //// Method to GET data for peakflow scattered chart. The method is called in the Initialize constructor. 
+  
+     private void GetScatterChartData(){
+         //// Initialiazing API url client.
+         WebTarget clientTarget;
+         //// Initizializing http client.
+         Client client = ClientBuilder.newClient();
+         //// Add a BodyReader with json to the client. 
+         client.register(PeakflowMessageBodyReader.class);
 
-//  
-   @FXML
-    private void GetChartDataFromSearchDate(){
+         // IVAN
+         // StringBuilder a = new StringBuilder(this.baseUrl);
+         // a.append("/preakflow");
+         // clientTarget = client.target(a.toString());
+         
+            //// Defining the method url for the clientarget to use.
+            clientTarget = client.target(this.baseUrl + "/pf");
+            //// Declar a list for peakflow objects.
+            GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
+            //// Declars a list of type peakflow and in the list is the clienttarget result request in json.
+            List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
+            System.out.println(peakflows);
+            //// Declar a scatter chart that is fxcollection observablearraylist.
+            ObservableList<XYChart.Series<String, Number>> scatterChartData = FXCollections.observableArrayList();
+            ScatterChart.Series<String,Number> seriesS = new ScatterChart.Series<String,Number>();
+            ScatterChart.Series<String,Number> seriesBl = new ScatterChart.Series<String, Number>();
+             //// Foreacher in peakflow list with json objects.
+             for(Peakflow p : peakflows){
+                 
+                     seriesBl.getData().add(new XYChart.Data<String, Number>(p.getPfDate(), p.getPfBaseline()));
+                     seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
+                 
+                 //// System out put for developing overview.
+                 System.out.println(p.getPfDate());
+                 System.out.println(p.getPfValue());
+                }
+             //// Adding the serieS to the scattered chart list.
+             scatterChartData.add(seriesS);
+             scatterChartData.add(seriesBl);
+             //// Adding the scattered chart list to the chart in the FXML view. 
+             schart.setData(scatterChartData);
+             xAxisScat.setLabel("Date");
+             yAxisScat.setLabel("L per min");
+             schart.setTitle("TEST");
+             
+             seriesS.setName("Peak flow monitoration values");
+            
+             seriesBl.setName("Peak flow Baseline values");
+             
+             
+             
+   }
+
+     //// Method to GET data for humidity line chart. The method is called in the Initialize constructor. 
+     
+     public void GetLineChartData(){
+         WebTarget clientTarget1;
+         Client client1 = ClientBuilder.newClient();
+         client1.register(HumidityMessageBodyReader.class);
+         clientTarget1 = client1.target(this.baseUrl + "/humidity");
+         
+         GenericType<List<Humidity>> list1 = new GenericType<List<Humidity>>(){};
+         List<Humidity> humidities = clientTarget1.request("application/json").get(list1);
+         
+         System.out.println(humidities.toString());
+         
+         ObservableList<XYChart.Series<String,Number>> linechartData = FXCollections.observableArrayList();
+         
+         LineChart.Series<String,Number> seriesLine = new LineChart.Series<String,Number>();
+         
+         for(Humidity h : humidities){
+             seriesLine.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
+         }
+         linechartData.add(seriesLine);
+         
+         hchart.setData(linechartData);
+         xAxisLine.setLabel("Date");
+         yAxisLine.setLabel("Percentage %");
+         
+         seriesLine.setName("Humidity");
+
+         
+     }
+     
+  //// Method to GET data for allergies bar chart. The method is called in the Initialize constructor. 
+
+     
+     public void GetBarChart(){
+         WebTarget clientTarget;
+         Client client = ClientBuilder.newClient();
+         client.register(AllergiesMessageBodyReader.class);
+         clientTarget = client.target(this.baseUrl + "/allergies");
+         
+         GenericType<List<Allergies>> list = new GenericType<List<Allergies>>(){};
+         List<Allergies> allergiesList = clientTarget.request("application/json").get(list);
+         
+         System.out.println(allergiesList.toString());
+         
+         ObservableList<XYChart.Series<String,Number>> barchartData = FXCollections.observableArrayList();
+         
+         BarChart.Series<String,Number> seriesbarBirk = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarSage = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarElm = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarEl = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarGrass = new BarChart.Series<String,Number>();
+         
+         for(Allergies a : allergiesList){
+             seriesbarBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
+             seriesbarSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
+             seriesbarElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
+             seriesbarEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
+             seriesbarGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
+         }
+         barchartData.add(seriesbarBirk);
+         barchartData.add(seriesbarSage);
+         barchartData.add(seriesbarElm);
+         barchartData.add(seriesbarEl);
+         barchartData.add(seriesbarGrass);
+         
+         alchart.setData(barchartData);
+         xAxisBar.setLabel("Date");
+         yAxisBar.setLabel("Amount per m3");
+         
+         seriesbarBirk.setName("Birk");
+         seriesbarSage.setName("Sagebrush");
+         seriesbarElm.setName("Elm");
+         seriesbarEl.setName("El");
+         seriesbarGrass.setName("Grass");
+     }
+     
+     //// Method to seach by Date in peak flow chart. 
+     
+       @FXML
+       private void GetChartDataFromSearchDate(){
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(PeakflowMessageBodyReader.class);
@@ -124,151 +266,13 @@ public class MoniAstmaController implements Initializable {
        ObservableList<XYChart.Series<String, Number>> scatterChartData = FXCollections.observableArrayList();
        ScatterChart.Series<String,Number> seriesS = new ScatterChart.Series<String,Number>();
        for(Peakflow p : peakflows){
-         seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
-         System.out.println(p.getPfComment());
-                 System.out.println(p.getPfValue());
-                }
-                  
-                  scatterChartData.add(seriesS);
-  
+            seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
+            System.out.println(p.getPfComment());
+            System.out.println(p.getPfValue());
+       }
+      scatterChartData.add(seriesS);
       schart.setData(scatterChartData);
    }
-  
-     private void GetScatterChartData(){
-         
-         //// Initialiazing API url client.
-         WebTarget clientTarget;
-         
-         //// Initizializing http client.
-         Client client = ClientBuilder.newClient();
-         
-         client.register(PeakflowMessageBodyReader.class);
-
-         //// her sættes clienten med url metode.
-         
-         // IVAN
-         // StringBuilder a = new StringBuilder(this.baseUrl);
-         // a.append("/preakflow");
-         // clientTarget = client.target(a.toString());
-         
-         clientTarget = client.target(this.baseUrl + "/pf");
-         
-            ////Erklære en liste med Peakflow objecter.
-            GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
-             
-            ////Får en liste med Json objekter
-            List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
-            
-            System.out.println(peakflows);
-            
-            ////Liste deklaration til chart i xml.
-            //ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
-       
-            ObservableList<XYChart.Series<String, Number>> scatterChartData = FXCollections.observableArrayList();
-            
-            ScatterChart.Series<String,Number> seriesS = new ScatterChart.Series<String,Number>();
-            
-             //// Foreacher over listen med json objekter.
-             for(Peakflow p : peakflows){
-          
-                 seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
-                 
-                 System.out.println(p.getPfDate());
-                 System.out.println(p.getPfValue());
-                }
-             scatterChartData.add(seriesS);
-  
-      ////Sætter observable list in i grafen til xml view.
-      //chart.setData(lineChartData);
-      
-      schart.setData(scatterChartData);
-      //chart.createSymbolsProperty();
- 
-   }
-     
-     
-     public void GetLineChartData(){
-         WebTarget clientTarget1;
-         
-         Client client1 = ClientBuilder.newClient();
-         
-         //System.out.print(client1);
-         
-         client1.register(HumidityMessageBodyReader.class);
-         
-         clientTarget1 = client1.target(this.baseUrl + "/humidity");
-         
-         //System.out.print(clientTarget1);
-         
-         GenericType<List<Humidity>> list1 = new GenericType<List<Humidity>>(){};
-         
-         List<Humidity> humidities = clientTarget1.request("application/json").get(list1);
-         
-         System.out.println(humidities.toString());
-         
-         ObservableList<XYChart.Series<String,Number>> linechartData = FXCollections.observableArrayList();
-         
-         LineChart.Series<String,Number> seriesLine = new LineChart.Series<String,Number>();
-         
-         for(Humidity h : humidities){
-             seriesLine.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
-         }
-         linechartData.add(seriesLine);
-         
-         hchart.setData(linechartData);
-         
-     }
-     
-     public void GetBarChart(){
-         
-         WebTarget clientTarget;
-         Client client = ClientBuilder.newClient();
-         
-         //System.out.print(client1);
-         
-         client.register(AllergiesMessageBodyReader.class);
-         
-         clientTarget = client.target(this.baseUrl + "/allergies");
-         
-         //System.out.print(clientTarget1);
-         
-         GenericType<List<Allergies>> list = new GenericType<List<Allergies>>(){};
-         
-         List<Allergies> allergiesList = clientTarget.request("application/json").get(list);
-         
-         System.out.println(allergiesList.toString());
-         
-         ObservableList<XYChart.Series<String,Number>> barchartData = FXCollections.observableArrayList();
-         
-         BarChart.Series<String,Number> seriesbarBirk = new BarChart.Series<String,Number>();
-         BarChart.Series<String,Number> seriesbarSage = new BarChart.Series<String,Number>();
-         BarChart.Series<String,Number> seriesbarElm = new BarChart.Series<String,Number>();
-         BarChart.Series<String,Number> seriesbarEl = new BarChart.Series<String,Number>();
-         BarChart.Series<String,Number> seriesbarGrass = new BarChart.Series<String,Number>();
-
-         
-         for(Allergies a : allergiesList){
-             seriesbarBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
-             seriesbarSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
-             seriesbarElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
-             seriesbarEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
-             seriesbarGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
-
-              
-             //System.out.println(h.gethValue());
-             //System.out.println(h.gethDate());
-             //System.out.println(h.gethComment());
-             //System.out.println(h.gethId());
-         }
-         barchartData.add(seriesbarBirk);
-         barchartData.add(seriesbarSage);
-         barchartData.add(seriesbarElm);
-         barchartData.add(seriesbarEl);
-         barchartData.add(seriesbarGrass);
-         
-         alchart.setData(barchartData);
-     }
-     
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
@@ -296,7 +300,7 @@ public class MoniAstmaController implements Initializable {
         
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-        //// This method implements the peakflow data into the scatter chart. 
+       
         GetScatterChartData();
         
         GetLineChartData();

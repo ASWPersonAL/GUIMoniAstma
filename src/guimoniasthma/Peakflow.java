@@ -22,6 +22,7 @@ public class Peakflow implements Serializable {
     //Skal bruge en data konverter til visning af date i liste og derefter på graf.
     private Date pfDate;
     private String pfComment;
+    private int pfBaseline;
     private SimpleDateFormat dateFormat;
     
     
@@ -61,6 +62,13 @@ public class Peakflow implements Serializable {
         this.pfComment = pfComment;
     }
     
+    public int getPfBaseline(){
+        return pfBaseline;
+    }
+    
+     public void setPfBaseline(int pfBaseline) {
+        this.pfBaseline = pfBaseline;
+    }
     
       @Override
     public String toString() {

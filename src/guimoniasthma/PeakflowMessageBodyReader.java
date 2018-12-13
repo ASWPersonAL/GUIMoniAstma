@@ -33,9 +33,7 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
                                                 MediaType mt){
         return true;
     }
-    
-    
-    
+       
     
     @Override
     public List<Peakflow> readFrom(Class<List<Peakflow>> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, String> mm, InputStream in) throws IOException, WebApplicationException{
@@ -72,6 +70,9 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
                             case "pfComment":
                                 peakflow.setPfComment(parser.getString());
                                 break;
+                            case "pfBaseline":
+                                peakflow.setPfBaseline(parser.getInt());
+                                break;    
                             default:
                               break; 
                         }
