@@ -65,7 +65,7 @@ public class MoniAstmaController implements Initializable {
     private NumberAxis yAxisScat;
     
     @FXML
-    private ScatterChart<String,Number> schart;
+    private LineChart<String,Number> pfchart;
    
     //// LineChart instans fields with fxml tags.
     @FXML
@@ -128,9 +128,9 @@ public class MoniAstmaController implements Initializable {
             List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
             System.out.println(peakflows);
             //// Declar a scatter chart that is fxcollection observablearraylist.
-            ObservableList<XYChart.Series<String, Number>> scatterChartData = FXCollections.observableArrayList();
-            ScatterChart.Series<String,Number> seriesS = new ScatterChart.Series<String,Number>();
-            ScatterChart.Series<String,Number> seriesBl = new ScatterChart.Series<String, Number>();
+            ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
+            LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
+            LineChart.Series<String,Number> seriesBl = new LineChart.Series<String, Number>();
              //// Foreacher in peakflow list with json objects.
              for(Peakflow p : peakflows){
                  
@@ -142,13 +142,13 @@ public class MoniAstmaController implements Initializable {
                  System.out.println(p.getPfValue());
                 }
              //// Adding the serieS to the scattered chart list.
-             scatterChartData.add(seriesS);
-             scatterChartData.add(seriesBl);
+             lineChartData.add(seriesS);
+             lineChartData.add(seriesBl);
              //// Adding the scattered chart list to the chart in the FXML view. 
-             schart.setData(scatterChartData);
+             pfchart.setData(lineChartData);
              xAxisScat.setLabel("Date");
              yAxisScat.setLabel("L per min");
-             schart.setTitle("TEST");
+             pfchart.setTitle("ScatterChart with Peak flow data:");
              
              seriesS.setName("Peak flow monitoration values");
             
@@ -181,10 +181,13 @@ public class MoniAstmaController implements Initializable {
          linechartData.add(seriesLine);
          
          hchart.setData(linechartData);
+         hchart.setTitle("LineChart for humidy data:");
          xAxisLine.setLabel("Date");
          yAxisLine.setLabel("Percentage %");
          
          seriesLine.setName("Humidity");
+         
+         
 
          
      }
@@ -225,6 +228,7 @@ public class MoniAstmaController implements Initializable {
          barchartData.add(seriesbarGrass);
          
          alchart.setData(barchartData);
+         alchart.setTitle("Barchart for pollen data:");
          xAxisBar.setLabel("Date");
          yAxisBar.setLabel("Amount per m3");
          
@@ -263,15 +267,23 @@ public class MoniAstmaController implements Initializable {
 
        System.out.println(peakflows.size());
        
-       ObservableList<XYChart.Series<String, Number>> scatterChartData = FXCollections.observableArrayList();
-       ScatterChart.Series<String,Number> seriesS = new ScatterChart.Series<String,Number>();
+       ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
+       LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
+       LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
        for(Peakflow p : peakflows){
             seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
+            seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfBaseline()));
             System.out.println(p.getPfComment());
             System.out.println(p.getPfValue());
        }
-      scatterChartData.add(seriesS);
-      schart.setData(scatterChartData);
+      lineChartData.add(seriesS);
+      lineChartData.add(seriesBl);
+      pfchart.setData(lineChartData);
+      xAxisScat.setLabel("Date");
+      yAxisScat.setLabel("L per min");
+      pfchart.setTitle("ScatterChart with Peak flow data:");
+      seriesS.setName("Peak flow monitoration values");
+      seriesBl.setName("Peak flow Baseline values");
    }
     
     @Override
