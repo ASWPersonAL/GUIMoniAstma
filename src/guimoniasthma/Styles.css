@@ -18,7 +18,7 @@ and open the template in the editor.
     -fx-effect: null;
 }
 
-.default-color1.chart-series-line { -fx-stroke: #e9967a; }
+
 .default-color0.chart-series-line { -fx-stroke: black; }
-.default-color2.chart-series-line { -fx-stroke: #dda0dd; }
+.default-color1.chart-series-line { -fx-stroke: #dda0dd; }
 

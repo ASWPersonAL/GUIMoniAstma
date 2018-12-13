@@ -23,18 +23,15 @@ public class GUIMoniAsthma extends Application {
         
         Parent root = FXMLLoader.load(getClass().getResource("MoniAstma.fxml"));
         
-        
         stage.setTitle("Asthmatical");
         stage.setWidth(1300);
         stage.setHeight(1000);
         
         Scene scene = new Scene(root);
        
-        
         stage.setScene(scene);
         scene.getStylesheets().add(getClass().getResource("Styles.css").toExternalForm());
         stage.show();
-        
        
     }
 

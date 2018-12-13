@@ -64,24 +64,14 @@
             <Font name="Avenir Oblique" size="24.0" />
          </font>
       </Text>
-
-    <Text layoutX="554.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="ScatterChart with Peak flow data:">
-         <font>
-            <Font size="18.0" />
-         </font></Text>
-      <ScatterChart fx:id="schart" layoutX="314.0" layoutY="72.0" prefHeight="280.0" prefWidth="750.0">
+      <LineChart fx:id="pfchart" layoutX="314.0" layoutY="72.0" prefHeight="280.0" prefWidth="750.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxisScat" />
         </xAxis>
         <yAxis>
           <NumberAxis fx:id="yAxisScat" side="LEFT" />
         </yAxis>
-      </ScatterChart>
-      
-     <Text layoutX="589.0" layoutY="400.0" strokeType="OUTSIDE" strokeWidth="0.0" text="LineChart for humidy data: ">
-         <font>
-            <Font size="18.0" />
-         </font></Text>
+      </LineChart>
       <LineChart fx:id="hchart" layoutX="321.0" layoutY="410.0" prefHeight="194.0" prefWidth="737.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxisLine" />
@@ -90,11 +80,6 @@
           <NumberAxis fx:id="yAxisLine" side="LEFT" />
         </yAxis>
       </LineChart>
-      
-      <Text layoutX="599.0" layoutY="650.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Barchart for pollen data:">
-         <font>
-            <Font size="18.0" />
-         </font></Text>
       <BarChart fx:id="alchart" layoutX="321.0" layoutY="657.0" prefHeight="194.0" prefWidth="737.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxisBar" />
