@@ -13,12 +13,25 @@ and open the template in the editor.
   -fx-font-size: 1.3em;
 }
 
-.chart-series-line {    
-    -fx-stroke-width: 2px;
-    -fx-effect: null;
+
+
+
+/*.default-color0.chart-series-line { -fx-stroke: black; -fx-stroke-width: 5px; }
+.default-color1.chart-series-line { -fx-stroke: #dda0dd; -fx-stroke-width: 1.3px; }*/
+
+.default-color0.chart-series-line { -fx-stroke: blueviolet; -fx-stroke-width: 6px;}
+.default-color1.chart-series-line { -fx-stroke: #f0e68c; -fx-stroke-width: 4px;}
+
+ 
+.default-color0.chart-line-symbol { -fx-background-color: blueviolet, white; }
+.default-color1.chart-line-symbol { -fx-background-color: #f0e68c; }
+
+
+
+.axis{
+  -fx-tick-label-font-size: 1.3em;
 }
 
-
-.default-color0.chart-series-line { -fx-stroke: black; }
-.default-color1.chart-series-line { -fx-stroke: #dda0dd; }
-
+/*.chart-line-symbol{-fx-background-color:white}
+    
+.chart-legend-item-symbol{-fx-background-color:white}*/

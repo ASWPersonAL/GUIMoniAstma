@@ -45,14 +45,14 @@
         </yAxis>
       </LineChart>-->
 
-<AnchorPane id="AnchorPane" prefHeight="1000.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
+<AnchorPane id="AnchorPane" prefHeight="1300.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
     <children>
         
         
       <TextField layoutX="74.0" layoutY="157.0" prefHeight="27.0" prefWidth="231.0" promptText="Peakflow value  (rounded number)" />
       <TextField layoutX="74.0" layoutY="199.0" promptText="YYYY-MM-DD" />
       <Text layoutX="74.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input your peakflow baseline value" />
-      <Button layoutX="74.0" layoutY="252.0" mnemonicParsing="false" text="Save Baseline value" />
+      <Button layoutX="74.0" layoutY="252.0" mnemonicParsing="false" onAction="#postBaseline" text="Save Baseline value" />
         
     <Text layoutX="85.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Health IT" wrappingWidth="167.25439453125">
          <font>
@@ -64,23 +64,23 @@
             <Font name="Avenir Oblique" size="24.0" />
          </font>
       </Text>
-      <LineChart fx:id="pfchart" layoutX="314.0" layoutY="72.0" prefHeight="280.0" prefWidth="750.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" fx:id="xAxisScat" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis fx:id="yAxisScat" side="LEFT" />
-        </yAxis>
-      </LineChart>
-      <AreaChart fx:id="hchart" layoutX="321.0" layoutY="410.0" prefHeight="194.0" prefWidth="737.0">
+      <LineChart fx:id="pfchart" layoutX="322.0" layoutY="36.0" prefHeight="280.0" prefWidth="932.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxisLine" />
         </xAxis>
         <yAxis>
           <NumberAxis fx:id="yAxisLine" side="LEFT" />
         </yAxis>
+      </LineChart>
+      <AreaChart fx:id="hchart" layoutX="322.0" layoutY="337.0" prefHeight="194.0" prefWidth="932.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" fx:id="xAxisArea" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis fx:id="yAxisArea" side="LEFT" />
+        </yAxis>
       </AreaChart>
-      <BarChart fx:id="alchart" layoutX="321.0" layoutY="657.0" prefHeight="194.0" prefWidth="737.0">
+      <BarChart fx:id="alchart" layoutX="322.0" layoutY="553.0" prefHeight="194.0" prefWidth="932.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxisBar" />
         </xAxis>
@@ -89,13 +89,13 @@
         </yAxis>
       </BarChart>
       
-    <Text layoutX="1110.0" layoutY="140.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Show Date range for peak flow chart" textAlignment="CENTER" wrappingWidth="132.9404296875">
+    <Text layoutX="438.0" layoutY="854.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="132.9404296875">
          <font>
             <Font size="14.0" />
          </font></Text>
-      <DatePicker fx:id="fromDatePicker" layoutX="1079.0" layoutY="171.0" promptText="Start date" />
-      <DatePicker fx:id="toDatePicker" layoutX="1079.0" layoutY="199.0" promptText="End date" />
-       <Button fx:id="buttonSearch" layoutX="1065.0" layoutY="238.0" onAction="#GetChartDataFromSearchDate" text="Search Date in Peakflow Chart">
+      <DatePicker fx:id="fromDatePicker" layoutX="553.0" layoutY="734.0" promptText="Start date" />
+      <DatePicker fx:id="toDatePicker" layoutX="841.0" layoutY="734.0" promptText="End date" />
+       <Button fx:id="buttonSearch" layoutX="735.0" layoutY="783.0" onAction="#handleSearchByDate" text="Search Date ">
          <font>
             <Font size="14.0" />
          </font>

@@ -10,6 +10,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -97,12 +98,7 @@ public class MoniAstmaController implements Initializable {
  
     //// Class methods.
     
-    //// Method to Post baseline data. 
     
-    private void postBaseline(){
-        //// Todo.
-        
-    }
     
     //// Method to GET data for peakflow scattered chart. The method is called in the Initialize constructor. 
   
@@ -140,23 +136,23 @@ public class MoniAstmaController implements Initializable {
                  System.out.println(p.getPfDate());
                  System.out.println(p.getPfValue());
                 }
-             //// Adding the serieS to the scattered chart list.
-             lineChartData.add(seriesS);
-             lineChartData.add(seriesBl);
+             
+             //// Adding the serieS to the observable line chart list.
+             lineChartData.addAll(seriesS,seriesBl);
+           
              //// Adding the scattered chart list to the chart in the FXML view. 
              pfchart.setData(lineChartData);
              xAxisLine.setLabel("Date");
              yAxisLine.setLabel("L per min");
              pfchart.setTitle("ScatterChart with Peak flow data:");
-             
              seriesS.setName("Peak flow monitoration values");
-            
              seriesBl.setName("Peak flow Baseline values");
              
-           yAxisLine.setAutoRanging(false);
-           yAxisLine.setLowerBound(0);
-           yAxisLine.setUpperBound(700);
-             
+             yAxisLine.setAutoRanging(false);
+             yAxisLine.setLowerBound(0);
+             yAxisLine.setUpperBound(700);
+           
+             pfchart.setCreateSymbols(true);
              
    }
 
@@ -192,6 +188,10 @@ public class MoniAstmaController implements Initializable {
            yAxisArea.setAutoRanging(false);
            yAxisArea.setLowerBound(0);
            yAxisArea.setUpperBound(110);
+           
+           hchart.setCreateSymbols(false);
+           
+           
      }
      
   //// Method to GET data for allergies bar chart. The method is called in the Initialize constructor. 
@@ -243,7 +243,8 @@ public class MoniAstmaController implements Initializable {
      
      //// Method to seach by Date in peak flow chart. 
      
-       @FXML
+     
+       //@FXML
        private void getPFChartFromSearchDate(){
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
@@ -287,11 +288,10 @@ public class MoniAstmaController implements Initializable {
       seriesS.setName("Peak flow monitoration values");
       seriesBl.setName("Peak flow Baseline values");
       
-      getHumidityChartFromSearchDate();
-      getAllergiesChartFromSearchDate();
+      
    }
        
-        //@FXML
+       
        private void getHumidityChartFromSearchDate(){
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
@@ -334,6 +334,7 @@ public class MoniAstmaController implements Initializable {
          yAxisArea.setLabel("Percentage %");
       
    }
+       
        private void getAllergiesChartFromSearchDate(){
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
@@ -393,6 +394,27 @@ public class MoniAstmaController implements Initializable {
       
    }
        
+       @FXML
+       private void handleSearchByDate(){
+       
+           getHumidityChartFromSearchDate();
+           getAllergiesChartFromSearchDate();
+           getPFChartFromSearchDate();
+           
+       }
+     
+       
+       //// Method to Post baseline data. 
+        @FXML
+         private void postBaseline(){
+            WebTarget clientTarget;
+            Client client = ClientBuilder.newClient();
+            client.register(BaselineMessageBodyReader.class);
+            clientTarget = client.target(this.baseUrl + "/bl");
+            
+            
+                     
+         }
      
     
     @Override
@@ -427,6 +449,8 @@ public class MoniAstmaController implements Initializable {
         getHumidityChart();
         
         getAllergiesBarChart();
+        
+       
 
     }    
 }

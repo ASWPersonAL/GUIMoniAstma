@@ -25,7 +25,7 @@ public class GUIMoniAsthma extends Application {
         
         stage.setTitle("Asthmatical");
         stage.setWidth(1300);
-        stage.setHeight(1000);
+        stage.setHeight(1300);
         
         Scene scene = new Scene(root);
        
