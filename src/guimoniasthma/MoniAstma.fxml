@@ -72,14 +72,14 @@
           <NumberAxis fx:id="yAxisScat" side="LEFT" />
         </yAxis>
       </LineChart>
-      <LineChart fx:id="hchart" layoutX="321.0" layoutY="410.0" prefHeight="194.0" prefWidth="737.0">
+      <AreaChart fx:id="hchart" layoutX="321.0" layoutY="410.0" prefHeight="194.0" prefWidth="737.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxisLine" />
         </xAxis>
         <yAxis>
           <NumberAxis fx:id="yAxisLine" side="LEFT" />
         </yAxis>
-      </LineChart>
+      </AreaChart>
       <BarChart fx:id="alchart" layoutX="321.0" layoutY="657.0" prefHeight="194.0" prefWidth="737.0">
         <xAxis>
           <CategoryAxis side="BOTTOM" fx:id="xAxisBar" />

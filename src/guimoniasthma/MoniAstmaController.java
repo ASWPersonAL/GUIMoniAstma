@@ -16,16 +16,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import javax.ws.rs.client.Client;
@@ -75,7 +73,8 @@ public class MoniAstmaController implements Initializable {
     private NumberAxis yAxisLine;
     
     @FXML
-    private LineChart<String,Number> hchart;
+    private AreaChart<String,Number> hchart;
+    //private LineChart<String,Number> hchart;
     
     //// Barchart instans fields with fxml tags.
     
@@ -173,7 +172,7 @@ public class MoniAstmaController implements Initializable {
          
          ObservableList<XYChart.Series<String,Number>> linechartData = FXCollections.observableArrayList();
          
-         LineChart.Series<String,Number> seriesLine = new LineChart.Series<String,Number>();
+         AreaChart.Series<String,Number> seriesLine = new AreaChart.Series<String,Number>();
          
          for(Humidity h : humidities){
              seriesLine.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
@@ -187,7 +186,10 @@ public class MoniAstmaController implements Initializable {
          
          seriesLine.setName("Humidity");
          
-         
+           yAxisLine.setAutoRanging(false);
+           yAxisLine.setLowerBound(0);
+           yAxisLine.setUpperBound(100);
+           //yAxisLine.setTickUnit(0.1);
 
          
      }
