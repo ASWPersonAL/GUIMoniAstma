@@ -10,11 +10,11 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
@@ -405,15 +405,41 @@ public class MoniAstmaController implements Initializable {
      
        
        //// Method to Post baseline data. 
-        @FXML
-         private void postBaseline(){
-            WebTarget clientTarget;
-            Client client = ClientBuilder.newClient();
-            client.register(BaselineMessageBodyReader.class);
-            clientTarget = client.target(this.baseUrl + "/bl");
-            
-            
-                     
+        //@FXML
+//         public void postBaseline(Baseline newbaseline){
+//             
+//              //baselineValue = new TextField(newbaseline.baValue);
+//            baselineDate = new TextField(newbaseline.baDate);
+//             
+//            WebTarget clientTarget;
+//            Client client = ClientBuilder.newClient();
+//            client.register(BaselineMessageBodyReader.class);
+//            clientTarget = client.target(this.baseUrl + "/bl");
+//            
+//            Baseline baseline = new Baseline(444,"3333");
+//            baseline.baValue = newbaseline.baValue;
+//            baseline.baDate = newbaseline.baDate;
+//          
+//            
+//            GenericType<List<Baseline>> list = new GenericType<List<Baseline>>() {};
+//            List<Baseline> bllist = clientTarget.request("application/json").get(list);
+//            
+//            bllist.add(newbaseline);
+//            
+//            System.out.println(bllist + "WHATWHAT");
+//                     
+//         }
+//         
+         @FXML
+         public void handlePost(ActionEvent event){
+             
+              //int value_pf = baselineValue.g
+             
+              String date_Text = baselineDate.getText();
+              
+              System.out.println(date_Text);
+
+           
          }
      
     
