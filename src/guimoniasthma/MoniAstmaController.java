@@ -48,8 +48,8 @@ public class MoniAstmaController implements Initializable {
     //// PostBaseline instans fields with FXML tag.
     
     @FXML
-    private TextField baselineValue;
-      
+    private TextField pfValue;
+    
     @FXML
     private TextField baselineDate;
     
@@ -57,12 +57,11 @@ public class MoniAstmaController implements Initializable {
     private DatePicker pfDatePicker;
     
     @FXML
-    private TextField pfValue;
+    private TextField baselineValue;
     
     
-    
-    @FXML
-    private Button saveBaseline;
+    //@FXML
+    //private Button saveBaseline;
     
     
     //// Instans fields (with fxml tags) for Scattered chart for peakflow values.
@@ -442,19 +441,41 @@ public class MoniAstmaController implements Initializable {
          @FXML
          public void handlePost(ActionEvent event){
              
-              int baseline_value = Integer.parseInt(baselineValue.getText());
-              System.out.println(baseline_value);
+              int pf_value = Integer.parseInt(pfValue.getText());
+              System.out.println(pf_value);
               
               LocalDate pf_date = pfDatePicker.getValue();
               System.out.println(pf_date);
              
               String date_Text = baselineDate.getText();
-              
               System.out.println(date_Text);
               
-              int pf_value = Integer.parseInt(pfValue.getText());
-              System.out.println(pf_value);
-       
+              int baseline_value = Integer.parseInt(baselineValue.getText());
+              System.out.println(baseline_value);
+              
+              Baseline bl = new Baseline();
+              bl.baValue = baseline_value; 
+              bl.baDate = date_Text;
+              
+              WebTarget clientTarget;
+              Client client = ClientBuilder.newClient();
+              client.register(BaselineMessageBodyReader.class);
+              clientTarget = client.target(this.baseUrl + "/bl");
+              
+              
+              
+              GenericType<List<Baseline>> list = new GenericType<List<Baseline>>() {};
+              List<Baseline> bllist = clientTarget.request("application/json").get(list);
+              bllist.add(bl);
+              System.out.println(bllist + "WHATWHAT");
+              
+              
+              
+              
+              
+             
+              
+              
               //// Json object format and Table create. baseline may be null.
            //{"pfId":1,"pfValue":0,"pfDate":1516575600000,"pfComment":"Baseline (Jan 2018)","pfBaseline":470}
 //CREATE TABLE PeakFlow (
