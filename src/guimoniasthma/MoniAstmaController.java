@@ -10,6 +10,7 @@ import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -48,9 +49,17 @@ public class MoniAstmaController implements Initializable {
     
     @FXML
     private TextField baselineValue;
-    
+      
     @FXML
     private TextField baselineDate;
+    
+    @FXML
+    private DatePicker pfDatePicker;
+    
+    @FXML
+    private TextField pfValue;
+    
+    
     
     @FXML
     private Button saveBaseline;
@@ -433,12 +442,30 @@ public class MoniAstmaController implements Initializable {
          @FXML
          public void handlePost(ActionEvent event){
              
-              //int value_pf = baselineValue.g
+              int baseline_value = Integer.parseInt(baselineValue.getText());
+              System.out.println(baseline_value);
+              
+              LocalDate pf_date = pfDatePicker.getValue();
+              System.out.println(pf_date);
              
               String date_Text = baselineDate.getText();
               
               System.out.println(date_Text);
-
+              
+              int pf_value = Integer.parseInt(pfValue.getText());
+              System.out.println(pf_value);
+       
+              //// Json object format and Table create. baseline may be null.
+           //{"pfId":1,"pfValue":0,"pfDate":1516575600000,"pfComment":"Baseline (Jan 2018)","pfBaseline":470}
+//CREATE TABLE PeakFlow (
+//    PF_id int NOT NULL GENERATED ALWAYS AS IDENTITY 
+//                (START WITH 1, INCREMENT BY 1),
+//    PF_value int,
+//    PF_date DATE NOT NULL,
+//    PF_comment varchar(255),
+//    PF_baseline int, 
+//    PRIMARY KEY (PF_ID)									
+//);
            
          }
      
@@ -464,6 +491,7 @@ public class MoniAstmaController implements Initializable {
                 return LocalDate.parse(dateString, dateTimeFormatter);
             }
         };
+        pfDatePicker.setConverter(stringConverter); 
         fromDatePicker.setConverter(stringConverter);
         toDatePicker.setConverter(stringConverter);
         
@@ -475,6 +503,7 @@ public class MoniAstmaController implements Initializable {
         getHumidityChart();
         
         getAllergiesBarChart();
+        
         
        
 
