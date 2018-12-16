@@ -20,10 +20,16 @@ public class Peakflow implements Serializable {
     
     
     //Skal bruge en data konverter til visning af date i liste og derefter på graf.
-    public Date pfDate;
-    public String pfComment;
-    public int pfBaseline;
+    private Date pfDate;
+    private String pfComment;
     private SimpleDateFormat dateFormat;
+
+    public Peakflow(int pfValue, Date pfDate, String pfComment) {
+        this();
+        this.pfValue = pfValue;
+        this.pfDate = pfDate;
+        this.pfComment = pfComment;
+    }
     
     
     public Peakflow(){
@@ -53,6 +59,10 @@ public class Peakflow implements Serializable {
     public void setPfDate(Date pfDate) {
         this.pfDate = pfDate;
     }
+    
+    public Date getPfDateObject() {
+        return this.pfDate;
+    }
 
     public String getPfComment() {
         return pfComment;
@@ -61,18 +71,11 @@ public class Peakflow implements Serializable {
     public void setPfComment(String pfComment) {
         this.pfComment = pfComment;
     }
-    
-    public int getPfBaseline(){
-        return pfBaseline;
-    }
-    
-     public void setPfBaseline(int pfBaseline) {
-        this.pfBaseline = pfBaseline;
-    }
+   
     
       @Override
     public String toString() {
-        return "com.samples.entity.Peakflow[ pfId=" + pfId + " " + "pfValue: " + pfValue + " " + "pfDate: " + pfDate + " " + "pfComment: " + pfComment + " " + "pfBaseline: " + pfBaseline  + " " +" ]";
+        return "com.samples.entity.Peakflow[ pfId=" + pfId + " " + "pfValue: " + pfValue + " " + "pfDate: " + pfDate + " " + "pfComment: " + pfComment + " " +" ]";
     }
     
 }

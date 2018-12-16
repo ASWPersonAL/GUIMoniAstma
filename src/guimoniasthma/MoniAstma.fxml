@@ -53,7 +53,7 @@
       <TextField fx:id="baselineDate" layoutX="74.0" layoutY="199.0" promptText="String test" />
 
       <DatePicker fx:id="pfDatePicker" layoutX="72.0" layoutY="244.0" promptText="Date" />
-      <TextField fx:id="baselineValue" layoutX="72.0" layoutY="303.0" prefHeight="27.0" prefWidth="231.0" promptText="baseline value  (rounded number)" />
+     
       
       <Button layoutX="74.0" layoutY="367.0" mnemonicParsing="false" onAction="#handlePost" text="Save Baseline value" />
         

@@ -70,9 +70,6 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
                             case "pfComment":
                                 peakflow.setPfComment(parser.getString());
                                 break;
-                            case "pfBaseline":
-                                peakflow.setPfBaseline(parser.getInt());
-                                break;    
                             default:
                               break; 
                         }

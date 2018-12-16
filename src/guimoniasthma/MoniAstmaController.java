@@ -8,7 +8,9 @@ package guimoniasthma;
 
 import java.net.URL;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -25,14 +27,15 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.Response;
 
 /**
  *
@@ -56,9 +59,7 @@ public class MoniAstmaController implements Initializable {
     
     @FXML
     private DatePicker pfDatePicker;
-    
-    @FXML
-    private TextField baselineValue;
+   
     
     
     //@FXML
@@ -136,10 +137,13 @@ public class MoniAstmaController implements Initializable {
             ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
             LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
             LineChart.Series<String,Number> seriesBl = new LineChart.Series<String, Number>();
+            
+            int baseline = 470;
+            
              //// Foreacher in peakflow list with json objects.
              for(Peakflow p : peakflows){
                  
-                     seriesBl.getData().add(new XYChart.Data<String, Number>(p.getPfDate(), p.getPfBaseline()));
+                     seriesBl.getData().add(new XYChart.Data<String, Number>(p.getPfDate(), baseline));
                      seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
                  
                  //// System out put for developing overview.
@@ -152,17 +156,19 @@ public class MoniAstmaController implements Initializable {
            
              //// Adding the scattered chart list to the chart in the FXML view. 
              pfchart.setData(lineChartData);
-             xAxisLine.setLabel("Date");
-             yAxisLine.setLabel("L per min");
-             pfchart.setTitle("ScatterChart with Peak flow data:");
-             seriesS.setName("Peak flow monitoration values");
-             seriesBl.setName("Peak flow Baseline values");
+//             xAxisLine.setLabel("Date");
+//             yAxisLine.setLabel("L per min");
+//             pfchart.setTitle("ScatterChart with Peak flow data:");
+//             seriesS.setName("Peak flow monitoration values");
+//             seriesBl.setName("Peak flow Baseline values");
              
-             yAxisLine.setAutoRanging(false);
-             yAxisLine.setLowerBound(0);
-             yAxisLine.setUpperBound(700);
+            
+             
+             //yAxisLine.setAutoRanging(false);
+             //yAxisLine.setLowerBound(0);
+             //yAxisLine.setUpperBound(700);
            
-             pfchart.setCreateSymbols(true);
+            // pfchart.setCreateSymbols(true);
              
    }
 
@@ -187,18 +193,18 @@ public class MoniAstmaController implements Initializable {
              seriesArea.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
          }
          areachartData.add(seriesArea);
-         
+
          hchart.setData(areachartData);
          hchart.setTitle("Area Chart for humidy data:");
          xAxisArea.setLabel("Date");
          yAxisArea.setLabel("Percentage %");
            
-           yAxisArea.setAutoRanging(false);
-           yAxisArea.setLowerBound(0);
-           yAxisArea.setUpperBound(110);
+         yAxisArea.setAutoRanging(false);
+         yAxisArea.setLowerBound(0);
+         yAxisArea.setUpperBound(110);
            
-           hchart.setCreateSymbols(false);
-     }
+         hchart.setCreateSymbols(false);
+    }
      
   //// Method to GET data for allergies bar chart. The method is called in the Initialize constructor. 
 
@@ -270,22 +276,49 @@ public class MoniAstmaController implements Initializable {
 
        GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
        List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
-
+       int baseline = 470;
        ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
        LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
        LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
        for(Peakflow p : peakflows){
             seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
-            seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfBaseline()));
+            seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), baseline));
        }
-      lineChartData.add(seriesS);
-      lineChartData.add(seriesBl);
+      lineChartData.addAll(seriesS,seriesBl);
+      //lineChartData.add(seriesBl);
       pfchart.setData(lineChartData);
-      xAxisLine.setLabel("Date");
-      yAxisLine.setLabel("L per min");
-      pfchart.setTitle("ScatterChart with Peak flow data:");
-      seriesS.setName("Peak flow monitoration values");
-      seriesBl.setName("Peak flow Baseline values");
+      
+      
+      //xAxisLine.setLabel("Date");
+//      xAxisLine.setTickLabelFormatter(new StringConverter<Number>() {
+//            private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+//            
+//            @Override
+//            public String toString(Number numberDate) {
+//                if (numberDate == null || numberDate.longValue() == 0.0) {
+//                    return "";
+//                }
+//                System.out.println(numberDate);
+//                return dateTimeFormatter.format(LocalDate.from(Instant.ofEpochMilli(numberDate.longValue())));
+//        
+//        //((TemporalAccessor) new Date(numberDate.longValue()));
+//            }
+//            
+//            @Override
+//            public Number fromString(String dateString) {
+//                if (dateString == null || dateString.trim().isEmpty()) {
+//                    return null;
+//                }
+//                return new Long(Date.parse(dateString));
+//                        
+//                        //parse(dateString, dateTimeFormatter).);
+//            }});
+            
+      //yAxisLine.setLabel("L per min");
+      
+      //pfchart.setTitle("ScatterChart with Peak flow data:");
+//      seriesS.setName("Peak flow monitoration values");
+//      seriesBl.setName("Peak flow Baseline values");
    }
        
        //// Method to seach by Date in humidity chart. 
@@ -389,9 +422,10 @@ public class MoniAstmaController implements Initializable {
        
        @FXML
        private void handleSearchByDate(){
+           getPFChartFromSearchDate();
            getHumidityChartFromSearchDate();
            getAllergiesChartFromSearchDate();
-           getPFChartFromSearchDate();
+           
        }
      
        //// Developing POST method for peakflow POST.
@@ -409,9 +443,6 @@ public class MoniAstmaController implements Initializable {
              
               String date_Text = baselineDate.getText();
               System.out.println(date_Text);
-              
-              int baseline_value = Integer.parseInt(baselineValue.getText());
-              System.out.println(baseline_value);
               
               System.out.println("View input values end: ");
               
@@ -432,34 +463,22 @@ public class MoniAstmaController implements Initializable {
               
               //// Making peakflow object includes Date...
               
-              Peakflow pf = new Peakflow();
               //java.util.Date d = new SimpleDateFormat("yyyy-MM-dd").parse(pf_date.toString());
               
               Date date1 = Date.from(pf_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-              pf.pfValue = pf_value;
-              pf.pfDate = date1;
-              pf.pfComment = date_Text;
-              pf.pfBaseline = baseline_value;
-              
+              Peakflow pf = new Peakflow(pf_value, date1, date_Text);              
               
               WebTarget clientTarget;
               Client client = ClientBuilder.newClient();
-              client.register(PeakflowMessageBodyReader.class);
+              client.register(PeakflowMessageBodyWriter.class);
               clientTarget = client.target(this.baseUrl + "/pf");
-              
-              GenericType<List<Peakflow>> list2 = new GenericType<List<Peakflow>>() {};
-              List<Peakflow> pflist = clientTarget.request("application/json").get(list2);
-              
-              pflist.add(pf);
-              System.out.println("Element add to list: " + pflist);
-              System.out.println("List size after adding new element: " + pflist.size());
-              
-              //// Idea for POST..
-              clientTarget.register(pf).path(this.baseUrl + "/pf");
-              
+                            
+              Response r = clientTarget.request("application/json").post(Entity.entity(pf, "application/json"));
+              System.out.println(r);
               //// The metaerial beneath is for POST method develop help:
-              
+                      getPFChartFromSearchDate();
+
               //// Json object format and Table create. baseline may be null.
            //{"pfId":1,"pfValue":0,"pfDate":1516575600000,"pfComment":"Baseline (Jan 2018)","pfBaseline":470}
 //CREATE TABLE PeakFlow (
@@ -503,11 +522,14 @@ public class MoniAstmaController implements Initializable {
         
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-        getPeakflowLineChart();
+        //getPeakflowLineChart();
         
         getHumidityChart();
         
         getAllergiesBarChart();
+        
+        
+        getPFChartFromSearchDate();
         
     }    
 }
