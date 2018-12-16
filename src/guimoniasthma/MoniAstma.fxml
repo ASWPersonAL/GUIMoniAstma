@@ -49,10 +49,13 @@
     <children>
         
         
-      <TextField layoutX="74.0" layoutY="157.0" prefHeight="27.0" prefWidth="231.0" promptText="Peakflow value  (rounded number)" />
-      <TextField layoutX="74.0" layoutY="199.0" promptText="YYYY-MM-DD" />
-      <Text layoutX="74.0" layoutY="139.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input your peakflow baseline value" />
-      <Button layoutX="74.0" layoutY="252.0" mnemonicParsing="false" onAction="#postBaseline" text="Save Baseline value" />
+      <TextField fx:id="pfValue" layoutX="72.0" layoutY="156.0" prefHeight="27.0" prefWidth="231.0" promptText="peakflow value  (rounded number)" />
+      <TextField fx:id="baselineDate" layoutX="74.0" layoutY="199.0" promptText="String test" />
+
+      <DatePicker fx:id="pfDatePicker" layoutX="72.0" layoutY="244.0" promptText="Date" />
+      <TextField fx:id="baselineValue" layoutX="72.0" layoutY="303.0" prefHeight="27.0" prefWidth="231.0" promptText="baseline value  (rounded number)" />
+      
+      <Button layoutX="74.0" layoutY="367.0" mnemonicParsing="false" onAction="#handlePost" text="Save Baseline value" />
         
     <Text layoutX="85.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Health IT" wrappingWidth="167.25439453125">
          <font>
@@ -100,6 +103,8 @@
             <Font size="14.0" />
          </font>
       </Button>
+      
+      
       
       
       

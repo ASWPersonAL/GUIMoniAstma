@@ -42,8 +42,8 @@ public class AllergiesMessageBodyReader implements MessageBodyReader<List<Allerg
             Allergies allergy = new Allergies();
             
             
-            System.out.println(allergy);
-            System.out.println("HALLO_ALlergies!");
+           // System.out.println(allergy);
+           // System.out.println("HALLO_ALlergies!");
             
             List<Allergies> allergiesList = new ArrayList();
             
@@ -54,11 +54,11 @@ public class AllergiesMessageBodyReader implements MessageBodyReader<List<Allerg
                 switch (event) {
                     case START_OBJECT:
                         allergy = new Allergies();
-                        System.out.println(allergy);
+                        //System.out.println(allergy);
                         break;
                     case END_OBJECT:
                         allergiesList.add(allergy);
-                        System.out.println(allergiesList);
+                        //System.out.println(allergiesList);
                         break;
                     case KEY_NAME:
                       String key = parser.getString();

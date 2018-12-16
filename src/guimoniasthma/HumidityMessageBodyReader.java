@@ -42,8 +42,8 @@ public class HumidityMessageBodyReader implements MessageBodyReader<List<Humidit
             Humidity humidity = new Humidity();
             
             
-            System.out.println(humidity);
-            System.out.println("HALLO");
+            //System.out.println(humidity);
+            //System.out.println("HALLO");
             
             List<Humidity> humidities = new ArrayList();
             
@@ -54,11 +54,11 @@ public class HumidityMessageBodyReader implements MessageBodyReader<List<Humidit
                 switch (event) {
                     case START_OBJECT:
                         humidity = new Humidity();
-                        System.out.println(humidity);
+                        //System.out.println(humidity);
                         break;
                     case END_OBJECT:
                         humidities.add(humidity);
-                        System.out.println(humidities);
+                        //System.out.println(humidities);
                         break;
                     case KEY_NAME:
                       String key = parser.getString();

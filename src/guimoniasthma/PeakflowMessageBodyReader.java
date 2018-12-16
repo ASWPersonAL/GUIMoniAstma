@@ -47,19 +47,19 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
                 switch (event) {
                     case START_OBJECT:
                         peakflow = new Peakflow();
-                        System.out.println(peakflow);
-                        System.out.println("SLUT her");
+                        //System.out.println(peakflow);
+                        //System.out.println("SLUT her");
                         break;
                     case END_OBJECT:
                         peakflows.add(peakflow);
-                        System.out.println(peakflows);
+                        //System.out.println(peakflows);
                         break;
                     case KEY_NAME:
                         String key = parser.getString();
                         parser.next();
                         switch (key){
-                            case "pfMeasureid":
-                                peakflow.setPfMeasureid(parser.getInt());
+                            case "pfId":
+                                peakflow.setPfId(parser.getInt());
                                 break;
                             case "pfValue" :
                                 peakflow.setPfValue(parser.getInt());

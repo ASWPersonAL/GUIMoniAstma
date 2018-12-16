@@ -15,14 +15,14 @@ import java.util.Date;
  */
 public class Peakflow implements Serializable {
     
-    private Integer pfMeasureid;
-    private int pfValue;
+    private Integer pfId;
+    public int pfValue;
     
     
     //Skal bruge en data konverter til visning af date i liste og derefter på graf.
-    private Date pfDate;
-    private String pfComment;
-    private int pfBaseline;
+    public Date pfDate;
+    public String pfComment;
+    public int pfBaseline;
     private SimpleDateFormat dateFormat;
     
     
@@ -30,12 +30,12 @@ public class Peakflow implements Serializable {
         dateFormat = new SimpleDateFormat("dd/MM/yyyy");
     }
 
-    public Integer getPfMeasureid() {
-        return pfMeasureid;
+    public Integer getPfId() {
+        return pfId;
     }
 
-    public void setPfMeasureid(Integer pfMeasureid) {
-        this.pfMeasureid = pfMeasureid;
+    public void setPfId(Integer pfId) {
+        this.pfId = pfId;
     }
 
     public int getPfValue() {
@@ -72,7 +72,7 @@ public class Peakflow implements Serializable {
     
       @Override
     public String toString() {
-        return "com.samples.entity.Peakflow[ pfMeasureid=" + pfMeasureid + " ]";
+        return "com.samples.entity.Peakflow[ pfId=" + pfId + " " + "pfValue: " + pfValue + " " + "pfDate: " + pfDate + " " + "pfComment: " + pfComment + " " + "pfBaseline: " + pfBaseline  + " " +" ]";
     }
     
 }

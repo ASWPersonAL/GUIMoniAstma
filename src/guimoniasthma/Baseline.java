@@ -15,9 +15,9 @@ import javafx.fxml.FXML;
 public class Baseline {
     
     
-    private Integer baId;
-    private int baValue;
-    private String baDate;
+    Integer baId;
+    int baValue;
+    String baDate;
     
     private SimpleDateFormat dateFormat;
     
@@ -68,5 +68,7 @@ public class Baseline {
     public String toString() {
         return "com.samples.entity.Baseline[ baId=" + baId + baValue + baDate + " ]";
     }
+    
+    
     
 }

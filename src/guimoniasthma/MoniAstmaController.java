@@ -9,6 +9,7 @@ package guimoniasthma;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -64,7 +65,7 @@ public class MoniAstmaController implements Initializable {
     //private Button saveBaseline;
     
     
-    //// Instans fields (with fxml tags) for Scattered chart for peakflow values.
+    //// Instans fields (with fxml tags) for line chart for peakflow values.
     @FXML
     private CategoryAxis xAxisLine;
     
@@ -83,7 +84,6 @@ public class MoniAstmaController implements Initializable {
     
     @FXML
     private AreaChart<String,Number> hchart;
-    //private LineChart<String,Number> hchart;
     
     //// Barchart instans fields with fxml tags.
     
@@ -106,8 +106,6 @@ public class MoniAstmaController implements Initializable {
  
     //// Class methods.
     
-    
-    
     //// Method to GET data for peakflow scattered chart. The method is called in the Initialize constructor. 
   
      private void getPeakflowLineChart(){
@@ -128,8 +126,12 @@ public class MoniAstmaController implements Initializable {
             //// Declar a list for peakflow objects.
             GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
             //// Declars a list of type peakflow and in the list is the clienttarget result request in json.
-            List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
+            List<Peakflow> peakflows = clientTarget.request("application/json").get(list); 
+            
+            //// Printing peakflow list in console.
             System.out.println(peakflows);
+            System.out.println("size of peakflow list: " + peakflows.size());
+            
             //// Declar a scatter chart that is fxcollection observablearraylist.
             ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
             LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
@@ -141,8 +143,8 @@ public class MoniAstmaController implements Initializable {
                      seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
                  
                  //// System out put for developing overview.
-                 System.out.println(p.getPfDate());
-                 System.out.println(p.getPfValue());
+                 //System.out.println(p.getPfDate());
+                 //System.out.println(p.getPfValue());
                 }
              
              //// Adding the serieS to the observable line chart list.
@@ -175,7 +177,7 @@ public class MoniAstmaController implements Initializable {
          GenericType<List<Humidity>> list1 = new GenericType<List<Humidity>>(){};
          List<Humidity> humidities = clientTarget1.request("application/json").get(list1);
          
-         System.out.println(humidities.toString());
+         //System.out.println(humidities.toString());
          
          ObservableList<XYChart.Series<String,Number>> areachartData = FXCollections.observableArrayList();
          
@@ -190,21 +192,16 @@ public class MoniAstmaController implements Initializable {
          hchart.setTitle("Area Chart for humidy data:");
          xAxisArea.setLabel("Date");
          yAxisArea.setLabel("Percentage %");
-         
-         //seriesArea.setName("Humidity");
            
            yAxisArea.setAutoRanging(false);
            yAxisArea.setLowerBound(0);
            yAxisArea.setUpperBound(110);
            
            hchart.setCreateSymbols(false);
-           
-           
      }
      
   //// Method to GET data for allergies bar chart. The method is called in the Initialize constructor. 
 
-     
      public void getAllergiesBarChart(){
          WebTarget clientTarget;
          Client client = ClientBuilder.newClient();
@@ -214,7 +211,7 @@ public class MoniAstmaController implements Initializable {
          GenericType<List<Allergies>> list = new GenericType<List<Allergies>>(){};
          List<Allergies> allergiesList = clientTarget.request("application/json").get(list);
          
-         System.out.println(allergiesList.toString());
+         //System.out.println(allergiesList.toString());
          
          ObservableList<XYChart.Series<String,Number>> barchartData = FXCollections.observableArrayList();
          
@@ -251,8 +248,6 @@ public class MoniAstmaController implements Initializable {
      
      //// Method to seach by Date in peak flow chart. 
      
-     
-       //@FXML
        private void getPFChartFromSearchDate(){
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
@@ -276,16 +271,12 @@ public class MoniAstmaController implements Initializable {
        GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
        List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
 
-       //System.out.println(peakflows.size());
-       
        ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
        LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
        LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
        for(Peakflow p : peakflows){
             seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
             seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfBaseline()));
-            //System.out.println(p.getPfComment());
-            //System.out.println(p.getPfValue());
        }
       lineChartData.add(seriesS);
       lineChartData.add(seriesBl);
@@ -295,10 +286,9 @@ public class MoniAstmaController implements Initializable {
       pfchart.setTitle("ScatterChart with Peak flow data:");
       seriesS.setName("Peak flow monitoration values");
       seriesBl.setName("Peak flow Baseline values");
-      
-      
    }
        
+       //// Method to seach by Date in humidity chart. 
        
        private void getHumidityChartFromSearchDate(){
        WebTarget clientTarget;
@@ -323,25 +313,21 @@ public class MoniAstmaController implements Initializable {
        GenericType<List<Humidity>> list = new GenericType<List<Humidity>>() {};
        List<Humidity> humidities = clientTarget.request("application/json").get(list);  
 
-       //System.out.println(peakflows.size());
-       
        ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
        AreaChart.Series<String,Number> seriesH = new AreaChart.Series<String,Number>();
        
        for(Humidity h : humidities){
             seriesH.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
-            
-            //System.out.println(p.getPfComment());
-            //System.out.println(p.getPfValue());
        }
       areaChartData.add(seriesH);
      
       hchart.setData(areaChartData);
       hchart.setTitle("Area Chart for humidy data:");
-         xAxisArea.setLabel("Date");
-         yAxisArea.setLabel("Percentage %");
-      
+      xAxisArea.setLabel("Date");
+      yAxisArea.setLabel("Percentage %");
    }
+        
+        //// Method to seach by Date in allergies chart.
        
        private void getAllergiesChartFromSearchDate(){
        WebTarget clientTarget;
@@ -366,8 +352,6 @@ public class MoniAstmaController implements Initializable {
        GenericType<List<Allergies>> list = new GenericType<List<Allergies>>() {};
        List<Allergies> allergyList = clientTarget.request("application/json").get(list);  
 
-       //System.out.println(peakflows.size());
-      
         ObservableList<XYChart.Series<String,Number>> barchartData = FXCollections.observableArrayList();
          
          BarChart.Series<String,Number> seriesbarBirk = new BarChart.Series<String,Number>();
@@ -401,45 +385,21 @@ public class MoniAstmaController implements Initializable {
          seriesbarGrass.setName("Grass");
       
    }
+       //// Method to call all three chart serahc by date functions. FXML tag and bound to onaction in button in view. 
        
        @FXML
        private void handleSearchByDate(){
-       
            getHumidityChartFromSearchDate();
            getAllergiesChartFromSearchDate();
            getPFChartFromSearchDate();
-           
        }
      
+       //// Developing POST method for peakflow POST.
        
-       //// Method to Post baseline data. 
-        //@FXML
-//         public void postBaseline(Baseline newbaseline){
-//             
-//              //baselineValue = new TextField(newbaseline.baValue);
-//            baselineDate = new TextField(newbaseline.baDate);
-//             
-//            WebTarget clientTarget;
-//            Client client = ClientBuilder.newClient();
-//            client.register(BaselineMessageBodyReader.class);
-//            clientTarget = client.target(this.baseUrl + "/bl");
-//            
-//            Baseline baseline = new Baseline(444,"3333");
-//            baseline.baValue = newbaseline.baValue;
-//            baseline.baDate = newbaseline.baDate;
-//          
-//            
-//            GenericType<List<Baseline>> list = new GenericType<List<Baseline>>() {};
-//            List<Baseline> bllist = clientTarget.request("application/json").get(list);
-//            
-//            bllist.add(newbaseline);
-//            
-//            System.out.println(bllist + "WHATWHAT");
-//                     
-//         }
-//         
          @FXML
          public void handlePost(ActionEvent event){
+             
+             System.out.println("View input values begin: ");
              
               int pf_value = Integer.parseInt(pfValue.getText());
               System.out.println(pf_value);
@@ -453,35 +413,59 @@ public class MoniAstmaController implements Initializable {
               int baseline_value = Integer.parseInt(baselineValue.getText());
               System.out.println(baseline_value);
               
-              Baseline bl = new Baseline();
-              bl.baValue = baseline_value; 
-              bl.baDate = date_Text;
+              System.out.println("View input values end: ");
+              
+              //// Making baselin object test - only int and string 
+              
+              //Baseline bl = new Baseline();
+              //bl.baValue = baseline_value; 
+              //bl.baDate = date_Text;
+              
+              //WebTarget clientTarget;
+              //Client client = ClientBuilder.newClient();
+              //client.register(BaselineMessageBodyReader.class);
+              //clientTarget = client.target(this.baseUrl + "/bl");
+              //GenericType<List<Baseline>> list = new GenericType<List<Baseline>>() {};
+              //List<Baseline> bllist = clientTarget.request("application/json").get(list);
+              //bllist.add(bl);
+              //System.out.println(bllist + "WHATWHAT");
+              
+              //// Making peakflow object includes Date...
+              
+              Peakflow pf = new Peakflow();
+              //java.util.Date d = new SimpleDateFormat("yyyy-MM-dd").parse(pf_date.toString());
+              
+              Date date1 = Date.from(pf_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+
+              pf.pfValue = pf_value;
+              pf.pfDate = date1;
+              pf.pfComment = date_Text;
+              pf.pfBaseline = baseline_value;
+              
               
               WebTarget clientTarget;
               Client client = ClientBuilder.newClient();
-              client.register(BaselineMessageBodyReader.class);
-              clientTarget = client.target(this.baseUrl + "/bl");
+              client.register(PeakflowMessageBodyReader.class);
+              clientTarget = client.target(this.baseUrl + "/pf");
               
+              GenericType<List<Peakflow>> list2 = new GenericType<List<Peakflow>>() {};
+              List<Peakflow> pflist = clientTarget.request("application/json").get(list2);
               
+              pflist.add(pf);
+              System.out.println("Element add to list: " + pflist);
+              System.out.println("List size after adding new element: " + pflist.size());
               
-              GenericType<List<Baseline>> list = new GenericType<List<Baseline>>() {};
-              List<Baseline> bllist = clientTarget.request("application/json").get(list);
-              bllist.add(bl);
-              System.out.println(bllist + "WHATWHAT");
+              //// Idea for POST..
+              clientTarget.register(pf).path(this.baseUrl + "/pf");
               
-              
-              
-              
-              
-             
-              
+              //// The metaerial beneath is for POST method develop help:
               
               //// Json object format and Table create. baseline may be null.
            //{"pfId":1,"pfValue":0,"pfDate":1516575600000,"pfComment":"Baseline (Jan 2018)","pfBaseline":470}
 //CREATE TABLE PeakFlow (
 //    PF_id int NOT NULL GENERATED ALWAYS AS IDENTITY 
 //                (START WITH 1, INCREMENT BY 1),
-//    PF_value int,
+//    PF_value int NOT NULL,
 //    PF_date DATE NOT NULL,
 //    PF_comment varchar(255),
 //    PF_baseline int, 
@@ -511,6 +495,7 @@ public class MoniAstmaController implements Initializable {
                 }
                 return LocalDate.parse(dateString, dateTimeFormatter);
             }
+            
         };
         pfDatePicker.setConverter(stringConverter); 
         fromDatePicker.setConverter(stringConverter);
@@ -518,19 +503,16 @@ public class MoniAstmaController implements Initializable {
         
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-       
         getPeakflowLineChart();
         
         getHumidityChart();
         
         getAllergiesBarChart();
         
-        
-       
-
     }    
 }
 
+//// Toogled code.
 
     
 //   @FXML
