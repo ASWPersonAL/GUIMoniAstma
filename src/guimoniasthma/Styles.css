@@ -29,7 +29,7 @@ and open the template in the editor.
 
 
 .axis{
-  -fx-tick-label-font-size: 1.3em;
+  -fx-tick-label-font-size: 1em;
 }
 
 /*.chart-line-symbol{-fx-background-color:white}

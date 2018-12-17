@@ -19,12 +19,19 @@ public class Humidity implements Serializable {
     private int huValue;
     private Date huDate;
     private String huComment;
+
+    public Humidity(int huValue, Date huDate, String huComment) {
+        this();
+        this.huValue = huValue;
+        this.huDate = huDate;
+        this.huComment = huComment;
+    }
     
     
     private SimpleDateFormat dateFormat;
     
     public Humidity(){
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat = new SimpleDateFormat("dd/MM");
     }
 
     public Integer getHuId() {
@@ -50,6 +57,10 @@ public class Humidity implements Serializable {
 
     public void setHuDate(Date huDate) {
         this.huDate = huDate;
+    }
+    
+      public Date getHuDateObject() {
+        return this.huDate;
     }
 
     public String getHuComment() {

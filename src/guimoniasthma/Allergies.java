@@ -27,7 +27,7 @@ public class Allergies {
     private SimpleDateFormat dateFormat;
     
     public Allergies(){
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat = new SimpleDateFormat("dd/MM");
     }
 
     public Integer getAlId() {

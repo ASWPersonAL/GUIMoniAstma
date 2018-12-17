@@ -33,7 +33,7 @@ public class Peakflow implements Serializable {
     
     
     public Peakflow(){
-        dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        dateFormat = new SimpleDateFormat("dd/MM");
     }
 
     public Integer getPfId() {

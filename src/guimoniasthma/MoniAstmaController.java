@@ -34,6 +34,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -48,16 +49,53 @@ public class MoniAstmaController implements Initializable {
 
     private SimpleDateFormat dateFormat;
     
-    //// PostBaseline instans fields with FXML tag.
+    //// PostPeakflow instans fields with FXML tag using a peakflow apperature.
     
     @FXML
     private TextField pfValue;
     
     @FXML
-    private TextField pfComment;
+    private DatePicker pfDatePicker;
     
     @FXML
-    private DatePicker pfDatePicker;
+    private TextField pfComment;
+    
+    //// Post humidity instans fields with FXML tag using a weather application measurement.
+    
+     @FXML
+    private TextField huValue;
+    
+    @FXML
+    private DatePicker huDatePicker;
+    
+    @FXML
+    private TextField huComment;
+    
+    //// Post allergies instans fields with FXML tag using DMI pollen numbers. 
+    
+     @FXML
+    private TextField birkValue;
+     
+    @FXML
+    private TextField sagebrushValue;
+   
+    @FXML
+    private TextField elmValue;
+    
+    @FXML
+    private TextField elValue;
+  
+    @FXML
+    private TextField grassValue;
+    
+    @FXML
+    private DatePicker alDatePicker;
+    
+    @FXML
+    private TextField alComment;
+    
+   
+    
    
     //// Line chart declaration for peakflow values (with fxml tags).
 
@@ -228,7 +266,7 @@ public class MoniAstmaController implements Initializable {
        //// Developing POST method for peakflow POST.
        
          @FXML
-         public void handlePost(ActionEvent event){
+         public void handlePostPf(ActionEvent event){
              
               int pf_value = Integer.parseInt(pfValue.getText());
               System.out.println(pf_value);
@@ -253,8 +291,29 @@ public class MoniAstmaController implements Initializable {
               Response r = clientTarget.request("application/json").post(Entity.entity(pf, "application/json"));
               System.out.println(r);
     
-           
+           //getPFChartFromSearchDate();
          }
+         
+         @FXML
+         public void handlePostHu(ActionEvent event){
+             int hu_value = Integer.parseInt(huValue.getText());
+             LocalDate hu_date = huDatePicker.getValue();
+             String hu_comment = huComment.getText();
+             
+             Date dateHu = Date.from(hu_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+             
+             Humidity hu = new Humidity(hu_value, dateHu, hu_comment);
+             
+             WebTarget clientTarget;
+             Client client = ClientBuilder.newClient();
+             client.register(HumidityMessageBodyWriter.class);
+             clientTarget = client.target(this.baseUrl + "/hu");
+             
+             Response r = clientTarget.request("application/json").post(Entity.entity(hu, "application/json"));
+             System.out.println(r);
+             
+         }
+         
      
     
     @Override
@@ -280,6 +339,8 @@ public class MoniAstmaController implements Initializable {
             
         };
         pfDatePicker.setConverter(stringConverter); 
+        huDatePicker.setConverter(stringConverter);
+        
         fromDatePicker.setConverter(stringConverter);
         toDatePicker.setConverter(stringConverter);
         
@@ -289,6 +350,8 @@ public class MoniAstmaController implements Initializable {
         getHumidityChartFromSearchDate();
         getAllergiesChartFromSearchDate();
         pfDatePicker.setValue(LocalDate.now());
+        huDatePicker.setValue(LocalDate.now());
+        alDatePicker.setValue(LocalDate.now());
         
         //new Alert(Alert.AlertType.INFORMATION, "This is a box for information!").showAndWait();
 
