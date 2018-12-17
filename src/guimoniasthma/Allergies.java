@@ -22,6 +22,17 @@ public class Allergies {
     private int alGrassvalue;
     private Date alDate;
     private String alComment;
+
+    public Allergies(int alBirkvalue, int alSagebrushvalue, int alElmvalue, int alElvalue, int alGrassvalue, Date alDate, String alComment) {
+        this();
+        this.alBirkvalue = alBirkvalue;
+        this.alSagebrushvalue = alSagebrushvalue;
+        this.alElmvalue = alElmvalue;
+        this.alElvalue = alElvalue;
+        this.alGrassvalue = alGrassvalue;
+        this.alDate = alDate;
+        this.alComment = alComment;
+    }
     
     
     private SimpleDateFormat dateFormat;
@@ -84,6 +95,10 @@ public class Allergies {
 
     public void setAlDate(Date alDate) {
         this.alDate = alDate;
+    }
+    
+    public Date getAlDateObject() {
+        return this.alDate;
     }
 
     public String getAlComment() {
