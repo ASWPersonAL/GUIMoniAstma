@@ -61,7 +61,6 @@ public class MoniAstmaController implements Initializable {
     private DatePicker pfDatePicker;
    
     
-    
     //@FXML
     //private Button saveBaseline;
     
@@ -103,6 +102,8 @@ public class MoniAstmaController implements Initializable {
     private DatePicker fromDatePicker;
     @FXML
     private DatePicker toDatePicker;
+    
+    
   
  
     //// Class methods.
@@ -440,6 +441,9 @@ public class MoniAstmaController implements Initializable {
               
               LocalDate pf_date = pfDatePicker.getValue();
               System.out.println(pf_date);
+              
+                  
+
              
               String date_Text = baselineDate.getText();
               System.out.println(date_Text);
@@ -530,6 +534,8 @@ public class MoniAstmaController implements Initializable {
         
         
         getPFChartFromSearchDate();
+        
+        pfDatePicker.setValue(LocalDate.now());
         
     }    
 }
