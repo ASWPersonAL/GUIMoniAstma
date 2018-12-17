@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -9,104 +10,173 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.*?>
 
-<!--      <TextField fx:id="textFieldSearch" layoutX="69.0" layoutY="471.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />
-      <TableView fx:id="tableView" layoutX="69.0" layoutY="513.0" prefHeight="144.0" prefWidth="750.0">
-        <columns>
-          <TableColumn prefWidth="150.0" text="Id">
-              <cellValueFactory>
-                  <PropertyValueFactory property="pfMeasureid" />
-              </cellValueFactory>
-              </TableColumn>
-            <TableColumn prefWidth="200.0" text="Value">
-                 <cellValueFactory>
-                  <PropertyValueFactory property="pfValue" />
-              </cellValueFactory>
-                
-            </TableColumn>
-            <TableColumn prefWidth="200.0" text="Comment">
-                 <cellValueFactory>
-                  <PropertyValueFactory property="pfComment" />
-              </cellValueFactory>
-            </TableColumn>
-            <TableColumn prefWidth="200.0" text="Date">
-                 <cellValueFactory>
-                  <PropertyValueFactory property="pfDate" />
-              </cellValueFactory>
-            </TableColumn>
-        </columns>
-      </TableView>
-      -->
-<!--      <LineChart fx:id="chartPFdata" layoutX="14.0" layoutY="49.0" prefHeight="275.0" prefWidth="398.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </LineChart>-->
-
-<AnchorPane id="AnchorPane" prefHeight="1300.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
+<GridPane id="AnchorPane" prefHeight="1300.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
     <children>
         
         
-      <TextField fx:id="pfValue" layoutX="72.0" layoutY="156.0" prefHeight="27.0" prefWidth="231.0" promptText="peakflow value  (rounded number)" />
-      <TextField fx:id="baselineDate" layoutX="74.0" layoutY="199.0" promptText="String test" />
+      <TextField fx:id="pfValue" layoutX="124.0" layoutY="129.0" prefHeight="27.0" prefWidth="115.0" promptText="peakflow value  (rounded number)" GridPane.columnIndex="2" GridPane.rowIndex="7" />
+      <TextField fx:id="baselineDate" layoutX="123.0" layoutY="166.0" prefHeight="27.0" prefWidth="184.0" promptText="String test" GridPane.columnIndex="2" GridPane.rowIndex="11" />
 
-      <DatePicker fx:id="pfDatePicker" layoutX="72.0" layoutY="244.0" promptText="Date" />
+      <DatePicker fx:id="pfDatePicker" layoutX="122.0" layoutY="205.0" promptText="Date" GridPane.columnIndex="2" GridPane.rowIndex="9" />
      
       
-      <Button layoutX="74.0" layoutY="367.0" mnemonicParsing="false" onAction="#handlePost" text="Save Baseline value" />
+      <Button layoutX="121.0" layoutY="244.0" mnemonicParsing="false" onAction="#handlePost" text="Save peakflow value" GridPane.columnIndex="2" GridPane.rowIndex="13" />
         
-    <Text layoutX="85.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Health IT" wrappingWidth="167.25439453125">
+    <Text layoutX="26.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Health IT" wrappingWidth="167.25439453125" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <font>
             <Font size="36.0" />
          </font>
       </Text>
-      <Text fill="#1f0fd3" layoutX="85.0" layoutY="82.0" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Just health it!">
+      <Text fill="#1f0fd3" layoutX="450.0" layoutY="44.0" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asthma momitoration - Just health it!" GridPane.columnIndex="4" GridPane.rowIndex="1">
          <font>
             <Font name="Avenir Oblique" size="24.0" />
          </font>
       </Text>
-      <LineChart fx:id="pfchart" layoutX="322.0" layoutY="36.0" prefHeight="280.0" prefWidth="932.0">
+      <LineChart fx:id="pfchart" layoutX="322.0" layoutY="102.0" prefHeight="185.0" prefWidth="772.0" title="Line chart with peakflow data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="3" GridPane.rowSpan="14">
         <xAxis>
-          <CategoryAxis side="BOTTOM" fx:id="xAxisLine" />
+          <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisLine" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="yAxisLine" side="LEFT" />
+          <NumberAxis autoRanging="false" label="L per min" side="LEFT" upperBound="650" />
         </yAxis>
       </LineChart>
-      <AreaChart fx:id="hchart" layoutX="322.0" layoutY="337.0" prefHeight="194.0" prefWidth="932.0">
+      <AreaChart fx:id="hchart" layoutX="322.0" layoutY="310.0" prefHeight="251.0" prefWidth="752.0" title="Area chart with humidity data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="18" GridPane.rowSpan="12">
         <xAxis>
-          <CategoryAxis side="BOTTOM" fx:id="xAxisArea" />
+          <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisArea" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="yAxisArea" side="LEFT" />
+          <NumberAxis autoRanging="false" label="Percentage %" side="LEFT" upperBound="100" />
         </yAxis>
       </AreaChart>
-      <BarChart fx:id="alchart" layoutX="322.0" layoutY="553.0" prefHeight="194.0" prefWidth="932.0">
+      <BarChart fx:id="alchart" layoutX="322.0" layoutY="535.0" prefHeight="154.0" prefWidth="494.0" title="Bar chart with pollen data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="34" GridPane.rowSpan="14">
         <xAxis>
-          <CategoryAxis side="BOTTOM" fx:id="xAxisBar" />
+          <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisBar" />
         </xAxis>
         <yAxis>
-          <NumberAxis fx:id="yAxisBar" side="LEFT" />
+          <NumberAxis label="Amount per m3" side="LEFT" />
         </yAxis>
       </BarChart>
-      
-    <Text layoutX="438.0" layoutY="854.0" strokeType="OUTSIDE" strokeWidth="0.0" textAlignment="CENTER" wrappingWidth="132.9404296875">
-         <font>
-            <Font size="14.0" />
-         </font></Text>
-      <DatePicker fx:id="fromDatePicker" layoutX="553.0" layoutY="734.0" promptText="Start date" />
-      <DatePicker fx:id="toDatePicker" layoutX="841.0" layoutY="734.0" promptText="End date" />
-       <Button fx:id="buttonSearch" layoutX="735.0" layoutY="783.0" onAction="#handleSearchByDate" text="Search Date ">
+      <DatePicker fx:id="fromDatePicker" layoutX="553.0" layoutY="770.0" prefHeight="27.0" prefWidth="136.0" promptText="Start date" GridPane.columnIndex="5" GridPane.rowIndex="52" />
+      <DatePicker fx:id="toDatePicker" layoutX="841.0" layoutY="770.0" prefHeight="27.0" prefWidth="150.0" promptText="End date" GridPane.columnIndex="6" GridPane.rowIndex="52">
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin></DatePicker>
+       <Button fx:id="buttonSearch" alignment="CENTER_RIGHT" layoutX="735.0" layoutY="812.0" onAction="#handleSearchByDate" text="Search Date " textAlignment="RIGHT" GridPane.columnIndex="7" GridPane.rowIndex="52">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
+      <Text fill="#0909e1" layoutX="160.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input for peakflow:" underline="true" wrappingWidth="130.14013671875" GridPane.columnIndex="1" GridPane.rowIndex="5">
+         <font>
+            <Font name="System Bold" size="14.0" />
+         </font></Text>
+      <Text fill="#8d0a0a" layoutX="169.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input for humidity:" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="18">
+         <font>
+            <Font size="14.0" />
+         </font></Text>
+      <TextField layoutX="120.0" layoutY="380.0" prefHeight="27.0" prefWidth="184.0" GridPane.columnIndex="2" GridPane.rowIndex="43" />
+      <DatePicker layoutX="118.0" layoutY="418.0" GridPane.columnIndex="2" GridPane.rowIndex="47" />
+      <TextField layoutX="117.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" GridPane.columnIndex="2" GridPane.rowIndex="39" />
+      <TextField layoutX="215.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" GridPane.columnIndex="2" GridPane.rowIndex="45" />
+      <TextField layoutX="117.0" layoutY="660.0" prefHeight="27.0" prefWidth="91.0" GridPane.columnIndex="2" GridPane.rowIndex="37" />
+      <TextField layoutX="117.0" layoutY="617.0" prefHeight="27.0" prefWidth="133.0" GridPane.columnIndex="2" GridPane.rowIndex="41" />
+      <TextField layoutX="215.0" layoutY="617.0" prefHeight="27.0" prefWidth="77.0" GridPane.columnIndex="2" GridPane.rowIndex="20" />
+      <DatePicker layoutX="118.0" layoutY="700.0" GridPane.columnIndex="2" GridPane.rowIndex="22" />
+      <TextField layoutX="118.0" layoutY="740.0" prefHeight="27.0" prefWidth="167.0" GridPane.columnIndex="2" GridPane.rowIndex="24" />
+      <Button layoutX="116.0" layoutY="460.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="154.0" text="Save humidity value" GridPane.columnIndex="2" GridPane.rowIndex="26" />
+      <Button layoutX="117.0" layoutY="784.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="140.0" text="Save pollen values" GridPane.columnIndex="2" GridPane.rowIndex="51" />
+      <TextField prefHeight="27.0" prefWidth="77.0" GridPane.columnIndex="2" GridPane.rowIndex="49" />
+      <Text fill="#0614d7" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow value" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+      <Text fill="#0614d7" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow date" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+      <Text fill="#0614d7" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow comment" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+      <Text fill="#8d0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity value" GridPane.columnIndex="1" GridPane.rowIndex="20" />
+      <Text fill="#8d0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity date" GridPane.columnIndex="1" GridPane.rowIndex="22" />
+      <Text fill="#8d0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity comment" GridPane.columnIndex="1" GridPane.rowIndex="24" />
+      <Text fill="#340736" strokeType="OUTSIDE" strokeWidth="0.0" text="Input for pollen:" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="35">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Text>
+      <Text fill="#340736" strokeType="OUTSIDE" strokeWidth="0.0" GridPane.columnIndex="1" GridPane.rowIndex="35" />
+      <Text fill="#340736" strokeType="OUTSIDE" strokeWidth="0.0" text="Birk value" GridPane.columnIndex="1" GridPane.rowIndex="37" />
+      <Text fill="#340736" strokeType="OUTSIDE" strokeWidth="0.0" text="Elm value" GridPane.columnIndex="1" GridPane.rowIndex="41" />
+      <Text fill="#340736" strokeType="OUTSIDE" strokeWidth="0.0" text="Grass value" GridPane.columnIndex="1" GridPane.rowIndex="45" />
+      <Text fill="#340736" strokeType="OUTSIDE" strokeWidth="0.0" text="Pollen comment" GridPane.columnIndex="1" GridPane.rowIndex="49" />
+      <Text fill="#340736" strokeType="OUTSIDE" strokeWidth="0.0" text="Pollen date" GridPane.columnIndex="1" GridPane.rowIndex="47" />
+      <Text fill="#340736" strokeType="OUTSIDE" strokeWidth="0.0" text="Sagebrush value" GridPane.columnIndex="1" GridPane.rowIndex="39" />
+      <Text fill="#340736" strokeType="OUTSIDE" strokeWidth="0.0" text="El value" GridPane.columnIndex="1" GridPane.rowIndex="43" />
       
       
       
       
       
     </children>
-</AnchorPane>
+   <columnConstraints>
+      <ColumnConstraints maxWidth="628.0" minWidth="51.0" prefWidth="51.0" />
+      <ColumnConstraints maxWidth="628.0" minWidth="155.0" prefWidth="196.0" />
+      <ColumnConstraints maxWidth="1105.0" minWidth="161.0" prefWidth="202.0" />
+      <ColumnConstraints maxWidth="1105.0" minWidth="51.0" prefWidth="88.0" />
+      <ColumnConstraints maxWidth="783.0" minWidth="49.0" prefWidth="102.0" />
+      <ColumnConstraints maxWidth="474.0" minWidth="10.0" prefWidth="200.0" />
+      <ColumnConstraints maxWidth="299.0" minWidth="10.0" prefWidth="217.0" />
+      <ColumnConstraints maxWidth="299.0" minWidth="10.0" prefWidth="194.0" />
+      <ColumnConstraints maxWidth="299.0" minWidth="10.0" prefWidth="59.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints />
+      <RowConstraints maxHeight="150.0" minHeight="26.0" prefHeight="26.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+      <RowConstraints maxHeight="288.0" minHeight="16.0" prefHeight="32.0" />
+   </rowConstraints>
+</GridPane>
