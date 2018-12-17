@@ -23,10 +23,11 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Tooltip;
 import javafx.util.StringConverter;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -57,6 +58,9 @@ public class MoniAstmaController implements Initializable {
     
     @FXML
     private TextField pfComment;
+    
+    @FXML
+    private TableView<Peakflow> tablePfView; 
     
     //// Post humidity instans fields with FXML tag using a weather application measurement.
     
@@ -158,6 +162,20 @@ public class MoniAstmaController implements Initializable {
     
       seriesS.setName("Peak flow monitoration values");
       seriesBl.setName("Peak flow Baseline values");
+      
+      
+      ObservableList<Peakflow> data = tablePfView.getItems();
+       data.clear();
+      GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
+            };
+       List<Peakflow> peakflowsTable = clientTarget.request("application/json").get(listpf);
+       
+       
+       for(Peakflow p : peakflowsTable){
+           if(p.getPfComment().length() > 0){
+               data.add(p);
+           }
+       }
    }
        
        //// Method to seach by Date in humidity chart. 
@@ -275,6 +293,10 @@ public class MoniAstmaController implements Initializable {
               
               String date_Text = pfComment.getText();
               System.out.println(date_Text);
+              
+              ChoiceBox pfCommentBox = new ChoiceBox(FXCollections.observableArrayList(
+                 "Smoke", "Disease", "Dosage")
+);
               
               
               Date date1 = Date.from(pf_date.atStartOfDay(ZoneId.systemDefault()).toInstant());

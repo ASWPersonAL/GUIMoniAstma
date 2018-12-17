@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.text.*?>
@@ -10,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.*?>
 
-<GridPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="1300.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8"  fx:controller="guimoniasthma.MoniAstmaController">
+<GridPane id="AnchorPane" prefHeight="1300.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
     <children>
       
       <Text layoutX="26.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Health IT" wrappingWidth="167.25439453125" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -77,7 +78,7 @@
       </Text>
       
       <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Birk value" GridPane.columnIndex="1" GridPane.rowIndex="38" />
-      <TextField fx:id="birkValue"  layoutX="117.0" layoutY="660.0" prefHeight="27.0" prefWidth="91.0" promptText="birk value" GridPane.columnIndex="2" GridPane.rowIndex="38" />
+      <TextField fx:id="birkValue" layoutX="117.0" layoutY="660.0" prefHeight="27.0" prefWidth="91.0" promptText="birk value" GridPane.columnIndex="2" GridPane.rowIndex="38" />
       
       <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Sagebrush value" GridPane.columnIndex="1" GridPane.rowIndex="40" />
       <TextField fx:id="sagebrushValue" layoutX="117.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" promptText="Sagebrush value" GridPane.columnIndex="2" GridPane.rowIndex="40" />
@@ -97,7 +98,7 @@
        <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Pollen comment" GridPane.columnIndex="1" GridPane.rowIndex="50" />
        <TextField fx:id="alComment" prefHeight="27.0" prefWidth="77.0" promptText="pollen comment" GridPane.columnIndex="2" GridPane.rowIndex="50" />
       
-     <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="154.0" onAction="#handlePostAl"  text="Save pollen values" textFill="#0829e8" GridPane.columnIndex="2" GridPane.rowIndex="52" />
+     <Button mnemonicParsing="false" onAction="#handlePostAl" prefHeight="27.0" prefWidth="154.0" text="Save pollen values" textFill="#0829e8" GridPane.columnIndex="2" GridPane.rowIndex="52" />
       
       <BarChart fx:id="alchart" layoutX="322.0" layoutY="535.0" prefHeight="154.0" prefWidth="494.0" title="Bar chart with pollen data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="35" GridPane.rowSpan="14">
         <xAxis>
@@ -120,24 +121,52 @@
          </font>
       </Button>
       
-        
+         <!--<TextField fx:id="textFieldSearch" layoutX="43.0" layoutY="41.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />-->
+      <TableView fx:id="tablePfView" layoutX="9.0" layoutY="108.0" prefHeight="350.0" prefWidth="196.0" GridPane.columnIndex="8" GridPane.rowIndex="6" GridPane.rowSpan="44">
+        <columns>
+            <TableColumn text="Date">
+                 <cellValueFactory>
+                  <PropertyValueFactory property="pfDate" />
+              </cellValueFactory>
+            </TableColumn>
+            <TableColumn prefWidth="170.0" text="Comment">
+                 <cellValueFactory>
+                  <PropertyValueFactory property="pfComment" />
+              </cellValueFactory>
+            </TableColumn>
+        </columns>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <effect>
+            <Blend mode="DARKEN" opacity="0.26" />
+         </effect>
+      </TableView>
+      <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow comments" textAlignment="CENTER" underline="true" wrappingWidth="250.4814453125" GridPane.columnIndex="8" GridPane.rowIndex="4">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Text>
       
     </children>
    <columnConstraints>
-      <ColumnConstraints maxWidth="628.0" minWidth="51.0" prefWidth="51.0" />
-      <ColumnConstraints maxWidth="628.0" minWidth="155.0" prefWidth="196.0" />
-      <ColumnConstraints maxWidth="1105.0" minWidth="161.0" prefWidth="202.0" />
-      <ColumnConstraints maxWidth="1105.0" minWidth="50.0" prefWidth="50.0" />
-      <ColumnConstraints maxWidth="783.0" minWidth="49.0" prefWidth="138.0" />
+      <ColumnConstraints maxWidth="628.0" minWidth="26.0" prefWidth="29.0" />
+      <ColumnConstraints maxWidth="628.0" minWidth="155.0" prefWidth="177.0" />
+      <ColumnConstraints maxWidth="1105.0" minWidth="161.0" prefWidth="227.0" />
+      <ColumnConstraints maxWidth="1105.0" minWidth="12.0" prefWidth="12.0" />
+      <ColumnConstraints maxWidth="783.0" minWidth="49.0" prefWidth="154.0" />
       <ColumnConstraints maxWidth="474.0" minWidth="10.0" prefWidth="200.0" />
       <ColumnConstraints maxWidth="299.0" minWidth="10.0" prefWidth="217.0" />
-      <ColumnConstraints maxWidth="299.0" minWidth="10.0" prefWidth="215.0" />
-      <ColumnConstraints maxWidth="299.0" minWidth="10.0" prefWidth="36.0" />
+      <ColumnConstraints maxWidth="299.0" minWidth="10.0" prefWidth="233.0" />
+      <ColumnConstraints maxWidth="321.0" minWidth="10.0" prefWidth="253.0" />
+      <ColumnConstraints maxWidth="299.0" minWidth="0.0" prefWidth="30.0" />
+      <ColumnConstraints maxWidth="299.0" minWidth="0.0" prefWidth="0.0" />
+      <ColumnConstraints maxWidth="299.0" minWidth="0.0" prefWidth="0.0" />
    </columnConstraints>
    <rowConstraints>
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
-      <RowConstraints minHeight="10.0" prefHeight="30.0" />
+      <RowConstraints maxHeight="27.0" minHeight="10.0" prefHeight="27.0" />
+      <RowConstraints maxHeight="24.0" minHeight="10.0" prefHeight="21.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
       <RowConstraints minHeight="10.0" prefHeight="30.0" />
