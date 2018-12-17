@@ -21,11 +21,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
@@ -34,7 +33,6 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.GenericType;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
@@ -146,7 +144,8 @@ public class MoniAstmaController implements Initializable {
 
        GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
        List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
-       int baseline = 470;
+  
+       int baseline = 550;
        ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
        LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
        LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
@@ -277,7 +276,6 @@ public class MoniAstmaController implements Initializable {
               String date_Text = pfComment.getText();
               System.out.println(date_Text);
               
-              System.out.println("View input values end: ");
               
               Date date1 = Date.from(pf_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
@@ -290,6 +288,40 @@ public class MoniAstmaController implements Initializable {
                             
               Response r = clientTarget.request("application/json").post(Entity.entity(pf, "application/json"));
               System.out.println(r);
+              
+              //// Alert error er sat p[ comment lige men virker. Lav med int. 
+    
+//            String txt = pfComment.getText().trim();
+//            String msg = "Text saved: ";
+//            boolean valid = true;
+//        
+//
+//            if ((txt.isEmpty()) || (txt.length() < 5)) {
+//
+//            valid = false;
+//
+//            Alert alert = new Alert(AlertType.ERROR);
+//
+//            
+//            String s = "Text should be at least 5 characters long. " + "Enter valid text and save. ";
+//
+//            alert.setContentText(s);
+//
+//            alert.showAndWait();
+//
+//            msg = "Invalid text entered: ";
+//    
+//            
+//
+//            if (! valid) {
+//
+//            pfComment.requestFocus();
+ //}
+
+
+//}
+
+        
     
            //getPFChartFromSearchDate();
          }
@@ -366,6 +398,7 @@ public class MoniAstmaController implements Initializable {
         };
         pfDatePicker.setConverter(stringConverter); 
         huDatePicker.setConverter(stringConverter);
+        alDatePicker.setConverter(stringConverter);
         
         fromDatePicker.setConverter(stringConverter);
         toDatePicker.setConverter(stringConverter);
@@ -378,6 +411,14 @@ public class MoniAstmaController implements Initializable {
         pfDatePicker.setValue(LocalDate.now());
         huDatePicker.setValue(LocalDate.now());
         alDatePicker.setValue(LocalDate.now());
+        pfDatePicker.setShowWeekNumbers(false);
+        huDatePicker.setShowWeekNumbers(false);
+        alDatePicker.setShowWeekNumbers(false);
+        fromDatePicker.setShowWeekNumbers(false);
+        toDatePicker.setShowWeekNumbers(false);
+        
+        
+        
         
         //new Alert(Alert.AlertType.INFORMATION, "This is a box for information!").showAndWait();
 
