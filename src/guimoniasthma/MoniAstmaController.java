@@ -314,6 +314,32 @@ public class MoniAstmaController implements Initializable {
              
          }
          
+         @FXML
+         public void handlePostAl(ActionEvent event){
+             int alBirk_value = Integer.parseInt(birkValue.getText());
+             int alSagebrush_value = Integer.parseInt(sagebrushValue.getText());
+             int alElm_value = Integer.parseInt(elmValue.getText());
+             int alEl_value = Integer.parseInt(elValue.getText());
+             int alGrass_value = Integer.parseInt(grassValue.getText());
+             
+             LocalDate al_date = alDatePicker.getValue();
+             Date dateAl = Date.from(al_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+             
+             String al_comment = alComment.getText();
+             
+             Allergies al = new Allergies(alBirk_value, alSagebrush_value, alElm_value, alEl_value, alGrass_value, dateAl,al_comment );
+             
+             WebTarget clientTarget;
+             Client client = ClientBuilder.newClient();
+             client.register(AllergiesMessageBodyWriter.class);
+             clientTarget = client.target(this.baseUrl + "/al");
+             
+             Response r = clientTarget.request("application/json").post(Entity.entity(al, "application/json"));
+             System.out.println(r);
+         }
+         
+     
+         
      
     
     @Override

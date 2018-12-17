@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.*?>
 
-<GridPane id="AnchorPane" prefHeight="1300.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
+<GridPane xmlns:fx="http://javafx.com/fxml/1" id="AnchorPane" prefHeight="1300.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/8"  fx:controller="guimoniasthma.MoniAstmaController">
     <children>
       
       <Text layoutX="26.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Health IT" wrappingWidth="167.25439453125" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -77,27 +77,27 @@
       </Text>
       
       <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Birk value" GridPane.columnIndex="1" GridPane.rowIndex="38" />
-      <TextField layoutX="117.0" layoutY="660.0" prefHeight="27.0" prefWidth="91.0" promptText="birk value" GridPane.columnIndex="2" GridPane.rowIndex="38" />
+      <TextField fx:id="birkValue"  layoutX="117.0" layoutY="660.0" prefHeight="27.0" prefWidth="91.0" promptText="birk value" GridPane.columnIndex="2" GridPane.rowIndex="38" />
       
       <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Sagebrush value" GridPane.columnIndex="1" GridPane.rowIndex="40" />
-      <TextField layoutX="117.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" promptText="Sagebrush value" GridPane.columnIndex="2" GridPane.rowIndex="40" />
+      <TextField fx:id="sagebrushValue" layoutX="117.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" promptText="Sagebrush value" GridPane.columnIndex="2" GridPane.rowIndex="40" />
       
       <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Elm value" GridPane.columnIndex="1" GridPane.rowIndex="42" />
-      <TextField layoutX="117.0" layoutY="617.0" prefHeight="27.0" prefWidth="133.0" promptText="Elm value" GridPane.columnIndex="2" GridPane.rowIndex="42" />
+      <TextField fx:id="elmValue" layoutX="117.0" layoutY="617.0" prefHeight="27.0" prefWidth="133.0" promptText="Elm value" GridPane.columnIndex="2" GridPane.rowIndex="42" />
       
       <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="El value" GridPane.columnIndex="1" GridPane.rowIndex="44" />
-       <TextField layoutX="120.0" layoutY="380.0" prefHeight="27.0" prefWidth="184.0" promptText="El value" GridPane.columnIndex="2" GridPane.rowIndex="44" />
+       <TextField fx:id="elValue" layoutX="120.0" layoutY="380.0" prefHeight="27.0" prefWidth="184.0" promptText="El value" GridPane.columnIndex="2" GridPane.rowIndex="44" />
       
       <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Grass value" GridPane.columnIndex="1" GridPane.rowIndex="46" />
-      <TextField layoutX="215.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" promptText="Grass value" GridPane.columnIndex="2" GridPane.rowIndex="46" />
+      <TextField fx:id="grassValue" layoutX="215.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" promptText="Grass value" GridPane.columnIndex="2" GridPane.rowIndex="46" />
       
       <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Pollen date" GridPane.columnIndex="1" GridPane.rowIndex="48" />
        <DatePicker fx:id="alDatePicker" layoutX="118.0" layoutY="418.0" promptText="pollen date" GridPane.columnIndex="2" GridPane.rowIndex="48" />
       
        <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Pollen comment" GridPane.columnIndex="1" GridPane.rowIndex="50" />
+       <TextField fx:id="alComment" prefHeight="27.0" prefWidth="77.0" promptText="pollen comment" GridPane.columnIndex="2" GridPane.rowIndex="50" />
       
-      
-     <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="154.0" text="Save pollen values" textFill="#0829e8" GridPane.columnIndex="2" GridPane.rowIndex="52" />
+     <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="154.0" onAction="#handlePostAl"  text="Save pollen values" textFill="#0829e8" GridPane.columnIndex="2" GridPane.rowIndex="52" />
       
       <BarChart fx:id="alchart" layoutX="322.0" layoutY="535.0" prefHeight="154.0" prefWidth="494.0" title="Bar chart with pollen data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="35" GridPane.rowSpan="14">
         <xAxis>
@@ -120,7 +120,7 @@
          </font>
       </Button>
       
- 
+        
       
     </children>
    <columnConstraints>
