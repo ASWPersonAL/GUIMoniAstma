@@ -13,13 +13,7 @@
 
 <GridPane id="AnchorPane" prefHeight="1300.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
     <children>
-      
-      <Text layoutX="26.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Health IT" wrappingWidth="167.25439453125" GridPane.columnIndex="1" GridPane.rowIndex="1">
-         <font>
-            <Font name="Lucida Sans Regular" size="20.0" />
-         </font>
-      </Text>
-      <Text fill="#1f0fd3" layoutX="450.0" layoutY="44.0" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asthma monitoration - Just health it!" GridPane.columnIndex="4" GridPane.rowIndex="1">
+      <Text fill="#1f0fd3" layoutX="450.0" layoutY="44.0" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asthma monitoration" GridPane.columnIndex="5" GridPane.rowIndex="1">
          <font>
             <Font name="Gill Sans Bold" size="24.0" />
          </font>
@@ -129,7 +123,7 @@
                   <PropertyValueFactory property="pfDate" />
               </cellValueFactory>
             </TableColumn>
-            <TableColumn prefWidth="170.0" text="Comment">
+            <TableColumn prefWidth="169.0" text="Comment">
                  <cellValueFactory>
                   <PropertyValueFactory property="pfComment" />
               </cellValueFactory>

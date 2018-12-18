@@ -23,11 +23,11 @@ import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Tooltip;
 import javafx.util.StringConverter;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -121,6 +121,7 @@ public class MoniAstmaController implements Initializable {
     @FXML
     private DatePicker toDatePicker;
     
+    
   
     //// Class methods.
    
@@ -129,6 +130,7 @@ public class MoniAstmaController implements Initializable {
        private void getPFChartFromSearchDate(){
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
+       
        client.register(PeakflowMessageBodyReader.class);
        
        String fromDate = "NULL";
@@ -141,15 +143,14 @@ public class MoniAstmaController implements Initializable {
            toDate = toDatePicker.getValue().format(dateTimeFormatter);
        }
 
+       try{
        clientTarget = client
                .target(this.baseUrl + "/pf/searchByDate/{fromDate}/{toDate}")
                .resolveTemplate("fromDate", fromDate)
                .resolveTemplate("toDate", toDate);
-
        GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
-       List<Peakflow> peakflows = clientTarget.request("application/json").get(list);  
-  
-       int baseline = 550;
+       List<Peakflow> peakflows = clientTarget.request("application/json").get(list);
+        int baseline = 550;
        ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
        LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
        LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
@@ -168,14 +169,33 @@ public class MoniAstmaController implements Initializable {
        data.clear();
       GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
             };
+      
+      
        List<Peakflow> peakflowsTable = clientTarget.request("application/json").get(listpf);
        
        
        for(Peakflow p : peakflowsTable){
            if(p.getPfComment().length() > 0){
                data.add(p);
+          
            }
+          
        }
+       }catch(NullPointerException e){
+       
+            e.printStackTrace();
+       } catch(Exception e) {
+        System.out.println("Problem with server connection. Check that the server is connected.");
+        e.printStackTrace();
+        
+         Alert alert = new Alert(AlertType.ERROR);
+              String s = "Probem with server connection. Try again and please ensure that the connection is established. ";
+               alert.setTitle("Test Connection");
+               alert.setContentText(s);
+
+               alert.showAndWait();
+}
+      
    }
        
        //// Method to seach by Date in humidity chart. 
@@ -195,6 +215,7 @@ public class MoniAstmaController implements Initializable {
            toDate = toDatePicker.getValue().format(dateTimeFormatter);
        }
 
+       try{
        clientTarget = client
                .target(this.baseUrl + "/hu/searchByDate/{fromDate}/{toDate}")
                .resolveTemplate("fromDate", fromDate)
@@ -212,6 +233,14 @@ public class MoniAstmaController implements Initializable {
       areaChartData.add(seriesH);
      
       hchart.setData(areaChartData);
+       }catch(NullPointerException e){
+           e.printStackTrace();
+       }
+       catch(Exception e) {
+        System.out.println("Unexcepted Exception");
+        e.printStackTrace();
+}
+       
     
    }
         
@@ -232,6 +261,7 @@ public class MoniAstmaController implements Initializable {
            toDate = toDatePicker.getValue().format(dateTimeFormatter);
        }
 
+       try{
        clientTarget = client
                .target(this.baseUrl + "/al/searchByDate/{fromDate}/{toDate}")
                .resolveTemplate("fromDate", fromDate)
@@ -268,15 +298,23 @@ public class MoniAstmaController implements Initializable {
          seriesbarElm.setName("Elm");
          seriesbarEl.setName("El");
          seriesbarGrass.setName("Grass");
+       }catch(NullPointerException e){
+       e.printStackTrace();}
+        catch(Exception e) {
+        System.out.println("Unexcepted Exception");
+        e.printStackTrace();
+}
       
    }
        //// Method to call all three chart serahc by date functions. FXML tag and bound to onaction in button in view. 
        
        @FXML
        private void handleSearchByDate(){
+           
            getPFChartFromSearchDate();
            getHumidityChartFromSearchDate();
            getAllergiesChartFromSearchDate();
+        
            
        }
      
@@ -284,24 +322,18 @@ public class MoniAstmaController implements Initializable {
        
          @FXML
          public void handlePostPf(ActionEvent event){
+            
+             //int pf_value = 0;
              
-              int pf_value = Integer.parseInt(pfValue.getText());
-              System.out.println(pf_value);
-              
-              LocalDate pf_date = pfDatePicker.getValue();
-              System.out.println(pf_date);
+             try{
+             int pf_value = Integer.parseInt(pfValue.getText());
+               LocalDate pf_date = pfDatePicker.getValue();
               
               String date_Text = pfComment.getText();
-              System.out.println(date_Text);
-              
-              ChoiceBox pfCommentBox = new ChoiceBox(FXCollections.observableArrayList(
-                 "Smoke", "Disease", "Dosage")
-);
-              
               
               Date date1 = Date.from(pf_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-              Peakflow pf = new Peakflow(pf_value, date1, date_Text);              
+              Peakflow pf = new Peakflow(pf_value, date1, date_Text);  
               
               WebTarget clientTarget;
               Client client = ClientBuilder.newClient();
@@ -311,41 +343,27 @@ public class MoniAstmaController implements Initializable {
               Response r = clientTarget.request("application/json").post(Entity.entity(pf, "application/json"));
               System.out.println(r);
               
-              //// Alert error er sat p[ comment lige men virker. Lav med int. 
-    
-//            String txt = pfComment.getText().trim();
-//            String msg = "Text saved: ";
-//            boolean valid = true;
-//        
-//
-//            if ((txt.isEmpty()) || (txt.length() < 5)) {
-//
-//            valid = false;
-//
-//            Alert alert = new Alert(AlertType.ERROR);
-//
-//            
-//            String s = "Text should be at least 5 characters long. " + "Enter valid text and save. ";
-//
-//            alert.setContentText(s);
-//
-//            alert.showAndWait();
-//
-//            msg = "Invalid text entered: ";
-//    
-//            
-//
-//            if (! valid) {
-//
-//            pfComment.requestFocus();
- //}
+              Alert alert = new Alert(AlertType.INFORMATION);
+           
+             String s = "The peakflow input has been saved! " + "\n" + "\n" + "Please ensure to input humidity and pollen data for this date before clicking update charts!. ";
 
+             alert.setContentText(s);
 
-//}
+             alert.showAndWait();
+              
+             }catch(NumberFormatException ex){
+             System.out.println(ex + "HALLO ");
+             
+             Alert alert = new Alert(AlertType.ERROR);
+           
+             String s = "Input value for peakflow must be a rounded number!";
 
-        
-    
-           //getPFChartFromSearchDate();
+             alert.setContentText(s);
+
+             alert.showAndWait();
+             
+             }
+           
          }
          
          @FXML
@@ -365,6 +383,14 @@ public class MoniAstmaController implements Initializable {
              
              Response r = clientTarget.request("application/json").post(Entity.entity(hu, "application/json"));
              System.out.println(r);
+             
+             Alert alert = new Alert(AlertType.INFORMATION);
+           
+            String s = "The humidity input has been saved! " + "\n" + "\n" + "Please ensure to also input pollen data on this date before clicking update charts!. ";
+
+            alert.setContentText(s);
+
+            alert.showAndWait();
              
          }
          
@@ -390,6 +416,14 @@ public class MoniAstmaController implements Initializable {
              
              Response r = clientTarget.request("application/json").post(Entity.entity(al, "application/json"));
              System.out.println(r);
+             
+             Alert alert = new Alert(AlertType.INFORMATION);
+           
+            String s = "The pollen input has been saved! " + "\n" + "\n" + "Please ensure that you have made inputs for peakflow and pollen on this date before clicking update charts!. ";
+
+            alert.setContentText(s);
+
+            alert.showAndWait();
          }
          
      
