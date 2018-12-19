@@ -39,7 +39,8 @@ and open the template in the editor.
 .table-view .column-header,
 .table-view .column-header .filler,
 .table-view .column-header-background .filler {   
-    -fx-background-color: derive;
+    -fx-background-color:gainsboro;
+   
     -fx-stroke: transparent;
     -fx-size:50;
     -fx-alignment: CENTER ;    
@@ -68,3 +69,13 @@ and open the template in the editor.
     -fx-alignment: CENTER 
 
 }
+
+.button{
+    -fx-background-color:white;
+    -fx-border-color: black;
+    -fx-background-radius: 30;
+    -fx-border-radius: 30;
+        
+}
+
+ 

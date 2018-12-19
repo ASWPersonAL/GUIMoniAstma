@@ -6,6 +6,15 @@
 package guimoniasthma;
 
 
+import HttpMessageBodies.PeakflowMessageBodyWriter;
+import HttpMessageBodies.PeakflowMessageBodyReader;
+import HttpMessageBodies.HumidityMessageBodyWriter;
+import HttpMessageBodies.HumidityMessageBodyReader;
+import HttpMessageBodies.AllergiesMessageBodyReader;
+import HttpMessageBodies.AllergiesMessageBodyWriter;
+import Model.Peakflow;
+import Model.Humidity;
+import Model.Allergies;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -177,8 +186,16 @@ public class MoniAstmaController implements Initializable {
        for(Peakflow p : peakflowsTable){
            if(p.getPfComment().length() > 0){
                data.add(p);
-          
+           if(p.getPfComment() == null){
+               Alert alert = new Alert(AlertType.INFORMATION);
+              String s = "No comments."; 
+               alert.setTitle("No peakflow comments");
+               alert.setContentText(s);
+
+               alert.showAndWait();
            }
+           }
+          
           
        }
        }catch(NullPointerException e){
@@ -189,13 +206,12 @@ public class MoniAstmaController implements Initializable {
         e.printStackTrace();
         
          Alert alert = new Alert(AlertType.ERROR);
+         alert.setTitle("Connection to server");
+         alert.setHeaderText("Is the server connected?");
               String s = "Probem with server connection. Try again and please ensure that the connection is established. ";
-               alert.setTitle("Test Connection");
                alert.setContentText(s);
-
                alert.showAndWait();
-}
-      
+            }
    }
        
        //// Method to seach by Date in humidity chart. 
@@ -317,6 +333,13 @@ public class MoniAstmaController implements Initializable {
         
            
        }
+       
+       @FXML
+       private void handleGetallData(){
+       
+           
+       }
+       
      
        //// Developing POST method for peakflow POST.
        
@@ -326,8 +349,8 @@ public class MoniAstmaController implements Initializable {
              //int pf_value = 0;
              
              try{
-             int pf_value = Integer.parseInt(pfValue.getText());
-               LocalDate pf_date = pfDatePicker.getValue();
+              int pf_value = Integer.parseInt(pfValue.getText());
+              LocalDate pf_date = pfDatePicker.getValue();
               
               String date_Text = pfComment.getText();
               
@@ -368,6 +391,8 @@ public class MoniAstmaController implements Initializable {
          
          @FXML
          public void handlePostHu(ActionEvent event){
+             
+            try{
              int hu_value = Integer.parseInt(huValue.getText());
              LocalDate hu_date = huDatePicker.getValue();
              String hu_comment = huComment.getText();
@@ -391,11 +416,26 @@ public class MoniAstmaController implements Initializable {
             alert.setContentText(s);
 
             alert.showAndWait();
+            
+            }catch(NumberFormatException ex){
+             System.out.println(ex + "HALLO ");
+             
+             Alert alert = new Alert(AlertType.ERROR);
+           
+             String s = "Input value for humidity must be a rounded number!";
+
+             alert.setContentText(s);
+
+             alert.showAndWait();
+             
+             }
              
          }
          
          @FXML
          public void handlePostAl(ActionEvent event){
+            
+            try{
              int alBirk_value = Integer.parseInt(birkValue.getText());
              int alSagebrush_value = Integer.parseInt(sagebrushValue.getText());
              int alElm_value = Integer.parseInt(elmValue.getText());
@@ -424,6 +464,20 @@ public class MoniAstmaController implements Initializable {
             alert.setContentText(s);
 
             alert.showAndWait();
+            
+            }catch(NumberFormatException ex){
+             System.out.println(ex + "HALLO ");
+             
+             Alert alert = new Alert(AlertType.ERROR);
+           
+             String s = "Input value for pollen must be a rounded numbers!";
+
+             alert.setContentText(s);
+
+             alert.showAndWait();
+             
+             }            
+           
          }
          
      

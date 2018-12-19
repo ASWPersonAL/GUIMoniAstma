@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.*?>
 
-<GridPane id="AnchorPane" prefHeight="1300.0" prefWidth="1500.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
+<GridPane id="AnchorPane" prefHeight="1300.0" prefWidth="1500.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
     <children>
       <Text fill="#1f0fd3" layoutX="450.0" layoutY="44.0" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asthma monitoration" GridPane.columnIndex="5" GridPane.rowIndex="1">
          <font>
@@ -61,7 +61,7 @@
           <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisArea" />
         </xAxis>
         <yAxis>
-          <NumberAxis autoRanging="false" label="per. %" side="LEFT" upperBound="100" />
+          <NumberAxis autoRanging="false" label="\%" side="LEFT" upperBound="100" />
         </yAxis>
       </AreaChart>
       
@@ -99,48 +99,52 @@
           <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisBar" />
         </xAxis>
         <yAxis>
-          <NumberAxis label="Amount/m3" side="LEFT" />
+          <NumberAxis label="Amount/m^3" side="LEFT" />
         </yAxis>
       </BarChart>
       
       
-      <DatePicker fx:id="fromDatePicker" layoutX="553.0" layoutY="770.0" prefHeight="27.0" prefWidth="136.0" promptText="Start date" GridPane.columnIndex="5" GridPane.rowIndex="53" />
-      <DatePicker fx:id="toDatePicker" layoutX="841.0" layoutY="770.0" prefHeight="27.0" prefWidth="150.0" promptText="End date" GridPane.columnIndex="6" GridPane.rowIndex="53">
+      <DatePicker fx:id="fromDatePicker" layoutX="553.0" layoutY="770.0" prefHeight="27.0" prefWidth="136.0" promptText="Start date" GridPane.columnIndex="5" GridPane.rowIndex="50" />
+      <DatePicker fx:id="toDatePicker" layoutX="841.0" layoutY="770.0" prefHeight="27.0" prefWidth="150.0" promptText="End date" GridPane.columnIndex="6" GridPane.rowIndex="50">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></DatePicker>
-       <Button fx:id="buttonSearch" alignment="CENTER_RIGHT" layoutX="735.0" layoutY="812.0" onAction="#handleSearchByDate" prefHeight="28.0" prefWidth="211.0" text="Update charts/Search Date " textAlignment="RIGHT" GridPane.columnIndex="7" GridPane.rowIndex="53">
+       <Button fx:id="buttonSearch" alignment="CENTER_RIGHT" layoutX="735.0" layoutY="812.0" onAction="#handleSearchByDate" prefHeight="28.0" prefWidth="139.0" text="SEARCH DATES" textAlignment="CENTER" textFill="#d7940f" GridPane.columnIndex="7" GridPane.rowIndex="50">
          <font>
             <Font size="14.0" />
          </font>
       </Button>
       
          <!--<TextField fx:id="textFieldSearch" layoutX="43.0" layoutY="41.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />-->
-      <TableView fx:id="tablePfView" layoutX="9.0" layoutY="108.0" prefHeight="350.0" prefWidth="196.0" GridPane.columnIndex="8" GridPane.rowIndex="6" GridPane.rowSpan="44">
+      <TableView fx:id="tablePfView" layoutX="9.0" layoutY="108.0" prefHeight="350.0" prefWidth="196.0" GridPane.columnIndex="8" GridPane.rowIndex="6" GridPane.rowSpan="42">
         <columns>
             <TableColumn text="Date">
                  <cellValueFactory>
                   <PropertyValueFactory property="pfDate" />
               </cellValueFactory>
             </TableColumn>
-            <TableColumn prefWidth="169.0" text="Comment">
+            <TableColumn editable="false" prefWidth="169.0" sortable="false" text="Comment">
                  <cellValueFactory>
                   <PropertyValueFactory property="pfComment" />
               </cellValueFactory>
             </TableColumn>
         </columns>
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <effect>
-            <Blend mode="DARKEN" opacity="0.26" />
-         </effect>
       </TableView>
       <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow comments" textAlignment="CENTER" underline="true" wrappingWidth="250.4814453125" GridPane.columnIndex="8" GridPane.rowIndex="4">
          <font>
             <Font size="18.0" />
          </font>
       </Text>
+      <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="105.0" text="See all data" textAlignment="CENTER" textFill="#153c08" GridPane.columnIndex="8" GridPane.columnSpan="2" GridPane.rowIndex="52" GridPane.rowSpan="2">
+         <font>
+            <Font name="Avenir Roman" size="15.0" />
+         </font>
+      </Button>
+      <Button alignment="CENTER_RIGHT" onAction="#handleSearchByDate" prefHeight="42.0" prefWidth="97.0" stylesheets="@Styles.css" text="ADD DATA" textAlignment="RIGHT" textFill="#16a11d" GridPane.columnIndex="4" GridPane.rowIndex="52" GridPane.rowSpan="2">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Button>
       
     </children>
    <columnConstraints>

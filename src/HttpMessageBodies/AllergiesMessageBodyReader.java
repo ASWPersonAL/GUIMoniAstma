@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package guimoniasthma;
+package HttpMessageBodies;
 
+import Model.Allergies;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
