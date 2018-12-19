@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
@@ -131,6 +132,8 @@ public class MoniAstmaController implements Initializable {
     @FXML
     private DatePicker toDatePicker;
 
+      //System.out.println(seeDataBu.isPressed());       
+    
     //// Class methods.
    
      //// Method to seach by Date in peak flow chart. 
@@ -436,7 +439,6 @@ public class MoniAstmaController implements Initializable {
        getPeakflowLineChart();
        getHumidityChart();
        getAllergiesBarChart();
-       
        
            
        }

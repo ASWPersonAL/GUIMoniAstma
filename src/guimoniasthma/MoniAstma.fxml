@@ -58,7 +58,7 @@
       
       <AreaChart fx:id="hchart" layoutX="322.0" layoutY="310.0" prefHeight="251.0" prefWidth="752.0" title="Area chart with humidity data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="20" GridPane.rowSpan="12">
         <xAxis>
-          <CategoryAxis label="Date" side="BOTTOM"   />
+          <CategoryAxis label="Date" side="BOTTOM" />
         </xAxis>
         <yAxis>
           <NumberAxis autoRanging="false" label="\%" side="LEFT" upperBound="100" />
@@ -135,7 +135,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Button alignment="CENTER_RIGHT" onAction="#handleGetallData" prefHeight="48.0" prefWidth="150.0" text="See Data in charts" textAlignment="RIGHT" textFill="#16a11d" GridPane.columnIndex="4" GridPane.rowIndex="53" GridPane.rowSpan="3">
+      <Button fx:id="seeDataBu" alignment="CENTER_RIGHT" onAction="#handleGetallData" prefHeight="48.0" prefWidth="78.0" text="GO! GO!" textAlignment="RIGHT" textFill="#16a11d" GridPane.columnIndex="4" GridPane.rowIndex="53" GridPane.rowSpan="3">
          <font>
             <Font size="14.0" />
          </font>
