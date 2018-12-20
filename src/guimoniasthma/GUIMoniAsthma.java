@@ -9,7 +9,6 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 /**
@@ -21,7 +20,7 @@ public class GUIMoniAsthma extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         
-        Parent root = FXMLLoader.load(getClass().getResource("MoniAstma.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/View/MoniAstma.fxml"));
         
         stage.setTitle("Asthmatical");
         stage.setWidth(1300);
@@ -30,7 +29,7 @@ public class GUIMoniAsthma extends Application {
         Scene scene = new Scene(root);
        
         stage.setScene(scene);
-        scene.getStylesheets().add(getClass().getResource("Styles.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/View/Styles.css").toExternalForm());
         stage.show();
        
     }

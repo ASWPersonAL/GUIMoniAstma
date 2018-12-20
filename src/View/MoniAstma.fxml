@@ -99,7 +99,7 @@
           <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisBar" />
         </xAxis>
         <yAxis>
-          <NumberAxis label="Amount/m^3" side="LEFT" />
+          <NumberAxis label="AMT/m^3" side="LEFT" />
         </yAxis>
       </BarChart>
       

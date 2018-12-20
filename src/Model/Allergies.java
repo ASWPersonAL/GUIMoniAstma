@@ -5,6 +5,7 @@
  */
 package Model;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,7 +13,7 @@ import java.util.Date;
  *
  * @author ASW
  */
-public class Allergies {
+public class Allergies implements Serializable {
     
     private Integer alId;
     private int alBirkvalue;
