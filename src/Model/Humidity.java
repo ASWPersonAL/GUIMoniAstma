@@ -15,10 +15,14 @@ import java.util.Date;
  */
 public class Humidity implements Serializable {
     
+    
+    
     private Integer huId;
     private int huValue;
     private Date huDate;
     private String huComment;
+    
+    
 
     public Humidity(int huValue, Date huDate, String huComment) {
         this();

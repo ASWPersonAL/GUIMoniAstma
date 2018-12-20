@@ -38,6 +38,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
+import javax.inject.Inject;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -57,7 +58,36 @@ public class MoniAstmaController implements Initializable {
 
     private SimpleDateFormat dateFormat;
     
-    //// PostPeakflow instans fields with FXML tag using a peakflow apperature.
+ 
+   
+    //// Line chart declaration for peakflow values (with fxml tags).
+
+    @FXML
+    private LineChart<String,Number> pfchart;
+    
+    //// Table declaration for peakflow table view. 
+    
+    @FXML
+    private TableView<Peakflow> tablePfView; 
+   
+    //// Humidity AreaChart declaration with fxml tags.
+  
+    @FXML
+    private AreaChart<String,Number> hchart;
+    
+    //// Barchart declaration with fxml tags.
+    
+    @FXML
+    private BarChart<String,Number> alchart;
+    
+    //// FXML tagged instans field for datepickers for the Date search method.
+    
+    @FXML
+    private DatePicker fromDatePicker;
+    @FXML
+    private DatePicker toDatePicker;
+
+     //// PostPeakflow instans fields with FXML tag using a peakflow apperature.
     
     @FXML
     private TextField pfValue;
@@ -68,8 +98,7 @@ public class MoniAstmaController implements Initializable {
     @FXML
     private TextField pfComment;
     
-    @FXML
-    private TableView<Peakflow> tablePfView; 
+   
     
     //// Post humidity instans fields with FXML tag using a weather application measurement.
     
@@ -105,230 +134,9 @@ public class MoniAstmaController implements Initializable {
     @FXML
     private TextField alComment;
     
-   
+    //// GET data in charts methods.
     
-   
-    //// Line chart declaration for peakflow values (with fxml tags).
-
-    @FXML
-    private LineChart<String,Number> pfchart;
-   
-    //// HUmidity AreaChart declaration with fxml tags.
-  
-    @FXML
-    private AreaChart<String,Number> hchart;
-    
-    //// Barchart declaration with fxml tags.
-    
-    @FXML
-    private BarChart<String,Number> alchart;
-    
-    //// FXML tagged instans field for datepickers for the Date search method.
-    
-    @FXML
-    private DatePicker fromDatePicker;
-    @FXML
-    private DatePicker toDatePicker;
-
-      //System.out.println(seeDataBu.isPressed());       
-    
-    //// Class methods.
-   
-     //// Method to seach by Date in peak flow chart. 
-     
-       private void getPFChartFromSearchDate(){
-       WebTarget clientTarget;
-       Client client = ClientBuilder.newClient();
-       
-       client.register(PeakflowMessageBodyReader.class);
-       
-       String fromDate = "NULL";
-       String toDate = "NULL";
-       DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-       if (fromDatePicker.getValue() != null) {
-           fromDate = fromDatePicker.getValue().format(dateTimeFormatter);
-       }
-       if (toDatePicker.getValue() != null) {
-           toDate = toDatePicker.getValue().format(dateTimeFormatter);
-       }
-
-       try{
-       clientTarget = client
-               .target(this.baseUrl + "/pf/searchByDate/{fromDate}/{toDate}")
-               .resolveTemplate("fromDate", fromDate)
-               .resolveTemplate("toDate", toDate);
-       GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
-       List<Peakflow> peakflows = clientTarget.request("application/json").get(list);
-        int baseline = 550;
-       ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
-       LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
-       LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
-       for(Peakflow p : peakflows){
-            seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
-            seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), baseline));
-       }
-      lineChartData.addAll(seriesS,seriesBl);
-      pfchart.setData(lineChartData);
-    
-      seriesS.setName("Peak flow monitoration values");
-      seriesBl.setName("Peak flow Baseline values");
-      
-      
-      ObservableList<Peakflow> data = tablePfView.getItems();
-       data.clear();
-      GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
-            };
-      
-      
-       List<Peakflow> peakflowsTable = clientTarget.request("application/json").get(listpf);
-       
-       
-       for(Peakflow p : peakflowsTable){
-           if(p.getPfComment().length() > 0){
-               data.add(p);
-           }
-       }
-       
-       }catch(NullPointerException e){
-       
-            e.printStackTrace();
-       } catch(Exception e) {
-        System.out.println("Problem with server connection. Check that the server is connected.");
-        e.printStackTrace();
-        
-         Alert alert = new Alert(AlertType.ERROR);
-         alert.setTitle("Connection to server");
-         alert.setHeaderText("Is the server connected?");
-              String s = "Probem with server connection. Try again and please ensure that the connection is established. ";
-               alert.setContentText(s);
-               alert.showAndWait();
-            }
-   }
-       
-       //// Method to seach by Date in humidity chart. 
-       
-       private void getHumidityChartFromSearchDate(){
-       WebTarget clientTarget;
-       Client client = ClientBuilder.newClient();
-       client.register(HumidityMessageBodyReader.class);
-       
-       String fromDate = "NULL";
-       String toDate = "NULL";
-       DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-       if (fromDatePicker.getValue() != null) {
-           fromDate = fromDatePicker.getValue().format(dateTimeFormatter);
-       }
-       if (toDatePicker.getValue() != null) {
-           toDate = toDatePicker.getValue().format(dateTimeFormatter);
-       }
-
-       try{
-       clientTarget = client
-               .target(this.baseUrl + "/hu/searchByDate/{fromDate}/{toDate}")
-               .resolveTemplate("fromDate", fromDate)
-               .resolveTemplate("toDate", toDate);
-
-       GenericType<List<Humidity>> list = new GenericType<List<Humidity>>() {};
-       List<Humidity> humidities = clientTarget.request("application/json").get(list);  
-
-       ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
-       AreaChart.Series<String,Number> seriesH = new AreaChart.Series<String,Number>();
-       
-       for(Humidity h : humidities){
-            seriesH.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
-       }
-      areaChartData.add(seriesH);
-     
-      hchart.setData(areaChartData);
-      hchart.setLegendVisible(false);
-       }catch(NullPointerException e){
-           e.printStackTrace();
-       }
-       catch(Exception e) {
-        System.out.println("Unexcepted Exception");
-        e.printStackTrace();
-}
-       
-    
-   }
-        
-        //// Method to seach by Date in allergies chart.
-       
-       private void getAllergiesChartFromSearchDate(){
-       WebTarget clientTarget;
-       Client client = ClientBuilder.newClient();
-       client.register(AllergiesMessageBodyReader.class);
-       
-       String fromDate = "NULL";
-       String toDate = "NULL";
-       DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-       if (fromDatePicker.getValue() != null) {
-           fromDate = fromDatePicker.getValue().format(dateTimeFormatter);
-       }
-       if (toDatePicker.getValue() != null) {
-           toDate = toDatePicker.getValue().format(dateTimeFormatter);
-       }
-
-       try{
-       clientTarget = client
-               .target(this.baseUrl + "/al/searchByDate/{fromDate}/{toDate}")
-               .resolveTemplate("fromDate", fromDate)
-               .resolveTemplate("toDate", toDate);
-
-       GenericType<List<Allergies>> list = new GenericType<List<Allergies>>() {};
-       List<Allergies> allergyList = clientTarget.request("application/json").get(list);  
-
-        ObservableList<XYChart.Series<String,Number>> barchartData = FXCollections.observableArrayList();
-         
-         BarChart.Series<String,Number> seriesbarBirk = new BarChart.Series<String,Number>();
-         BarChart.Series<String,Number> seriesbarSage = new BarChart.Series<String,Number>();
-         BarChart.Series<String,Number> seriesbarElm = new BarChart.Series<String,Number>();
-         BarChart.Series<String,Number> seriesbarEl = new BarChart.Series<String,Number>();
-         BarChart.Series<String,Number> seriesbarGrass = new BarChart.Series<String,Number>();
-         
-         for(Allergies a : allergyList){
-             seriesbarBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
-             seriesbarSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
-             seriesbarElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
-             seriesbarEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
-             seriesbarGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
-         }
-         barchartData.add(seriesbarBirk);
-         barchartData.add(seriesbarSage);
-         barchartData.add(seriesbarElm);
-         barchartData.add(seriesbarEl);
-         barchartData.add(seriesbarGrass);
-         
-         alchart.setData(barchartData);
-         
-         seriesbarBirk.setName("Birk");
-         seriesbarSage.setName("Sagebrush");
-         seriesbarElm.setName("Elm");
-         seriesbarEl.setName("El");
-         seriesbarGrass.setName("Grass");
-       }catch(NullPointerException e){
-       e.printStackTrace();}
-        catch(Exception e) {
-        System.out.println("Unexcepted Exception");
-        e.printStackTrace();
-}
-      
-   }
-       //// Method to call all three chart serahc by date functions. FXML tag and bound to onaction in button in view. 
-       
-       @FXML
-       private void handleSearchByDate(){
-           
-           getPFChartFromSearchDate();
-           getHumidityChartFromSearchDate();
-           getAllergiesChartFromSearchDate();
-        
-          
-       }
-       
-       
-       
-       private void getPeakflowLineChart(){
+   private void getPeakflowLineChart(){
        
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
@@ -435,13 +243,12 @@ public class MoniAstmaController implements Initializable {
        private void handleGetallData(){
        
        getPeakflowLineChart();
-       getHumidityChart();
        getAllergiesBarChart();
-       
-           
+       getHumidityChart();
+      
        }
-     
-       //// Developing POST method for peakflow POST.
+    
+    //// POST method for peakflow POST.
        
          @FXML
          public void handlePostPf(ActionEvent event){
@@ -466,10 +273,11 @@ public class MoniAstmaController implements Initializable {
               Response r = clientTarget.request("application/json").post(Entity.entity(pf, "application/json"));
               System.out.println(r);
               
-              Alert alert = new Alert(AlertType.INFORMATION);
+              Alert alert = new Alert(Alert.AlertType.INFORMATION);
            
-             String s = "The peakflow input has been saved! " + "\n" + "\n" + "Please ensure to input humidity and pollen data for this date before clicking update charts!. ";
-
+             String s = "Please ensure to input humidity and pollen data for this date before clicking update charts!. ";
+             alert.setHeaderText("The peakflow input has been saved! ");
+             
              alert.setContentText(s);
 
              alert.showAndWait();
@@ -477,10 +285,10 @@ public class MoniAstmaController implements Initializable {
              }catch(NumberFormatException ex){
              System.out.println(ex + "HALLO ");
              
-             Alert alert = new Alert(AlertType.ERROR);
+             Alert alert = new Alert(Alert.AlertType.ERROR);
            
-             String s = "Input value for peakflow must be a rounded number!";
-
+             String s = "Empty input or the format of the input value is wrong. Value must be a rounded number.!";
+             alert.setHeaderText("Input missing or format is wrong");
              alert.setContentText(s);
 
              alert.showAndWait();
@@ -509,10 +317,11 @@ public class MoniAstmaController implements Initializable {
              Response r = clientTarget.request("application/json").post(Entity.entity(hu, "application/json"));
              System.out.println(r);
              
-             Alert alert = new Alert(AlertType.INFORMATION);
+             Alert alert = new Alert(Alert.AlertType.INFORMATION);
            
-            String s = "The humidity input has been saved! " + "\n" + "\n" + "Please ensure to also input pollen data on this date before clicking update charts!. ";
-
+            String s =  "Please ensure to also input pollen data on this date before clicking update charts!. ";
+            alert.setHeaderText("The humidity input has been saved! ");
+            
             alert.setContentText(s);
 
             alert.showAndWait();
@@ -520,10 +329,10 @@ public class MoniAstmaController implements Initializable {
             }catch(NumberFormatException ex){
              System.out.println(ex + "HALLO ");
              
-             Alert alert = new Alert(AlertType.ERROR);
+             Alert alert = new Alert(Alert.AlertType.ERROR);
            
-             String s = "Input value for humidity must be a rounded number!";
-
+             String s = "Empty input or the format of the input value is wrong. Value must be a rounded number.!";
+              alert.setHeaderText("Input missing or format is wrong");
              alert.setContentText(s);
 
              alert.showAndWait();
@@ -557,10 +366,11 @@ public class MoniAstmaController implements Initializable {
              Response r = clientTarget.request("application/json").post(Entity.entity(al, "application/json"));
              System.out.println(r);
              
-             Alert alert = new Alert(AlertType.INFORMATION);
+             Alert alert = new Alert(Alert.AlertType.INFORMATION);
            
-            String s = "The pollen input has been saved! " + "\n" + "\n" + "Please ensure that you have made inputs for peakflow and pollen on this date before clicking update charts!. ";
-
+            String s = "Please ensure that you have made inputs for peakflow and pollen on this date before clicking update charts!. ";
+            
+           alert.setHeaderText("The pollen input has been saved! ");
             alert.setContentText(s);
 
             alert.showAndWait();
@@ -568,10 +378,10 @@ public class MoniAstmaController implements Initializable {
             }catch(NumberFormatException ex){
              System.out.println(ex + "HALLO ");
              
-             Alert alert = new Alert(AlertType.ERROR);
+             Alert alert = new Alert(Alert.AlertType.ERROR);
            
-             String s = "Input value for pollen must be a rounded numbers!";
-
+             String s = "Empty input or the format of the input value is wrong. Value must be a rounded number.!";
+              alert.setHeaderText("Input missing or format is wrong");
              alert.setContentText(s);
 
              alert.showAndWait();
@@ -579,15 +389,196 @@ public class MoniAstmaController implements Initializable {
              }            
            
          }
-         
+               
+    
+    //// Class methods.
+   
+     //// Method to seach by Date in peak flow chart. 
      
-         
+       private void getPFChartFromSearchDate(){
+       WebTarget clientTarget;
+       Client client = ClientBuilder.newClient();
+       
+       client.register(PeakflowMessageBodyReader.class);
+       
+       String fromDate = "NULL";
+       String toDate = "NULL";
+       DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+       if (fromDatePicker.getValue() != null) {
+           fromDate = fromDatePicker.getValue().format(dateTimeFormatter);
+       }
+       if (toDatePicker.getValue() != null) {
+           toDate = toDatePicker.getValue().format(dateTimeFormatter);
+       }
+
+       try{
+       clientTarget = client
+               .target(this.baseUrl + "/pf/searchByDate/{fromDate}/{toDate}")
+               .resolveTemplate("fromDate", fromDate)
+               .resolveTemplate("toDate", toDate);
+       GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
+       List<Peakflow> peakflows = clientTarget.request("application/json").get(list);
+        int baseline = 550;
+       ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
+       LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
+       LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
+       for(Peakflow p : peakflows){
+            seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
+            seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), baseline));
+       }
+      lineChartData.addAll(seriesS,seriesBl);
+      pfchart.setData(lineChartData);
+    
+      seriesS.setName("Peak flow monitoration values");
+      seriesBl.setName("Peak flow Baseline values");
+      
+      
+      ObservableList<Peakflow> data = tablePfView.getItems();
+       data.clear();
+      GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
+            };
+      
+      
+       List<Peakflow> peakflowsTable = clientTarget.request("application/json").get(listpf);
+       
+       
+       for(Peakflow p : peakflowsTable){
+           if(p.getPfComment().length() > 0){
+               data.add(p);
+           }
+       }
+       
+       }catch(NullPointerException e){
+       
+            e.printStackTrace();
+       } catch(Exception e) {
+        System.out.println("Problem with server connection. Check that the server is connected.");
+        e.printStackTrace();
+        
+         Alert alert = new Alert(AlertType.ERROR);
+         alert.setTitle("Connection to server");
+         alert.setHeaderText("Is the server connected?");
+              String s = "Probem with server connection. Try again and please ensure that the connection is established. ";
+               alert.setContentText(s);
+               alert.showAndWait();
+            }
+   }
+       
+       //// Method to seach by Date in humidity chart. 
+       
+       private void getHumidityChartFromSearchDate(){
+       WebTarget clientTarget;
+       Client client = ClientBuilder.newClient();
+       client.register(HumidityMessageBodyReader.class);
+       
+       String fromDate = "NULL";
+       String toDate = "NULL";
+       DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+       if (fromDatePicker.getValue() != null) {
+           fromDate = fromDatePicker.getValue().format(dateTimeFormatter);
+       }
+       if (toDatePicker.getValue() != null) {
+           toDate = toDatePicker.getValue().format(dateTimeFormatter);
+       }
+
+       
+       clientTarget = client
+               .target(this.baseUrl + "/hu/searchByDate/{fromDate}/{toDate}")
+               .resolveTemplate("fromDate", fromDate)
+               .resolveTemplate("toDate", toDate);
+
+       GenericType<List<Humidity>> list = new GenericType<List<Humidity>>() {};
+       List<Humidity> humidities = clientTarget.request("application/json").get(list);  
+
+       ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
+       AreaChart.Series<String,Number> seriesH = new AreaChart.Series<String,Number>();
+       
+       for(Humidity h : humidities){
+            seriesH.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
+       }
+      areaChartData.add(seriesH);
      
+      hchart.setData(areaChartData);
+      hchart.setLegendVisible(false);
+       
+    
+   }
+        
+        //// Method to seach by Date in allergies chart.
+       
+       private void getAllergiesChartFromSearchDate(){
+       WebTarget clientTarget;
+       Client client = ClientBuilder.newClient();
+       client.register(AllergiesMessageBodyReader.class);
+       
+       String fromDate = "NULL";
+       String toDate = "NULL";
+       DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+       if (fromDatePicker.getValue() != null) {
+           fromDate = fromDatePicker.getValue().format(dateTimeFormatter);
+       }
+       if (toDatePicker.getValue() != null) {
+           toDate = toDatePicker.getValue().format(dateTimeFormatter);
+       }
+
+      
+       clientTarget = client
+               .target(this.baseUrl + "/al/searchByDate/{fromDate}/{toDate}")
+               .resolveTemplate("fromDate", fromDate)
+               .resolveTemplate("toDate", toDate);
+
+       GenericType<List<Allergies>> list = new GenericType<List<Allergies>>() {};
+       List<Allergies> allergyList = clientTarget.request("application/json").get(list);  
+
+        ObservableList<XYChart.Series<String,Number>> barchartData = FXCollections.observableArrayList();
+         
+         BarChart.Series<String,Number> seriesbarBirk = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarSage = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarElm = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarEl = new BarChart.Series<String,Number>();
+         BarChart.Series<String,Number> seriesbarGrass = new BarChart.Series<String,Number>();
+         
+         for(Allergies a : allergyList){
+             seriesbarBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
+             seriesbarSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
+             seriesbarElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
+             seriesbarEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
+             seriesbarGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
+         }
+         barchartData.add(seriesbarBirk);
+         barchartData.add(seriesbarSage);
+         barchartData.add(seriesbarElm);
+         barchartData.add(seriesbarEl);
+         barchartData.add(seriesbarGrass);
+         
+         alchart.setData(barchartData);
+         
+         seriesbarBirk.setName("Birk");
+         seriesbarSage.setName("Sagebrush");
+         seriesbarElm.setName("Elm");
+         seriesbarEl.setName("El");
+         seriesbarGrass.setName("Grass");
+
+      
+   }
+       //// Method to call all three chart serahc by date functions. FXML tag and bound to onaction in button in view. 
+       
+       @FXML
+       private void handleSearchByDate(){
+           getPFChartFromSearchDate();
+           getHumidityChartFromSearchDate();
+           getAllergiesChartFromSearchDate();
+          
+       }
+       
+       
+       
+       
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
     
-        
+        handleGetallData();
          StringConverter stringConverter = new StringConverter<LocalDate>() {
             private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             
@@ -608,31 +599,29 @@ public class MoniAstmaController implements Initializable {
             }
             
         };
-        pfDatePicker.setConverter(stringConverter); 
-        huDatePicker.setConverter(stringConverter);
-        alDatePicker.setConverter(stringConverter);
+     
         
         fromDatePicker.setConverter(stringConverter);
         toDatePicker.setConverter(stringConverter);
         
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 
-        getPFChartFromSearchDate();
-        getHumidityChartFromSearchDate();
-        getAllergiesChartFromSearchDate();
+        
+        
+        fromDatePicker.setShowWeekNumbers(false);
+        toDatePicker.setShowWeekNumbers(false);
+        
+        pfDatePicker.setConverter(stringConverter); 
+        huDatePicker.setConverter(stringConverter);
+        alDatePicker.setConverter(stringConverter);
+        
+        
         pfDatePicker.setValue(LocalDate.now());
         huDatePicker.setValue(LocalDate.now());
         alDatePicker.setValue(LocalDate.now());
         pfDatePicker.setShowWeekNumbers(false);
         huDatePicker.setShowWeekNumbers(false);
         alDatePicker.setShowWeekNumbers(false);
-        fromDatePicker.setShowWeekNumbers(false);
-        toDatePicker.setShowWeekNumbers(false);
-        
-        
-       
-        
-        //new Alert(Alert.AlertType.INFORMATION, "This is a box for information!").showAndWait();
 
     }    
 }
