@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.AreaChart;
@@ -267,7 +266,7 @@ public class MoniAstmaController implements Initializable {
     //// POST method for peakflow POST. All including FXML tags for view binding to buttons.
        
     @FXML
-    public void handlePostPf(ActionEvent event){
+    public void handlePostPf(){
        try{
         int pf_value = Integer.parseInt(pfValue.getText());
         LocalDate pf_dateView = pfDatePicker.getValue();
@@ -290,7 +289,7 @@ public class MoniAstmaController implements Initializable {
     }
            
     @FXML
-    public void handlePostHu(ActionEvent event){
+    public void handlePostHu(){
        try{
         int hu_value = Integer.parseInt(huValue.getText());
         LocalDate hu_dateView = huDatePicker.getValue();
@@ -313,7 +312,7 @@ public class MoniAstmaController implements Initializable {
     }
          
     @FXML
-    public void handlePostAl(ActionEvent event){
+    public void handlePostAl(){
        try{
         int alBirk_value = Integer.parseInt(birkValue.getText());
         int alSagebrush_value = Integer.parseInt(sagebrushValue.getText());
