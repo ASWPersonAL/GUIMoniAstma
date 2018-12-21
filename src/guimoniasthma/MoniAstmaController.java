@@ -244,14 +244,7 @@ public class MoniAstmaController implements Initializable {
              seriesEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
              seriesGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
         }
-         
        barChartData.addAll(seriesBirk,seriesSage,seriesElm, seriesEl, seriesGrass);
-//       barChartData.add(seriesBirk);
-//       barChartData.add(seriesSage);
-//       barChartData.add(seriesElm);
-//       barChartData.add(seriesEl);
-//       barChartData.add(seriesGrass);
-         
        alchart.setData(barChartData);
          
        seriesBirk.setName("Birk");
@@ -466,16 +459,8 @@ public class MoniAstmaController implements Initializable {
             seriesElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
             seriesEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
             seriesGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
-        }
-        
+        }        
         barChartData.addAll(seriesBirk,seriesSage,seriesElm, seriesEl, seriesGrass);
-        
-//        barChartData.add(seriesBirk);
-//        barChartData.add(seriesSage);
-//        barChartData.add(seriesElm);
-//        barChartData.add(seriesEl);
-//        barChartData.add(seriesGrass);
-         
         alchart.setData(barChartData);
          
         seriesBirk.setName("Birk");
