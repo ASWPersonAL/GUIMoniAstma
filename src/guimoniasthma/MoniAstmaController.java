@@ -171,9 +171,8 @@ public class MoniAstmaController implements Initializable {
        client.register(PeakflowMessageBodyReader.class);
        clientTarget = client.target(this.baseUrl + "/pf");
         
-       GenericType<List<Peakflow>> pflist = new GenericType<List<Peakflow>>() {};
-       List<Peakflow> peakflows = clientTarget.request("application/json").get(pflist);
-       //int baseline = 550;
+       GenericType<List<Peakflow>> pfList = new GenericType<List<Peakflow>>() {};
+       List<Peakflow> peakflows = clientTarget.request("application/json").get(pfList);
        ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
        LineChart.Series<String,Number> seriesPf = new LineChart.Series<String,Number>();
        LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
@@ -199,15 +198,15 @@ public class MoniAstmaController implements Initializable {
         }
     }
        
-    public void getHumidityChart(){
+    public void getHumidityAreaChart(){
       try{
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(HumidityMessageBodyReader.class);
        clientTarget = client.target(this.baseUrl + "/hu");
 
-       GenericType<List<Humidity>> list = new GenericType<List<Humidity>>() {};
-       List<Humidity> humidities = clientTarget.request("application/json").get(list);  
+       GenericType<List<Humidity>> huList = new GenericType<List<Humidity>>() {};
+       List<Humidity> humidities = clientTarget.request("application/json").get(huList);  
        ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
        AreaChart.Series<String,Number> seriesH = new AreaChart.Series<String,Number>();
        
@@ -228,37 +227,38 @@ public class MoniAstmaController implements Initializable {
        client.register(AllergiesMessageBodyReader.class);
        clientTarget = client.target(this.baseUrl + "/al");
 
-       GenericType<List<Allergies>> list = new GenericType<List<Allergies>>() {};
-       List<Allergies> allergyList = clientTarget.request("application/json").get(list);  
-       ObservableList<XYChart.Series<String,Number>> barchartData = FXCollections.observableArrayList();
+       GenericType<List<Allergies>> alList = new GenericType<List<Allergies>>() {};
+       List<Allergies> allergyList = clientTarget.request("application/json").get(alList);  
+       ObservableList<XYChart.Series<String,Number>> barChartData = FXCollections.observableArrayList();
          
-       BarChart.Series<String,Number> seriesbarBirk = new BarChart.Series<String,Number>();
-       BarChart.Series<String,Number> seriesbarSage = new BarChart.Series<String,Number>();
-       BarChart.Series<String,Number> seriesbarElm = new BarChart.Series<String,Number>();
-       BarChart.Series<String,Number> seriesbarEl = new BarChart.Series<String,Number>();
-       BarChart.Series<String,Number> seriesbarGrass = new BarChart.Series<String,Number>();
+       BarChart.Series<String,Number> seriesBirk = new BarChart.Series<String,Number>();
+       BarChart.Series<String,Number> seriesSage = new BarChart.Series<String,Number>();
+       BarChart.Series<String,Number> seriesElm = new BarChart.Series<String,Number>();
+       BarChart.Series<String,Number> seriesEl = new BarChart.Series<String,Number>();
+       BarChart.Series<String,Number> seriesGrass = new BarChart.Series<String,Number>();
          
        for(Allergies a : allergyList){
-             seriesbarBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
-             seriesbarSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
-             seriesbarElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
-             seriesbarEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
-             seriesbarGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
+             seriesBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
+             seriesSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
+             seriesElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
+             seriesEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
+             seriesGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
         }
          
-       barchartData.add(seriesbarBirk);
-       barchartData.add(seriesbarSage);
-       barchartData.add(seriesbarElm);
-       barchartData.add(seriesbarEl);
-       barchartData.add(seriesbarGrass);
+       barChartData.addAll(seriesBirk,seriesSage,seriesElm, seriesEl, seriesGrass);
+//       barChartData.add(seriesBirk);
+//       barChartData.add(seriesSage);
+//       barChartData.add(seriesElm);
+//       barChartData.add(seriesEl);
+//       barChartData.add(seriesGrass);
          
-       alchart.setData(barchartData);
+       alchart.setData(barChartData);
          
-       seriesbarBirk.setName("Birk");
-       seriesbarSage.setName("Sagebrush");
-       seriesbarElm.setName("Elm");
-       seriesbarEl.setName("El");
-       seriesbarGrass.setName("Grass");
+       seriesBirk.setName("Birk");
+       seriesSage.setName("Sagebrush");
+       seriesElm.setName("Elm");
+       seriesEl.setName("El");
+       seriesGrass.setName("Grass");
        }catch(ProcessingException e){}
     }
       
@@ -268,7 +268,7 @@ public class MoniAstmaController implements Initializable {
     public void getAllCharts(){
         getPeakflowLineChart();
         getAllergiesBarChart();
-        getHumidityChart();
+        getHumidityAreaChart();
     }
     
     //// POST method for peakflow POST. All including FXML tags for view binding to buttons.
@@ -277,10 +277,10 @@ public class MoniAstmaController implements Initializable {
     public void handlePostPf(ActionEvent event){
        try{
         int pf_value = Integer.parseInt(pfValue.getText());
-        LocalDate pf_date = pfDatePicker.getValue();
+        LocalDate pf_dateView = pfDatePicker.getValue();
         String pf_comment = pfComment.getText();
-        Date datePf = Date.from(pf_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Peakflow pf = new Peakflow(pf_value, datePf, pf_comment);  
+        Date pf_date = Date.from(pf_dateView.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Peakflow pf = new Peakflow(pf_value, pf_date, pf_comment);  
 
         WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
@@ -300,10 +300,10 @@ public class MoniAstmaController implements Initializable {
     public void handlePostHu(ActionEvent event){
        try{
         int hu_value = Integer.parseInt(huValue.getText());
-        LocalDate hu_date = huDatePicker.getValue();
+        LocalDate hu_dateView = huDatePicker.getValue();
         String hu_comment = huComment.getText();
-        Date dateHu = Date.from(hu_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
-        Humidity hu = new Humidity(hu_value, dateHu, hu_comment);
+        Date hu_date = Date.from(hu_dateView.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        Humidity hu = new Humidity(hu_value, hu_date, hu_comment);
              
         WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
@@ -327,10 +327,10 @@ public class MoniAstmaController implements Initializable {
         int alElm_value = Integer.parseInt(elmValue.getText());
         int alEl_value = Integer.parseInt(elValue.getText());
         int alGrass_value = Integer.parseInt(grassValue.getText());
-        LocalDate al_date = alDatePicker.getValue();
-        Date dateAl = Date.from(al_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        LocalDate al_dateView = alDatePicker.getValue();
+        Date al_date = Date.from(al_dateView.atStartOfDay(ZoneId.systemDefault()).toInstant());
         String al_comment = alComment.getText();
-        Allergies al = new Allergies(alBirk_value, alSagebrush_value, alElm_value, alEl_value, alGrass_value, dateAl,al_comment );
+        Allergies al = new Allergies(alBirk_value, alSagebrush_value, alElm_value, alEl_value, alGrass_value, al_date,al_comment );
              
         WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
@@ -369,8 +369,8 @@ public class MoniAstmaController implements Initializable {
                 .resolveTemplate("fromDate", fromDate)
                 .resolveTemplate("toDate", toDate);
        
-        GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
-        List<Peakflow> peakflows = clientTarget.request("application/json").get(list);
+        GenericType<List<Peakflow>> pfList = new GenericType<List<Peakflow>>() {};
+        List<Peakflow> peakflows = clientTarget.request("application/json").get(pfList);
         ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
         LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
         LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
@@ -413,8 +413,8 @@ public class MoniAstmaController implements Initializable {
                 .resolveTemplate("fromDate", fromDate)
                 .resolveTemplate("toDate", toDate);
 
-        GenericType<List<Humidity>> list = new GenericType<List<Humidity>>() {};
-        List<Humidity> humidities = clientTarget.request("application/json").get(list);  
+        GenericType<List<Humidity>> huList = new GenericType<List<Humidity>>() {};
+        List<Humidity> humidities = clientTarget.request("application/json").get(huList);  
 
         ObservableList<XYChart.Series<String, Number>> areaChartData = FXCollections.observableArrayList();
         AreaChart.Series<String,Number> seriesH = new AreaChart.Series<String,Number>();
@@ -450,36 +450,39 @@ public class MoniAstmaController implements Initializable {
                 .resolveTemplate("fromDate", fromDate)
                 .resolveTemplate("toDate", toDate);
 
-        GenericType<List<Allergies>> list = new GenericType<List<Allergies>>() {};
-        List<Allergies> allergyList = clientTarget.request("application/json").get(list);  
-        ObservableList<XYChart.Series<String,Number>> barchartData = FXCollections.observableArrayList();
+        GenericType<List<Allergies>> alList = new GenericType<List<Allergies>>() {};
+        List<Allergies> allergyList = clientTarget.request("application/json").get(alList);  
+        ObservableList<XYChart.Series<String,Number>> barChartData = FXCollections.observableArrayList();
         
-        BarChart.Series<String,Number> seriesbarBirk = new BarChart.Series<String,Number>();
-        BarChart.Series<String,Number> seriesbarSage = new BarChart.Series<String,Number>();
-        BarChart.Series<String,Number> seriesbarElm = new BarChart.Series<String,Number>();
-        BarChart.Series<String,Number> seriesbarEl = new BarChart.Series<String,Number>();
-        BarChart.Series<String,Number> seriesbarGrass = new BarChart.Series<String,Number>();
+        BarChart.Series<String,Number> seriesBirk = new BarChart.Series<String,Number>();
+        BarChart.Series<String,Number> seriesSage = new BarChart.Series<String,Number>();
+        BarChart.Series<String,Number> seriesElm = new BarChart.Series<String,Number>();
+        BarChart.Series<String,Number> seriesEl = new BarChart.Series<String,Number>();
+        BarChart.Series<String,Number> seriesGrass = new BarChart.Series<String,Number>();
          
         for(Allergies a : allergyList){
-            seriesbarBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
-            seriesbarSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
-            seriesbarElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
-            seriesbarEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
-            seriesbarGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
+            seriesBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
+            seriesSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
+            seriesElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
+            seriesEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
+            seriesGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
         }
-        barchartData.add(seriesbarBirk);
-        barchartData.add(seriesbarSage);
-        barchartData.add(seriesbarElm);
-        barchartData.add(seriesbarEl);
-        barchartData.add(seriesbarGrass);
+        
+        barChartData.addAll(seriesBirk,seriesSage,seriesElm, seriesEl, seriesGrass);
+        
+//        barChartData.add(seriesBirk);
+//        barChartData.add(seriesSage);
+//        barChartData.add(seriesElm);
+//        barChartData.add(seriesEl);
+//        barChartData.add(seriesGrass);
          
-        alchart.setData(barchartData);
+        alchart.setData(barChartData);
          
-        seriesbarBirk.setName("Birk");
-        seriesbarSage.setName("Sagebrush");
-        seriesbarElm.setName("Elm");
-        seriesbarEl.setName("El");
-        seriesbarGrass.setName("Grass");
+        seriesBirk.setName("Birk");
+        seriesSage.setName("Sagebrush");
+        seriesElm.setName("Elm");
+        seriesEl.setName("El");
+        seriesGrass.setName("Grass");
     }
        
     //// Method to call all three chart serahc by date functions. FXML tag and bound to onaction in button in view. 
