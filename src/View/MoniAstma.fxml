@@ -105,7 +105,7 @@
       
       
       <DatePicker fx:id="fromDatePicker" layoutX="553.0" layoutY="770.0" prefHeight="27.0" prefWidth="136.0" promptText="Start date" GridPane.columnIndex="5" GridPane.rowIndex="51" />
-      <DatePicker fx:id="toDatePicker" layoutX="841.0" layoutY="770.0" prefHeight="27.0" prefWidth="150.0" promptText="End date" GridPane.columnIndex="6" GridPane.rowIndex="51">
+      <DatePicker fx:id="toDatePicker" layoutX="841.0" layoutY="770.0" prefHeight="27.0" prefWidth="136.0" promptText="End date" GridPane.columnIndex="6" GridPane.rowIndex="51">
          <GridPane.margin>
             <Insets />
          </GridPane.margin></DatePicker>
@@ -135,7 +135,7 @@
             <Font size="18.0" />
          </font>
       </Text>
-      <Button fx:id="seeDataBu" alignment="CENTER_RIGHT" onAction="#handleGetallData" prefHeight="48.0" prefWidth="78.0" text="GO! GO!" textAlignment="RIGHT" textFill="#16a11d" GridPane.columnIndex="4" GridPane.rowIndex="53" GridPane.rowSpan="3">
+      <Button fx:id="seeDataBu" alignment="CENTER_RIGHT" onAction="#getAllCharts" prefHeight="48.0" prefWidth="78.0" text="GO! GO!" textAlignment="RIGHT" textFill="#16a11d" GridPane.columnIndex="4" GridPane.rowIndex="53" GridPane.rowSpan="3">
          <font>
             <Font size="14.0" />
          </font>

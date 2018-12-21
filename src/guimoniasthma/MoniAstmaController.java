@@ -12,6 +12,7 @@ import HttpMessageBodies.HumidityMessageBodyWriter;
 import HttpMessageBodies.HumidityMessageBodyReader;
 import HttpMessageBodies.AllergiesMessageBodyReader;
 import HttpMessageBodies.AllergiesMessageBodyWriter;
+import Model.Alerts;
 import Model.Peakflow;
 import Model.Humidity;
 import Model.Allergies;
@@ -38,7 +39,7 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.util.StringConverter;
-import javax.inject.Inject;
+import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -50,15 +51,25 @@ import javax.ws.rs.core.Response;
  *
  * @author ASW
  */
+
+
+
 public class MoniAstmaController implements Initializable {
     
+    //// Instans of class Alerts in Model package.
+    
+     Alerts alert = new Alerts();
+
     //// General instans fields.
    
     private String baseUrl = "http://localhost:8080/ServerSideMoniAsthma/webresources";
 
     private SimpleDateFormat dateFormat;
     
- 
+    private int baseline = 550;
+    
+    //public String sErrorHeader = "Input missing or format is wrong ";
+    //public String sErrorContext = "Empty input or the format of the input value is wrong. Value must be a rounded number.!";
    
     //// Line chart declaration for peakflow values (with fxml tags).
 
@@ -98,7 +109,6 @@ public class MoniAstmaController implements Initializable {
     @FXML
     private TextField pfComment;
     
-   
     
     //// Post humidity instans fields with FXML tag using a weather application measurement.
     
@@ -133,50 +143,51 @@ public class MoniAstmaController implements Initializable {
     
     @FXML
     private TextField alComment;
+
     
     //// GET data in charts methods.
     
    private void getPeakflowLineChart(){
        
-       WebTarget clientTarget;
-       Client client = ClientBuilder.newClient();
-       
-       client.register(PeakflowMessageBodyReader.class);
-       
-           clientTarget = client.target(this.baseUrl + "/pf");
-              
-       GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
-       List<Peakflow> peakflows = clientTarget.request("application/json").get(list);
-       int baseline = 550;
+        try{
+        WebTarget clientTarget;
+        Client client = ClientBuilder.newClient();
+        client.register(PeakflowMessageBodyReader.class);
+        clientTarget = client.target(this.baseUrl + "/pf");
+        
+        
+       GenericType<List<Peakflow>> pflist = new GenericType<List<Peakflow>>() {};
+       List<Peakflow> peakflows = clientTarget.request("application/json").get(pflist);
+       //int baseline = 550;
        ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
-       LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
+       LineChart.Series<String,Number> seriesPf = new LineChart.Series<String,Number>();
        LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
-       for(Peakflow p : peakflows){
-            seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
-            seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), baseline));
-       }
-      lineChartData.addAll(seriesS,seriesBl);
-      pfchart.setData(lineChartData);
-    
-      seriesS.setName("Peak flow monitoration values");
-      seriesBl.setName("Peak flow Baseline values");
-      
-      
-      ObservableList<Peakflow> data = tablePfView.getItems();
-      data.clear();
-      GenericType<List<Peakflow>> listpf = new GenericType<List<Peakflow>>() {
-            };
-       List<Peakflow> peakflowsTable = clientTarget.request("application/json").get(listpf);
+       ObservableList<Peakflow> data = tablePfView.getItems();
+       data.clear();
        
-       for(Peakflow p : peakflowsTable){
-           if(p.getPfComment().length() > 0){
+       for(Peakflow p : peakflows){
+            seriesPf.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
+            seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), baseline));
+             if(p.getPfComment().length() > 0){
                data.add(p);
            }
        }
-    }
+      lineChartData.addAll(seriesPf,seriesBl);
+      pfchart.setData(lineChartData);
+    
+      seriesPf.setName("Peak flow monitoration values");
+      seriesBl.setName("Peak flow Baseline values");
+      
+      } catch(ProcessingException e) {
+        System.out.println(e);
+        e.printStackTrace();
+        alert.getNoServerConError();
+        }
+        
+  }
        
        public void getHumidityChart(){
-       
+       try{
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(HumidityMessageBodyReader.class);
@@ -193,13 +204,15 @@ public class MoniAstmaController implements Initializable {
             seriesH.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
             }
        
-       areaChartData.add(seriesH);
+        areaChartData.add(seriesH);
         hchart.setData(areaChartData);
         hchart.setLegendVisible(false);
+       }catch(ProcessingException e){}
     }
        
        public void getAllergiesBarChart(){
        
+       try{
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(AllergiesMessageBodyReader.class);
@@ -237,23 +250,20 @@ public class MoniAstmaController implements Initializable {
          seriesbarElm.setName("Elm");
          seriesbarEl.setName("El");
          seriesbarGrass.setName("Grass");
+       }catch(ProcessingException e){}
        }
 
        @FXML
-       private void handleGetallData(){
-       
-       getPeakflowLineChart();
-       getAllergiesBarChart();
-       getHumidityChart();
-      
+       public void getAllCharts(){
+            getPeakflowLineChart();
+            getAllergiesBarChart();
+            getHumidityChart();
        }
     
     //// POST method for peakflow POST.
        
          @FXML
          public void handlePostPf(ActionEvent event){
-            
-             //int pf_value = 0;
              
              try{
               int pf_value = Integer.parseInt(pfValue.getText());
@@ -261,9 +271,9 @@ public class MoniAstmaController implements Initializable {
               
               String date_Text = pfComment.getText();
               
-              Date date1 = Date.from(pf_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
+              Date date = Date.from(pf_date.atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-              Peakflow pf = new Peakflow(pf_value, date1, date_Text);  
+              Peakflow pf = new Peakflow(pf_value, date, date_Text);  
               
               WebTarget clientTarget;
               Client client = ClientBuilder.newClient();
@@ -273,29 +283,13 @@ public class MoniAstmaController implements Initializable {
               Response r = clientTarget.request("application/json").post(Entity.entity(pf, "application/json"));
               System.out.println(r);
               
-              Alert alert = new Alert(Alert.AlertType.INFORMATION);
-           
-             String s = "Please ensure to input humidity and pollen data for this date before clicking update charts!. ";
-             alert.setHeaderText("The peakflow input has been saved! ");
-             
-             alert.setContentText(s);
-
-             alert.showAndWait();
+              alert.getPostPfSuccesInfo();
               
              }catch(NumberFormatException ex){
-             System.out.println(ex + "HALLO ");
-             
-             Alert alert = new Alert(Alert.AlertType.ERROR);
-           
-             String s = "Empty input or the format of the input value is wrong. Value must be a rounded number.!";
-             alert.setHeaderText("Input missing or format is wrong");
-             alert.setContentText(s);
-
-             alert.showAndWait();
-             
+               alert.getPostAlertError();
              }
-           
          }
+         
          
          @FXML
          public void handlePostHu(ActionEvent event){
@@ -317,27 +311,12 @@ public class MoniAstmaController implements Initializable {
              Response r = clientTarget.request("application/json").post(Entity.entity(hu, "application/json"));
              System.out.println(r);
              
-             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-           
-            String s =  "Please ensure to also input pollen data on this date before clicking update charts!. ";
-            alert.setHeaderText("The humidity input has been saved! ");
-            
-            alert.setContentText(s);
-
-            alert.showAndWait();
+             alert.getPostHuSuccesInfo();
             
             }catch(NumberFormatException ex){
-             System.out.println(ex + "HALLO ");
              
-             Alert alert = new Alert(Alert.AlertType.ERROR);
-           
-             String s = "Empty input or the format of the input value is wrong. Value must be a rounded number.!";
-              alert.setHeaderText("Input missing or format is wrong");
-             alert.setContentText(s);
-
-             alert.showAndWait();
-             
-             }
+                alert.getPostAlertError();
+            }
              
          }
          
@@ -366,28 +345,12 @@ public class MoniAstmaController implements Initializable {
              Response r = clientTarget.request("application/json").post(Entity.entity(al, "application/json"));
              System.out.println(r);
              
-             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-           
-            String s = "Please ensure that you have made inputs for peakflow and pollen on this date before clicking update charts!. ";
-            
-           alert.setHeaderText("The pollen input has been saved! ");
-            alert.setContentText(s);
-
-            alert.showAndWait();
+             alert.getPostAlSuccesInfo();
             
             }catch(NumberFormatException ex){
-             System.out.println(ex + "HALLO ");
-             
-             Alert alert = new Alert(Alert.AlertType.ERROR);
-           
-             String s = "Empty input or the format of the input value is wrong. Value must be a rounded number.!";
-              alert.setHeaderText("Input missing or format is wrong");
-             alert.setContentText(s);
-
-             alert.showAndWait();
+             alert.getPostAlertError();
              
              }            
-           
          }
                
     
@@ -411,14 +374,14 @@ public class MoniAstmaController implements Initializable {
            toDate = toDatePicker.getValue().format(dateTimeFormatter);
        }
 
-       try{
+      
        clientTarget = client
                .target(this.baseUrl + "/pf/searchByDate/{fromDate}/{toDate}")
                .resolveTemplate("fromDate", fromDate)
                .resolveTemplate("toDate", toDate);
        GenericType<List<Peakflow>> list = new GenericType<List<Peakflow>>() {};
        List<Peakflow> peakflows = clientTarget.request("application/json").get(list);
-        int baseline = 550;
+        //int baseline = 550;
        ObservableList<XYChart.Series<String, Number>> lineChartData = FXCollections.observableArrayList();
        LineChart.Series<String,Number> seriesS = new LineChart.Series<String,Number>();
        LineChart.Series<String,Number> seriesBl = new LineChart.Series<String,Number>();
@@ -447,21 +410,6 @@ public class MoniAstmaController implements Initializable {
                data.add(p);
            }
        }
-       
-       }catch(NullPointerException e){
-       
-            e.printStackTrace();
-       } catch(Exception e) {
-        System.out.println("Problem with server connection. Check that the server is connected.");
-        e.printStackTrace();
-        
-         Alert alert = new Alert(AlertType.ERROR);
-         alert.setTitle("Connection to server");
-         alert.setHeaderText("Is the server connected?");
-              String s = "Probem with server connection. Try again and please ensure that the connection is established. ";
-               alert.setContentText(s);
-               alert.showAndWait();
-            }
    }
        
        //// Method to seach by Date in humidity chart. 
@@ -558,9 +506,10 @@ public class MoniAstmaController implements Initializable {
          seriesbarElm.setName("Elm");
          seriesbarEl.setName("El");
          seriesbarGrass.setName("Grass");
-
       
    }
+       
+       
        //// Method to call all three chart serahc by date functions. FXML tag and bound to onaction in button in view. 
        
        @FXML
@@ -568,18 +517,14 @@ public class MoniAstmaController implements Initializable {
            getPFChartFromSearchDate();
            getHumidityChartFromSearchDate();
            getAllergiesChartFromSearchDate();
-          
        }
-       
-       
-       
-       
     
     @Override
     public void initialize(URL url, ResourceBundle rb) { 
     
-        handleGetallData();
-         StringConverter stringConverter = new StringConverter<LocalDate>() {
+        getAllCharts();
+      
+        StringConverter stringConverter = new StringConverter<LocalDate>() {
             private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
             
             @Override
@@ -589,7 +534,6 @@ public class MoniAstmaController implements Initializable {
                 }
                 return dateTimeFormatter.format(localDate);
             }
-            
             @Override
             public LocalDate fromString(String dateString) {
                 if (dateString == null || dateString.trim().isEmpty()) {
@@ -597,32 +541,22 @@ public class MoniAstmaController implements Initializable {
                 }
                 return LocalDate.parse(dateString, dateTimeFormatter);
             }
-            
         };
      
-        
         fromDatePicker.setConverter(stringConverter);
         toDatePicker.setConverter(stringConverter);
-        
         dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
-        
-        
         fromDatePicker.setShowWeekNumbers(false);
         toDatePicker.setShowWeekNumbers(false);
-        
         pfDatePicker.setConverter(stringConverter); 
         huDatePicker.setConverter(stringConverter);
         alDatePicker.setConverter(stringConverter);
-        
-        
         pfDatePicker.setValue(LocalDate.now());
         huDatePicker.setValue(LocalDate.now());
         alDatePicker.setValue(LocalDate.now());
         pfDatePicker.setShowWeekNumbers(false);
         huDatePicker.setShowWeekNumbers(false);
         alDatePicker.setShowWeekNumbers(false);
-
     }    
 }
 
