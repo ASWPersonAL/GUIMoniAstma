@@ -15,14 +15,22 @@ import java.util.Date;
  */
 public class Humidity implements Serializable {
     
-    
+//// Instants fields.    
     
     private Integer huId;
     private int huValue;
     private Date huDate;
     private String huComment;
     
+    private SimpleDateFormat dateFormat;
     
+    //// Default constructor with initiated local variable dataformat of type SimpleDateFormat.
+    
+    public Humidity(){
+        dateFormat = new SimpleDateFormat("dd/MM");
+    }
+    
+    //// Constructor with 3 local parameters used for POST method. The constructor inherents the default constructor.
 
     public Humidity(int huValue, Date huDate, String huComment) {
         this();
@@ -31,12 +39,7 @@ public class Humidity implements Serializable {
         this.huComment = huComment;
     }
     
-    
-    private SimpleDateFormat dateFormat;
-    
-    public Humidity(){
-        dateFormat = new SimpleDateFormat("dd/MM");
-    }
+//// Methods. 
 
     public Integer getHuId() {
         return huId;
@@ -54,6 +57,8 @@ public class Humidity implements Serializable {
         this.huValue = huValue;
     }
 
+    //// GetDate object of type Date.
+
      public String getHuDate() {
         return dateFormat.format(huDate);
 
@@ -62,6 +67,8 @@ public class Humidity implements Serializable {
     public void setHuDate(Date huDate) {
         this.huDate = huDate;
     }
+    
+    //// Get Date object of type string.
     
       public Date getHuDateObject() {
         return this.huDate;

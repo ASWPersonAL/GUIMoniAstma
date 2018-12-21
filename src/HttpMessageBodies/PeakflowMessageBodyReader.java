@@ -34,7 +34,6 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
                                                 MediaType mt){
         return true;
     }
-       
     
     @Override
     public List<Peakflow> readFrom(Class<List<Peakflow>> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, String> mm, InputStream in) throws IOException, WebApplicationException{
@@ -77,16 +76,11 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
                         break;
                     default:
                         break;
-                                
                     }
                 }
                 return peakflows;
-                
-                
             }
-        
         throw new UnsupportedOperationException("Not supported MediaType: " + mt);
-        
     }
     
 }

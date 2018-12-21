@@ -30,21 +30,20 @@ public class PeakflowMessageBodyWriter implements MessageBodyWriter<Peakflow> {
     
     @Override
     public long getSize(Peakflow pf, Class<?> type, Type genericType, Annotation[] antns, MediaType mt) {
-      return 0;
+        return 0;
     }
 
     @Override
     public void writeTo(Peakflow pf, Class<?> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, Object> httpHeaders, OutputStream out) throws IOException, WebApplicationException {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-      PrintWriter sw = new PrintWriter(out);
-      sw.write("{");
-      sw.write("\"pfValue\": " + pf.getPfValue() + ",");
-      sw.write("\"pfDate\": \"" + dateFormat.format(pf.getPfDateObject()) + "\",");
-      sw.write("\"pfComment\": \"" + pf.getPfComment() + "\"");
-      sw.write("}");
-      sw.flush();
-      sw.close();
+        PrintWriter sw = new PrintWriter(out);
+        sw.write("{");
+        sw.write("\"pfValue\": " + pf.getPfValue() + ",");
+        sw.write("\"pfDate\": \"" + dateFormat.format(pf.getPfDateObject()) + "\",");
+        sw.write("\"pfComment\": \"" + pf.getPfComment() + "\"");
+        sw.write("}");
+        sw.flush();
+        sw.close();
     }
-    
 }

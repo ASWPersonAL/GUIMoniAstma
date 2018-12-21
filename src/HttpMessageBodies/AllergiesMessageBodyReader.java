@@ -41,14 +41,8 @@ public class AllergiesMessageBodyReader implements MessageBodyReader<List<Allerg
     public List<Allergies> readFrom(Class<List<Allergies>> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, String> mm, InputStream in) throws IOException, WebApplicationException {
         if(mt.getType().equals("application") && mt.getSubtype().equals("json")){
             Allergies allergy = new Allergies();
-            
-            
-           // System.out.println(allergy);
-           // System.out.println("HALLO_ALlergies!");
-            
             List<Allergies> allergiesList = new ArrayList();
             
-  
             JsonParser parser = Json.createParser(in);
             while (parser.hasNext()){
                 JsonParser.Event event = parser.next();
@@ -98,11 +92,7 @@ public class AllergiesMessageBodyReader implements MessageBodyReader<List<Allerg
                 }
             }
             return allergiesList;
-            
-            
         }
-        
-        
         throw new UnsupportedOperationException("Not supported yet. " + mt); //To change body of generated methods, choose Tools | Templates.
     }
     

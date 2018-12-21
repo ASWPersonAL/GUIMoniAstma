@@ -40,14 +40,8 @@ public class HumidityMessageBodyReader implements MessageBodyReader<List<Humidit
     @Override
     public List<Humidity> readFrom(Class<List<Humidity>> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, String> mm, InputStream in) throws IOException, WebApplicationException {
         if(mt.getType().equals("application") && mt.getSubtype().equals("json")){
-            Humidity humidity = new Humidity();
-            
-            
-            //System.out.println(humidity);
-            //System.out.println("HALLO");
-            
+            Humidity humidity = new Humidity();            
             List<Humidity> humidities = new ArrayList();
-            
   
             JsonParser parser = Json.createParser(in);
             while (parser.hasNext()){
@@ -86,11 +80,7 @@ public class HumidityMessageBodyReader implements MessageBodyReader<List<Humidit
                 }
             }
             return humidities;
-            
-            
         }
-        
-        
         throw new UnsupportedOperationException("Not supported yet. " + mt); //To change body of generated methods, choose Tools | Templates.
     }
     

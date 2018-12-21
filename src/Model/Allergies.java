@@ -15,6 +15,8 @@ import java.util.Date;
  */
 public class Allergies implements Serializable {
     
+//// Instans fields.
+    
     private Integer alId;
     private int alBirkvalue;
     private int alSagebrushvalue;
@@ -23,6 +25,16 @@ public class Allergies implements Serializable {
     private int alGrassvalue;
     private Date alDate;
     private String alComment;
+    
+    private SimpleDateFormat dateFormat;
+    
+    //// Default constructor with initiated local variable dataformat of type SimpleDateFormat.
+    
+    public Allergies(){
+        dateFormat = new SimpleDateFormat("dd/MM");
+    }
+       
+    //// Constructor with 7 local parameters. Used for POST method.The constructor inherents the default construtor. 
 
     public Allergies(int alBirkvalue, int alSagebrushvalue, int alElmvalue, int alElvalue, int alGrassvalue, Date alDate, String alComment) {
         this();
@@ -35,12 +47,7 @@ public class Allergies implements Serializable {
         this.alComment = alComment;
     }
     
-    
-    private SimpleDateFormat dateFormat;
-    
-    public Allergies(){
-        dateFormat = new SimpleDateFormat("dd/MM");
-    }
+//// Methods.
 
     public Integer getAlId() {
         return alId;
@@ -90,6 +97,8 @@ public class Allergies implements Serializable {
         this.alGrassvalue = alGrassvalue;
     }
 
+    //// Get Date object of type string. 
+    
     public String getAlDate() {
         return dateFormat.format(alDate); 
     }
@@ -97,6 +106,8 @@ public class Allergies implements Serializable {
     public void setAlDate(Date alDate) {
         this.alDate = alDate;
     }
+    
+    //// GetDate object of type Date.
     
     public Date getAlDateObject() {
         return this.alDate;

@@ -31,25 +31,25 @@ public class AllergiesMessageBodyWriter implements MessageBodyWriter<Allergies> 
     
     @Override
     public long getSize(Allergies al, Class<?> type, Type genericType, Annotation[] antns, MediaType mt) {
-      return 0;
+        return 0;
     }
 
     @Override
     public void writeTo(Allergies al, Class<?> type, Type type1, Annotation[] antns, MediaType mt, MultivaluedMap<String, Object> httpHeaders, OutputStream out) throws IOException, WebApplicationException {
-      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
-      PrintWriter sw = new PrintWriter(out);
-      sw.write("{");
-      sw.write("\"alBirkvalue\": " + al.getAlBirkvalue() + ",");
-      sw.write("\"alSagebrushvalue\": " + al.getAlSagebrushvalue() + ",");
-      sw.write("\"alElmvalue\": " + al.getAlElmvalue() + ",");
-      sw.write("\"alElvalue\": " + al.getAlElvalue() + ",");
-      sw.write("\"alGrassvalue\": " + al.getAlGrassvalue() + ",");
-      sw.write("\"alDate\": \"" + dateFormat.format(al.getAlDateObject()) + "\",");
-      sw.write("\"alComment\": \"" + al.getAlComment() + "\"");
-      sw.write("}");
-      sw.flush();
-      sw.close();
+        PrintWriter sw = new PrintWriter(out);
+        sw.write("{");
+        sw.write("\"alBirkvalue\": " + al.getAlBirkvalue() + ",");
+        sw.write("\"alSagebrushvalue\": " + al.getAlSagebrushvalue() + ",");
+        sw.write("\"alElmvalue\": " + al.getAlElmvalue() + ",");
+        sw.write("\"alElvalue\": " + al.getAlElvalue() + ",");
+        sw.write("\"alGrassvalue\": " + al.getAlGrassvalue() + ",");
+        sw.write("\"alDate\": \"" + dateFormat.format(al.getAlDateObject()) + "\",");
+        sw.write("\"alComment\": \"" + al.getAlComment() + "\"");
+        sw.write("}");
+        sw.flush();
+        sw.close();
     }
     
 }
