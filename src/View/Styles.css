@@ -37,31 +37,18 @@ and open the template in the editor.
 .chart-legend-item-symbol{-fx-background-color:white}*/
 
 .table-view .column-header,
-.table-view .column-header .filler,
 .table-view .column-header-background .filler {   
     -fx-background-color:gainsboro;
-   
-    -fx-stroke: transparent;
     -fx-size:50;
     -fx-alignment: CENTER ;    
     -fx-text-alignment: center;
 
 }
-.table-row-cell:filled:hover {
 
-    -fx-size:50;
-    -fx-alignment: CENTER;
-    -fx-text-alignment: center;
-
-
-}
 .table-view:row-selection {
     -fx-background-color: transparent;
     -fx-text-fill: white;
-    -fx-fixed-cell-size: 50;
-    -fx-alignment: CENTER;
-    -fx-text-alignment: center;
-
+    -fx-fixed-cell-size: 40;
 }
 
 .table-view .table-column{

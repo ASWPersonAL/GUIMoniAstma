@@ -116,21 +116,21 @@
       </Button>
       
          <!--<TextField fx:id="textFieldSearch" layoutX="43.0" layoutY="41.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />-->
-      <TableView fx:id="tablePfView" layoutX="9.0" layoutY="108.0" prefHeight="350.0" prefWidth="196.0" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.rowSpan="46">
+      <TableView fx:id="tablePfView" layoutX="9.0" layoutY="108.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="193.0" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.rowSpan="46">
         <columns>
-            <TableColumn text="Date">
+            <TableColumn maxWidth="-Infinity" minWidth="60.0" prefWidth="60.0" text="Date">
                  <cellValueFactory>
                   <PropertyValueFactory property="pfDate" />
               </cellValueFactory>
             </TableColumn>
-            <TableColumn editable="false" prefWidth="169.0" sortable="false" text="Comment">
+            <TableColumn editable="false" maxWidth="-Infinity" minWidth="130.0" prefWidth="130.0" sortable="false" text="Comment">
                  <cellValueFactory>
                   <PropertyValueFactory property="pfComment" />
               </cellValueFactory>
             </TableColumn>
         </columns>
       </TableView>
-      <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow comments" textAlignment="CENTER" underline="true" wrappingWidth="250.4814453125" GridPane.columnIndex="8" GridPane.rowIndex="5">
+      <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow comments" textAlignment="CENTER" underline="true" wrappingWidth="194.4814453125" GridPane.columnIndex="8" GridPane.rowIndex="5">
          <font>
             <Font size="18.0" />
          </font>
@@ -151,8 +151,8 @@
       <ColumnConstraints maxWidth="474.0" minWidth="10.0" prefWidth="200.0" />
       <ColumnConstraints maxWidth="299.0" minWidth="10.0" prefWidth="217.0" />
       <ColumnConstraints maxWidth="299.0" minWidth="10.0" prefWidth="233.0" />
-      <ColumnConstraints maxWidth="321.0" minWidth="10.0" prefWidth="253.0" />
-      <ColumnConstraints maxWidth="299.0" minWidth="0.0" prefWidth="30.0" />
+      <ColumnConstraints maxWidth="210.0" minWidth="10.0" prefWidth="210.0" />
+      <ColumnConstraints maxWidth="20.0" minWidth="20.0" prefWidth="48.0" />
       <ColumnConstraints maxWidth="299.0" minWidth="0.0" prefWidth="0.0" />
       <ColumnConstraints maxWidth="299.0" minWidth="0.0" prefWidth="0.0" />
    </columnConstraints>
