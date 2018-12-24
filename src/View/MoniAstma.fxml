@@ -12,7 +12,7 @@
 <?import javafx.scene.control.cell.*?>
 
 <GridPane id="AnchorPane" prefHeight="1300.0" prefWidth="1500.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
-    <children>
+  
       <Text fill="#1f0fd3" layoutX="450.0" layoutY="44.0" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asthma monitoration" GridPane.columnIndex="5" GridPane.rowIndex="2">
          <font>
             <Font name="Gill Sans Bold" size="24.0" />
@@ -141,7 +141,7 @@
          </font>
       </Button>
       
-    </children>
+   
    <columnConstraints>
       <ColumnConstraints maxWidth="628.0" minWidth="26.0" prefWidth="29.0" />
       <ColumnConstraints maxWidth="628.0" minWidth="155.0" prefWidth="177.0" />
