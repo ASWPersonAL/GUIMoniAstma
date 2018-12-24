@@ -168,7 +168,7 @@ public class MoniAstmaController implements Initializable {
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(PeakflowMessageBodyReader.class);
-       clientTarget = client.target(this.baseUrl + "/pf");
+       clientTarget = client.target(this.baseUrl + "/peakflow");
         
        GenericType<List<Peakflow>> pfList = new GenericType<List<Peakflow>>() {};
        List<Peakflow> peakflows = clientTarget.request("application/json").get(pfList);
@@ -202,7 +202,7 @@ public class MoniAstmaController implements Initializable {
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(HumidityMessageBodyReader.class);
-       clientTarget = client.target(this.baseUrl + "/hu");
+       clientTarget = client.target(this.baseUrl + "/humidity");
 
        GenericType<List<Humidity>> huList = new GenericType<List<Humidity>>() {};
        List<Humidity> humidities = clientTarget.request("application/json").get(huList);  
@@ -224,7 +224,7 @@ public class MoniAstmaController implements Initializable {
        WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(AllergiesMessageBodyReader.class);
-       clientTarget = client.target(this.baseUrl + "/al");
+       clientTarget = client.target(this.baseUrl + "/allergies");
 
        GenericType<List<Allergies>> alList = new GenericType<List<Allergies>>() {};
        List<Allergies> allergyList = clientTarget.request("application/json").get(alList);  
@@ -277,7 +277,7 @@ public class MoniAstmaController implements Initializable {
         WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
         client.register(PeakflowMessageBodyWriter.class);
-        clientTarget = client.target(this.baseUrl + "/pf");
+        clientTarget = client.target(this.baseUrl + "/peakflow");
                             
         Response r = clientTarget.request("application/json").post(Entity.entity(pf, "application/json"));
         System.out.println(r);
@@ -300,7 +300,7 @@ public class MoniAstmaController implements Initializable {
         WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
         client.register(HumidityMessageBodyWriter.class);
-        clientTarget = client.target(this.baseUrl + "/hu");
+        clientTarget = client.target(this.baseUrl + "/humidity");
              
         Response r = clientTarget.request("application/json").post(Entity.entity(hu, "application/json"));
         System.out.println(r);
@@ -327,7 +327,7 @@ public class MoniAstmaController implements Initializable {
         WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
         client.register(AllergiesMessageBodyWriter.class);
-        clientTarget = client.target(this.baseUrl + "/al");
+        clientTarget = client.target(this.baseUrl + "/allergies");
              
         Response r = clientTarget.request("application/json").post(Entity.entity(al, "application/json"));
         System.out.println(r);
@@ -357,7 +357,7 @@ public class MoniAstmaController implements Initializable {
         }
 
         clientTarget = client
-                .target(this.baseUrl + "/pf/searchByDate/{fromDate}/{toDate}")
+                .target(this.baseUrl + "/peakflow/searchByDate/{fromDate}/{toDate}")
                 .resolveTemplate("fromDate", fromDate)
                 .resolveTemplate("toDate", toDate);
        
@@ -401,7 +401,7 @@ public class MoniAstmaController implements Initializable {
         }
 
         clientTarget = client
-                .target(this.baseUrl + "/hu/searchByDate/{fromDate}/{toDate}")
+                .target(this.baseUrl + "/humidity/searchByDate/{fromDate}/{toDate}")
                 .resolveTemplate("fromDate", fromDate)
                 .resolveTemplate("toDate", toDate);
 
@@ -438,7 +438,7 @@ public class MoniAstmaController implements Initializable {
         }
 
         clientTarget = client
-                .target(this.baseUrl + "/al/searchByDate/{fromDate}/{toDate}")
+                .target(this.baseUrl + "/allergies/searchByDate/{fromDate}/{toDate}")
                 .resolveTemplate("fromDate", fromDate)
                 .resolveTemplate("toDate", toDate);
 
