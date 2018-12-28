@@ -40,7 +40,7 @@ public class PeakflowMessageBodyWriter implements MessageBodyWriter<Peakflow> {
         PrintWriter sw = new PrintWriter(out);
         sw.write("{");
         sw.write("\"pfValue\": " + pf.getPfValue() + ",");
-        sw.write("\"pfDate\": \"" + dateFormat.format(pf.getPfDateObject()) + "\",");
+        sw.write("\"pfDate\": \"" + dateFormat.format(pf.getPfDate()) + "\",");
         sw.write("\"pfComment\": \"" + pf.getPfComment() + "\"");
         sw.write("}");
         sw.flush();

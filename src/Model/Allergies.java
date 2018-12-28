@@ -97,20 +97,20 @@ public class Allergies implements Serializable {
         this.alGrassvalue = alGrassvalue;
     }
 
+    //// GetDate object of type Date.
+    
+    public Date getAlDate() {
+        return this.alDate;
+    }
+    
     //// Get Date object of type string. 
     
-    public String getAlDate() {
+    public String getAlDateAsString() {
         return dateFormat.format(alDate); 
     }
 
     public void setAlDate(Date alDate) {
         this.alDate = alDate;
-    }
-    
-    //// GetDate object of type Date.
-    
-    public Date getAlDateObject() {
-        return this.alDate;
     }
 
     public String getAlComment() {

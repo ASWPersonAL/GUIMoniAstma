@@ -45,7 +45,7 @@ public class AllergiesMessageBodyWriter implements MessageBodyWriter<Allergies> 
         sw.write("\"alElmvalue\": " + al.getAlElmvalue() + ",");
         sw.write("\"alElvalue\": " + al.getAlElvalue() + ",");
         sw.write("\"alGrassvalue\": " + al.getAlGrassvalue() + ",");
-        sw.write("\"alDate\": \"" + dateFormat.format(al.getAlDateObject()) + "\",");
+        sw.write("\"alDate\": \"" + dateFormat.format(al.getAlDate()) + "\",");
         sw.write("\"alComment\": \"" + al.getAlComment() + "\"");
         sw.write("}");
         sw.flush();

@@ -33,7 +33,7 @@
 
       <Button layoutX="121.0" layoutY="244.0" mnemonicParsing="false" onAction="#handlePostPf" text="Save peakflow value" textFill="#5d0bdd" GridPane.columnIndex="2" GridPane.rowIndex="13" />
         
-      <LineChart fx:id="pfchart" layoutX="322.0" layoutY="102.0" prefHeight="185.0" prefWidth="772.0" title="Line chart with peakflow data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.rowSpan="14">
+      <LineChart fx:id="pfChart" layoutX="322.0" layoutY="102.0" prefHeight="185.0" prefWidth="772.0" title="Line chart with peakflow data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.rowSpan="14">
         <xAxis>
           <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisLine" />
         </xAxis>
@@ -56,7 +56,7 @@
       <TextField fx:id="huComment" layoutX="118.0" layoutY="740.0" prefHeight="27.0" prefWidth="167.0" promptText="humidity comment" GridPane.columnIndex="2" GridPane.rowIndex="26" />
       <Button layoutX="116.0" layoutY="460.0" mnemonicParsing="false" onAction="#handlePostHu" prefHeight="27.0" prefWidth="154.0" text="Save humidity value" textFill="#8d0a0a" GridPane.columnIndex="2" GridPane.rowIndex="28" />
       
-      <AreaChart fx:id="hchart" layoutX="322.0" layoutY="310.0" prefHeight="251.0" prefWidth="752.0" title="Area chart with humidity data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="20" GridPane.rowSpan="12">
+      <AreaChart fx:id="huChart" layoutX="322.0" layoutY="310.0" prefHeight="251.0" prefWidth="752.0" title="Area chart with humidity data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="20" GridPane.rowSpan="12">
         <xAxis>
           <CategoryAxis label="Date" side="BOTTOM" />
         </xAxis>
@@ -94,7 +94,7 @@
       
      <Button mnemonicParsing="false" onAction="#handlePostAl" prefHeight="27.0" prefWidth="154.0" text="Save pollen values" textFill="#0829e8" GridPane.columnIndex="2" GridPane.rowIndex="53" />
       
-      <BarChart fx:id="alchart" layoutX="322.0" layoutY="535.0" prefHeight="154.0" prefWidth="494.0" title="Bar chart with pollen data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="36" GridPane.rowSpan="14">
+      <BarChart fx:id="alChart" layoutX="322.0" layoutY="535.0" prefHeight="154.0" prefWidth="494.0" title="Bar chart with pollen data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="36" GridPane.rowSpan="14">
         <xAxis>
           <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisBar" />
         </xAxis>

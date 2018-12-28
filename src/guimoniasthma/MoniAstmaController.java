@@ -66,7 +66,7 @@ public class MoniAstmaController implements Initializable {
     //// Line chart declaration for peakflow values (with fxml tags).
 
     @FXML
-    private LineChart<String,Number> pfchart;
+    private LineChart<String,Number> pfChart;
     
     //// Table declaration for peakflow table view. 
     
@@ -76,12 +76,12 @@ public class MoniAstmaController implements Initializable {
     //// Humidity AreaChart declaration with fxml tags.
   
     @FXML
-    private AreaChart<String,Number> hchart;
+    private AreaChart<String,Number> huChart;
     
     //// Barchart declaration with fxml tags.
     
     @FXML
-    private BarChart<String,Number> alchart;
+    private BarChart<String,Number> alChart;
     
     //// FXML tagged instans field for datepickers in view.
     
@@ -179,14 +179,14 @@ public class MoniAstmaController implements Initializable {
        data.clear();
        
        for(Peakflow p : peakflows){
-            seriesPf.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
-            seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), baseline));
+            seriesPf.getData().add(new XYChart.Data<String,Number>(p.getPfDateAsString(), p.getPfValue()));
+            seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDateAsString(), baseline));
             if(p.getPfComment().length() > 0){
                data.add(p);
            }
        }
       lineChartData.addAll(seriesPf,seriesBl);
-      pfchart.setData(lineChartData);
+      pfChart.setData(lineChartData);
     
       seriesPf.setName("Peak flow monitoration values");
       seriesBl.setName("Peak flow Baseline values");
@@ -210,12 +210,12 @@ public class MoniAstmaController implements Initializable {
        AreaChart.Series<String,Number> seriesH = new AreaChart.Series<String,Number>();
        
        for(Humidity h : humidities){
-            seriesH.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
+            seriesH.getData().add(new XYChart.Data<String,Number>(h.getHuDateAsString(), h.getHuValue()));
             }
        
         areaChartData.add(seriesH);
-        hchart.setData(areaChartData);
-        hchart.setLegendVisible(false);
+        huChart.setData(areaChartData);
+        huChart.setLegendVisible(false);
        }catch(ProcessingException e){}
     }
        
@@ -237,14 +237,14 @@ public class MoniAstmaController implements Initializable {
        BarChart.Series<String,Number> seriesGrass = new BarChart.Series<String,Number>();
          
        for(Allergies a : allergyList){
-             seriesBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
-             seriesSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
-             seriesElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
-             seriesEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
-             seriesGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
+             seriesBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDateAsString(),a.getAlBirkvalue()));
+             seriesSage.getData().add(new XYChart.Data<String,Number>(a.getAlDateAsString(),a.getAlSagebrushvalue()));
+             seriesElm.getData().add(new XYChart.Data<String,Number>(a.getAlDateAsString(),a.getAlElmvalue()));
+             seriesEl.getData().add(new XYChart.Data<String,Number>(a.getAlDateAsString(),a.getAlElvalue()));
+             seriesGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDateAsString(),a.getAlGrassvalue()));
         }
        barChartData.addAll(seriesBirk,seriesSage,seriesElm, seriesEl, seriesGrass);
-       alchart.setData(barChartData);
+       alChart.setData(barChartData);
          
        seriesBirk.setName("Birk");
        seriesSage.setName("Sagebrush");
@@ -259,8 +259,8 @@ public class MoniAstmaController implements Initializable {
     @FXML
     public void getAllCharts(){
         getPeakflowLineChart();
-        getAllergiesBarChart();
         getHumidityAreaChart();
+        getAllergiesBarChart();
     }
     
     //// POST method for peakflow POST. All including FXML tags for view binding to buttons.
@@ -370,14 +370,14 @@ public class MoniAstmaController implements Initializable {
         data.clear();
        
         for(Peakflow p : peakflows){
-             seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), p.getPfValue()));
-             seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDate(), baseline));
+             seriesS.getData().add(new XYChart.Data<String,Number>(p.getPfDateAsString(), p.getPfValue()));
+             seriesBl.getData().add(new XYChart.Data<String,Number>(p.getPfDateAsString(), baseline));
              if(p.getPfComment().length() > 0){
                 data.add(p);
              }
         }
         lineChartData.addAll(seriesS,seriesBl);
-        pfchart.setData(lineChartData);
+        pfChart.setData(lineChartData);
     
         seriesS.setName("Peak flow monitoration values");
         seriesBl.setName("Peak flow Baseline values");
@@ -412,12 +412,12 @@ public class MoniAstmaController implements Initializable {
         AreaChart.Series<String,Number> seriesH = new AreaChart.Series<String,Number>();
        
         for(Humidity h : humidities){
-            seriesH.getData().add(new XYChart.Data<String,Number>(h.getHuDate(), h.getHuValue()));
+            seriesH.getData().add(new XYChart.Data<String,Number>(h.getHuDateAsString(), h.getHuValue()));
         }
         areaChartData.add(seriesH);
      
-        hchart.setData(areaChartData);
-        hchart.setLegendVisible(false);
+        huChart.setData(areaChartData);
+        huChart.setLegendVisible(false);
     }
         
     //// Method to seach by Date in allergies chart.
@@ -453,14 +453,14 @@ public class MoniAstmaController implements Initializable {
         BarChart.Series<String,Number> seriesGrass = new BarChart.Series<String,Number>();
          
         for(Allergies a : allergyList){
-            seriesBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlBirkvalue()));
-            seriesSage.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlSagebrushvalue()));
-            seriesElm.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElmvalue()));
-            seriesEl.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlElvalue()));
-            seriesGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDate(),a.getAlGrassvalue()));
+            seriesBirk.getData().add(new XYChart.Data<String,Number>(a.getAlDateAsString(),a.getAlBirkvalue()));
+            seriesSage.getData().add(new XYChart.Data<String,Number>(a.getAlDateAsString(),a.getAlSagebrushvalue()));
+            seriesElm.getData().add(new XYChart.Data<String,Number>(a.getAlDateAsString(),a.getAlElmvalue()));
+            seriesEl.getData().add(new XYChart.Data<String,Number>(a.getAlDateAsString(),a.getAlElvalue()));
+            seriesGrass.getData().add(new XYChart.Data<String,Number>(a.getAlDateAsString(),a.getAlGrassvalue()));
         }        
         barChartData.addAll(seriesBirk,seriesSage,seriesElm, seriesEl, seriesGrass);
-        alchart.setData(barChartData);
+        alChart.setData(barChartData);
          
         seriesBirk.setName("Birk");
         seriesSage.setName("Sagebrush");
