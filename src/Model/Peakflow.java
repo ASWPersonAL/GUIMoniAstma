@@ -55,18 +55,20 @@ public class Peakflow implements Serializable {
     public void setPfValue(int pfValue) {
         this.pfValue = pfValue;
     }
+    
+      //// Get Date object of type string.
+
+    public String getPfDate() {
+        return dateFormat.format(pfDate);
+    }
 
     //// GetDate object of type Date.  
     
-    public Date getPfDate() {
+    public Date getPfDateObject() {
         return this.pfDate;
     }
     
-    //// Get Date object of type string.
-
-    public String getPfDateAsString() {
-        return dateFormat.format(pfDate);
-    }
+  
 
     public void setPfDate(Date pfDate) {
         this.pfDate = pfDate;

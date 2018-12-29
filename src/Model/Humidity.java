@@ -59,16 +59,18 @@ public class Humidity implements Serializable {
     
       //// Get Date object of type string.
     
-      public Date getHuDate() {
-        return this.huDate;
+    public String getHuDate() {
+        return dateFormat.format(huDate);
+
     }
 
     //// GetDate object of type Date.
 
-     public String getHuDateAsString() {
-        return dateFormat.format(huDate);
-
+    public Date getHuDateObject() {
+        return this.huDate;
     }
+    
+    
 
     public void setHuDate(Date huDate) {
         this.huDate = huDate;

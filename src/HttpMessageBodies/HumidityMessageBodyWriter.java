@@ -40,7 +40,7 @@ public class HumidityMessageBodyWriter implements MessageBodyWriter<Humidity> {
         PrintWriter sw = new PrintWriter(out);
         sw.write("{");
         sw.write("\"huValue\": " + hu.getHuValue() + ",");
-        sw.write("\"huDate\": \"" + dateFormat.format(hu.getHuDate()) + "\",");
+        sw.write("\"huDate\": \"" + dateFormat.format(hu.getHuDateObject()) + "\",");
         sw.write("\"huComment\": \"" + hu.getHuComment() + "\"");
         sw.write("}");
         sw.flush();

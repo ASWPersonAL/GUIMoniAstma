@@ -48,7 +48,6 @@ public class PeakflowMessageBodyReader implements MessageBodyReader<List<Peakflo
                     case START_OBJECT:
                         peakflow = new Peakflow();
                         //System.out.println(peakflow);
-                        //System.out.println("SLUT her");
                         break;
                     case END_OBJECT:
                         peakflows.add(peakflow);
