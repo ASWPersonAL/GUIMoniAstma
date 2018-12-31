@@ -99,27 +99,9 @@ public class MoniAstmaController implements Initializable {
         
     @FXML
     private DatePicker alDatePicker;
-    
     //// String converter to set DatePickers to dd-MM-yyyy format in view.
     
-    StringConverter stringConverter = new StringConverter<LocalDate>() {
-            private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-            
-            @Override
-            public String toString(LocalDate localDate) {
-                if (localDate == null) {
-                    return "";
-                }
-                return dateTimeFormatter.format(localDate);
-            }
-            @Override
-            public LocalDate fromString(String dateString) {
-                if (dateString == null || dateString.trim().isEmpty()) {
-                    return null;
-                }
-                return LocalDate.parse(dateString, dateTimeFormatter);
-            }
-        };
+    StringConverter stringConverter;
 
      //// Instans fields with fxml tags for POST methods. 
     
@@ -158,6 +140,29 @@ public class MoniAstmaController implements Initializable {
     
     @FXML
     private TextField alComment;
+    
+    //// Constructor with initialized stringconver.    
+
+    public MoniAstmaController() {
+        this.stringConverter = new StringConverter<LocalDate>() {
+            private final DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+            
+            @Override
+            public String toString(LocalDate localDate) {
+                if (localDate == null) {
+                    return "";
+                }
+                return dateTimeFormatter.format(localDate);
+            }
+            @Override
+            public LocalDate fromString(String dateString) {
+                if (dateString == null || dateString.trim().isEmpty()) {
+                    return null;
+                }
+                return LocalDate.parse(dateString, dateTimeFormatter);
+            }
+        };
+    }
     
 //// Class Methods.
 
