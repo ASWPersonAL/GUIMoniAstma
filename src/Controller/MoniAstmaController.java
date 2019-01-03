@@ -1,18 +1,20 @@
+package Controller;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package guimoniasthma;
 
 
-import HttpMessageBodies.PeakflowMessageBodyWriter;
-import HttpMessageBodies.PeakflowMessageBodyReader;
-import HttpMessageBodies.HumidityMessageBodyWriter;
-import HttpMessageBodies.HumidityMessageBodyReader;
-import HttpMessageBodies.AllergiesMessageBodyReader;
-import HttpMessageBodies.AllergiesMessageBodyWriter;
-import Model.Alerts;
+
+import TypeConverter.PeakflowMessageBodyWriter;
+import TypeConverter.PeakflowMessageBodyReader;
+import TypeConverter.HumidityMessageBodyWriter;
+import TypeConverter.HumidityMessageBodyReader;
+import TypeConverter.AllergiesMessageBodyReader;
+import TypeConverter.AllergiesMessageBodyWriter;
+import SystemDialog.Alerts;
 import Model.Peakflow;
 import Model.Humidity;
 import Model.Allergies;
@@ -170,9 +172,9 @@ public class MoniAstmaController implements Initializable {
     
     public void getPeakflowLineChart(){
       try{
-       WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(PeakflowMessageBodyReader.class);
+       WebTarget clientTarget;
        clientTarget = client.target(this.baseUrl + "/peakflow");
         
        GenericType<List<Peakflow>> pfList = new GenericType<List<Peakflow>>() {};
@@ -196,6 +198,8 @@ public class MoniAstmaController implements Initializable {
       seriesPf.setName("Peak flow monitoration values");
       seriesBl.setName("Peak flow Baseline values");
       
+      client.close();
+      
      }catch(ProcessingException e) {
         System.out.println(e);
         alert.getNoServerConError();
@@ -204,9 +208,9 @@ public class MoniAstmaController implements Initializable {
        
     public void getHumidityAreaChart(){
       try{
-       WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(HumidityMessageBodyReader.class);
+       WebTarget clientTarget;
        clientTarget = client.target(this.baseUrl + "/humidity");
 
        GenericType<List<Humidity>> huList = new GenericType<List<Humidity>>() {};
@@ -221,14 +225,15 @@ public class MoniAstmaController implements Initializable {
         areaChartData.add(seriesH);
         huChart.setData(areaChartData);
         huChart.setLegendVisible(false);
+        client.close();
        }catch(ProcessingException e){}
     }
        
     public void getAllergiesBarChart(){
       try{
-       WebTarget clientTarget;
        Client client = ClientBuilder.newClient();
        client.register(AllergiesMessageBodyReader.class);
+       WebTarget clientTarget;
        clientTarget = client.target(this.baseUrl + "/allergies");
 
        GenericType<List<Allergies>> alList = new GenericType<List<Allergies>>() {};
@@ -256,6 +261,8 @@ public class MoniAstmaController implements Initializable {
        seriesElm.setName("Elm");
        seriesEl.setName("El");
        seriesGrass.setName("Grass");
+       
+       client.close();
        }catch(ProcessingException e){}
     }
       
@@ -279,15 +286,18 @@ public class MoniAstmaController implements Initializable {
         Date pf_date = Date.from(pf_dateView.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Peakflow pf = new Peakflow(pf_value, pf_date, pf_comment);  
 
-        WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
         client.register(PeakflowMessageBodyWriter.class);
+        WebTarget clientTarget;
         clientTarget = client.target(this.baseUrl + "/peakflow");
                             
         Response r = clientTarget.request("application/json").post(Entity.entity(pf, "application/json"));
         System.out.println(r);
               
         alert.getPostPfSuccesInfo();
+        
+        client.close();
+        
         }catch(NumberFormatException ex){
                alert.getPostAlertError();
         }
@@ -302,15 +312,18 @@ public class MoniAstmaController implements Initializable {
         Date hu_date = Date.from(hu_dateView.atStartOfDay(ZoneId.systemDefault()).toInstant());
         Humidity hu = new Humidity(hu_value, hu_date, hu_comment);
              
-        WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
         client.register(HumidityMessageBodyWriter.class);
+        WebTarget clientTarget;
         clientTarget = client.target(this.baseUrl + "/humidity");
              
         Response r = clientTarget.request("application/json").post(Entity.entity(hu, "application/json"));
         System.out.println(r);
              
         alert.getPostHuSuccesInfo();
+        
+        client.close();
+        
         }catch(NumberFormatException ex){
                 alert.getPostAlertError();
         }
@@ -329,15 +342,17 @@ public class MoniAstmaController implements Initializable {
         String al_comment = alComment.getText();
         Allergies al = new Allergies(alBirk_value, alSagebrush_value, alElm_value, alEl_value, alGrass_value, al_date,al_comment );
              
-        WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
         client.register(AllergiesMessageBodyWriter.class);
+        WebTarget clientTarget;
         clientTarget = client.target(this.baseUrl + "/allergies");
              
         Response r = clientTarget.request("application/json").post(Entity.entity(al, "application/json"));
         System.out.println(r);
              
         alert.getPostAlSuccesInfo();
+        
+        client.close();
             
         }catch(NumberFormatException ex){
              alert.getPostAlertError();
@@ -347,7 +362,6 @@ public class MoniAstmaController implements Initializable {
     //// Method to seach by Date in peak flow chart. 
      
     public void getPFChartFromSearchDate(){
-        WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
         client.register(PeakflowMessageBodyReader.class);
        
@@ -361,6 +375,7 @@ public class MoniAstmaController implements Initializable {
            toDate = toDatePicker.getValue().format(dateTimeFormatter);
         }
 
+        WebTarget clientTarget;
         clientTarget = client
                 .target(this.baseUrl + "/peakflow/searchByDate/{fromDate}/{toDate}")
                 .resolveTemplate("fromDate", fromDate)
@@ -386,12 +401,13 @@ public class MoniAstmaController implements Initializable {
     
         seriesS.setName("Peak flow monitoration values");
         seriesBl.setName("Peak flow Baseline values");
+        
+        client.close();
     }
        
     //// Method to seach by Date in humidity chart. 
        
     public void getHumidityChartFromSearchDate(){
-        WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
         client.register(HumidityMessageBodyReader.class);
        
@@ -405,6 +421,7 @@ public class MoniAstmaController implements Initializable {
             toDate = toDatePicker.getValue().format(dateTimeFormatter);
         }
 
+        WebTarget clientTarget;
         clientTarget = client
                 .target(this.baseUrl + "/humidity/searchByDate/{fromDate}/{toDate}")
                 .resolveTemplate("fromDate", fromDate)
@@ -423,12 +440,13 @@ public class MoniAstmaController implements Initializable {
      
         huChart.setData(areaChartData);
         huChart.setLegendVisible(false);
+        
+        client.close();
     }
         
     //// Method to seach by Date in allergies chart.
        
     public void getAllergiesChartFromSearchDate(){
-        WebTarget clientTarget;
         Client client = ClientBuilder.newClient();
         client.register(AllergiesMessageBodyReader.class);
        
@@ -442,6 +460,7 @@ public class MoniAstmaController implements Initializable {
             toDate = toDatePicker.getValue().format(dateTimeFormatter);
         }
 
+        WebTarget clientTarget;
         clientTarget = client
                 .target(this.baseUrl + "/allergies/searchByDate/{fromDate}/{toDate}")
                 .resolveTemplate("fromDate", fromDate)
@@ -472,6 +491,8 @@ public class MoniAstmaController implements Initializable {
         seriesElm.setName("Elm");
         seriesEl.setName("El");
         seriesGrass.setName("Grass");
+        
+          client.close();
     }
        
     //// Method to call all three chart serahc by date functions. FXML tag and bound to onaction in button in view. 

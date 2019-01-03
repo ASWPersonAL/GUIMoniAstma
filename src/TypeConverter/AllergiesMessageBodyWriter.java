@@ -1,4 +1,4 @@
-package HttpMessageBodies;
+package TypeConverter;
 
 import Model.Allergies;
 import java.io.IOException;

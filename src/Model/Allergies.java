@@ -110,7 +110,6 @@ public class Allergies implements Serializable {
     }
     
 
-
     public void setAlDate(Date alDate) {
         this.alDate = alDate;
     }

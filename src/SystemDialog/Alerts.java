@@ -1,9 +1,11 @@
+package SystemDialog;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Model;
+
 
 import javafx.scene.control.Alert;
 
@@ -15,9 +17,9 @@ import javafx.scene.control.Alert;
         
         //// Instans of Alert types ERROR and INFORMATION.
         
-        Alert alertError = new Alert(Alert.AlertType.ERROR);
+       private Alert alertError = new Alert(Alert.AlertType.ERROR);
         
-        Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
+       private Alert alertInfo = new Alert(Alert.AlertType.INFORMATION);
         
         //// Alert boxes methods.
     

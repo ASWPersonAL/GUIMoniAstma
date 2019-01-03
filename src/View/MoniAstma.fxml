@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.control.cell.*?>
 
-<GridPane id="AnchorPane" prefHeight="1300.0" prefWidth="1500.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="guimoniasthma.MoniAstmaController">
+<GridPane id="AnchorPane" prefHeight="1300.0" prefWidth="1500.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MoniAstmaController">
   
       <Text fill="#1f0fd3" layoutX="450.0" layoutY="44.0" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asthma monitoration" GridPane.columnIndex="5" GridPane.rowIndex="2">
          <font>
