@@ -208,7 +208,8 @@ public class MoniAstmaController implements Initializable {
        
     public void getHumidityAreaChart(){
       try{
-       Client client = ClientBuilder.newClient();
+   
+      Client client = ClientBuilder.newClient();
        client.register(HumidityMessageBodyReader.class);
        WebTarget clientTarget;
        clientTarget = client.target(this.baseUrl + "/humidity");
@@ -238,6 +239,7 @@ public class MoniAstmaController implements Initializable {
 
        GenericType<List<Allergies>> alList = new GenericType<List<Allergies>>() {};
        List<Allergies> allergyList = clientTarget.request("application/json").get(alList);  
+       
        ObservableList<XYChart.Series<String,Number>> barChartData = FXCollections.observableArrayList();
          
        BarChart.Series<String,Number> seriesBirk = new BarChart.Series<String,Number>();
@@ -280,6 +282,9 @@ public class MoniAstmaController implements Initializable {
     @FXML
     public void handlePostPf(){
        try{
+           
+           
+           
         int pf_value = Integer.parseInt(pfValue.getText());
         LocalDate pf_dateView = pfDatePicker.getValue();
         String pf_comment = pfComment.getText();
