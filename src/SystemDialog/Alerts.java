@@ -43,7 +43,7 @@ import javafx.scene.control.Alert;
         
         public void getPostPfSuccesInfo(){
             String sh = "The peakflow input has been saved! ";
-            String s = "Please ensure to input humidity and pollen data for this date before clicking update charts!. ";
+            String s = "Please ensure to input humidity and pollen data for this date before clicking GO GO to update charts!. ";
             alertInfo.setHeaderText(sh);
             alertInfo.setContentText(s);
             alertInfo.showAndWait();
@@ -51,7 +51,7 @@ import javafx.scene.control.Alert;
         
         public void getPostHuSuccesInfo(){
             String sh = "The humidity input has been saved! ";
-            String s =  "Please ensure to also input pollen data on this date before clicking update charts!. ";
+            String s =  "Please ensure to also input pollen data on this date before clicking GO GO to update charts!. ";
             alertInfo.setHeaderText(sh);
             alertInfo.setContentText(s);
             alertInfo.showAndWait();
@@ -59,7 +59,7 @@ import javafx.scene.control.Alert;
         
         public void getPostAlSuccesInfo(){
             String sh = "The pollen input has been saved! ";
-            String s = "Please ensure that you have made inputs for peakflow and pollen on this date before clicking update charts!. ";
+            String s = "Please ensure that you have made inputs for peakflow and pollen on this date before clicking GO GO to update charts!. ";
             alertInfo.setHeaderText(sh);
             alertInfo.setContentText(s);
             alertInfo.showAndWait();
