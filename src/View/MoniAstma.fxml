@@ -12,134 +12,139 @@
 <?import javafx.scene.control.cell.*?>
 
 <GridPane id="AnchorPane" prefHeight="1300.0" prefWidth="1500.0" stylesheets="@Styles.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller.MoniAstmaController">
-  
-      <Text fill="#1f0fd3" layoutX="450.0" layoutY="44.0" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asthma monitoration" GridPane.columnIndex="5" GridPane.rowIndex="2">
-         <font>
-            <Font name="Gill Sans Bold" size="24.0" />
-         </font>
+   <children>
+     
+         <Text fill="#1f0fd3" layoutX="450.0" layoutY="44.0" lineSpacing="1.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Asthma monitoration" GridPane.columnIndex="5" GridPane.rowIndex="2">
+            <font>
+               <Font name="Gill Sans Bold" size="24.0" />
+            </font>
+         </Text>
+             
+              <Text fill="#5d0bdd" layoutX="160.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input for peakflow:" underline="true" wrappingWidth="175.14013671875" GridPane.columnIndex="1" GridPane.rowIndex="5">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
       </Text>
-          
-           <Text fill="#5d0bdd" layoutX="160.0" layoutY="112.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input for peakflow:" underline="true" wrappingWidth="175.14013671875" GridPane.columnIndex="1" GridPane.rowIndex="5">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font></Text>
+            
+             <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow value" GridPane.columnIndex="1" GridPane.rowIndex="7" />
+         <TextField fx:id="pfValue" layoutX="124.0" layoutY="129.0" prefHeight="27.0" prefWidth="115.0" promptText="peakflow value " GridPane.columnIndex="2" GridPane.rowIndex="7" />
+         <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow date" GridPane.columnIndex="1" GridPane.rowIndex="9" />
+          <DatePicker fx:id="pfDatePicker" layoutX="122.0" layoutY="205.0" promptText="peakflow date" GridPane.columnIndex="2" GridPane.rowIndex="9" />
+          <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow comment" GridPane.columnIndex="1" GridPane.rowIndex="11" />
+         <TextField fx:id="pfComment" layoutX="123.0" layoutY="166.0" prefHeight="27.0" prefWidth="184.0" promptText="peakflow comment" GridPane.columnIndex="2" GridPane.rowIndex="11" />
+   
+         <Button layoutX="121.0" layoutY="244.0" mnemonicParsing="false" onAction="#handlePostPf" text="Save peakflow value" textFill="#5d0bdd" GridPane.columnIndex="2" GridPane.rowIndex="13" />
+           
+         <LineChart fx:id="pfChart" layoutX="322.0" layoutY="102.0" prefHeight="185.0" prefWidth="772.0" title="Line chart with peakflow data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.rowSpan="14">
+           <xAxis>
+             <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisLine" />
+           </xAxis>
+           <yAxis>
+             <NumberAxis autoRanging="false" label="L/min" side="LEFT" upperBound="650" />
+           </yAxis>
+         </LineChart>
          
-          <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow value" GridPane.columnIndex="1" GridPane.rowIndex="7" />
-      <TextField fx:id="pfValue" layoutX="124.0" layoutY="129.0" prefHeight="27.0" prefWidth="115.0" promptText="peakflow value " GridPane.columnIndex="2" GridPane.rowIndex="7" />
-      <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow date" GridPane.columnIndex="1" GridPane.rowIndex="9" />
-       <DatePicker fx:id="pfDatePicker" layoutX="122.0" layoutY="205.0" promptText="Date" GridPane.columnIndex="2" GridPane.rowIndex="9" />
-       <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow comment" GridPane.columnIndex="1" GridPane.rowIndex="11" />
-      <TextField fx:id="pfComment" layoutX="123.0" layoutY="166.0" prefHeight="27.0" prefWidth="184.0" promptText="peakflow comment" GridPane.columnIndex="2" GridPane.rowIndex="11" />
-
-      <Button layoutX="121.0" layoutY="244.0" mnemonicParsing="false" onAction="#handlePostPf" text="Save peakflow value" textFill="#5d0bdd" GridPane.columnIndex="2" GridPane.rowIndex="13" />
-        
-      <LineChart fx:id="pfChart" layoutX="322.0" layoutY="102.0" prefHeight="185.0" prefWidth="772.0" title="Line chart with peakflow data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="5" GridPane.rowSpan="14">
-        <xAxis>
-          <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisLine" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis autoRanging="false" label="L/min" side="LEFT" upperBound="650" />
-        </yAxis>
-      </LineChart>
-      
-      
-         <Text fill="#8d0a0a" layoutX="169.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input for humidity:" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="20">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font></Text>
          
-          <Text fill="#8d0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity value" GridPane.columnIndex="1" GridPane.rowIndex="22" />
-      <TextField fx:id="huValue" layoutX="215.0" layoutY="617.0" prefHeight="27.0" prefWidth="77.0" promptText="humidity value" GridPane.columnIndex="2" GridPane.rowIndex="22" />
-      <Text fill="#8d0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity date" GridPane.columnIndex="1" GridPane.rowIndex="24" />
-      <DatePicker fx:id="huDatePicker" layoutX="118.0" layoutY="700.0" promptText="humidity date" GridPane.columnIndex="2" GridPane.rowIndex="24" />
-      <Text fill="#8d0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity comment" GridPane.columnIndex="1" GridPane.rowIndex="26" />
-      <TextField fx:id="huComment" layoutX="118.0" layoutY="740.0" prefHeight="27.0" prefWidth="167.0" promptText="humidity comment" GridPane.columnIndex="2" GridPane.rowIndex="26" />
-      <Button layoutX="116.0" layoutY="460.0" mnemonicParsing="false" onAction="#handlePostHu" prefHeight="27.0" prefWidth="154.0" text="Save humidity value" textFill="#8d0a0a" GridPane.columnIndex="2" GridPane.rowIndex="28" />
-      
-      <AreaChart fx:id="huChart" layoutX="322.0" layoutY="310.0" prefHeight="251.0" prefWidth="752.0" title="Area chart with humidity data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="20" GridPane.rowSpan="12">
-        <xAxis>
-          <CategoryAxis label="Date" side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis autoRanging="false" label="\%" side="LEFT" upperBound="100" />
-        </yAxis>
-      </AreaChart>
-      
-      <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Input for pollen:" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="37">
-         <font>
-            <Font name="System Bold" size="18.0" />
-         </font>
+            <Text fill="#8d0a0a" layoutX="169.0" layoutY="323.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Input for humidity:" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="20">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
       </Text>
-      
-      <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Birk value" GridPane.columnIndex="1" GridPane.rowIndex="39" />
-      <TextField fx:id="birkValue" layoutX="117.0" layoutY="660.0" prefHeight="33.0" prefWidth="223.0" promptText="birk value" GridPane.columnIndex="2" GridPane.rowIndex="39" />
-      
-      <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Sagebrush value" GridPane.columnIndex="1" GridPane.rowIndex="41" />
-      <TextField fx:id="sagebrushValue" layoutX="117.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" promptText="Sagebrush value" GridPane.columnIndex="2" GridPane.rowIndex="41" />
-      
-      <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Elm value" GridPane.columnIndex="1" GridPane.rowIndex="43" />
-      <TextField fx:id="elmValue" layoutX="117.0" layoutY="617.0" prefHeight="27.0" prefWidth="133.0" promptText="Elm value" GridPane.columnIndex="2" GridPane.rowIndex="43" />
-      
-      <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="El value" GridPane.columnIndex="1" GridPane.rowIndex="45" />
-       <TextField fx:id="elValue" layoutX="120.0" layoutY="380.0" prefHeight="27.0" prefWidth="184.0" promptText="El value" GridPane.columnIndex="2" GridPane.rowIndex="45" />
-      
-      <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Grass value" GridPane.columnIndex="1" GridPane.rowIndex="47" />
-      <TextField fx:id="grassValue" layoutX="215.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" promptText="Grass value" GridPane.columnIndex="2" GridPane.rowIndex="47" />
-      
-      <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Pollen date" GridPane.columnIndex="1" GridPane.rowIndex="49" />
-       <DatePicker fx:id="alDatePicker" layoutX="118.0" layoutY="418.0" promptText="pollen date" GridPane.columnIndex="2" GridPane.rowIndex="49" />
-      
-       <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Pollen comment" GridPane.columnIndex="1" GridPane.rowIndex="51" />
-       <TextField fx:id="alComment" prefHeight="27.0" prefWidth="77.0" promptText="pollen comment" GridPane.columnIndex="2" GridPane.rowIndex="51" />
-      
-     <Button mnemonicParsing="false" onAction="#handlePostAl" prefHeight="27.0" prefWidth="154.0" text="Save pollen values" textFill="#0829e8" GridPane.columnIndex="2" GridPane.rowIndex="53" />
-      
-      <BarChart fx:id="alChart" layoutX="322.0" layoutY="535.0" prefHeight="154.0" prefWidth="494.0" title="Bar chart with pollen data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="36" GridPane.rowSpan="14">
-        <xAxis>
-          <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisBar" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis label="AMT/m^3" side="LEFT" />
-        </yAxis>
-      </BarChart>
-      
-      
-      <DatePicker fx:id="fromDatePicker" layoutX="553.0" layoutY="770.0" prefHeight="27.0" prefWidth="136.0" promptText="Start date" GridPane.columnIndex="5" GridPane.rowIndex="51" />
-      <DatePicker fx:id="toDatePicker" layoutX="841.0" layoutY="770.0" prefHeight="27.0" prefWidth="136.0" promptText="End date" GridPane.columnIndex="6" GridPane.rowIndex="51">
-         <GridPane.margin>
-            <Insets />
-         </GridPane.margin></DatePicker>
-       <Button fx:id="buttonSearch" alignment="CENTER_RIGHT" layoutX="735.0" layoutY="812.0" onAction="#handleSearchByDate" prefHeight="30.0" prefWidth="134.0" text="SEARCH DATES" textAlignment="CENTER" textFill="#d7940f" GridPane.columnIndex="7" GridPane.rowIndex="51">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
-      
-         <!--<TextField fx:id="textFieldSearch" layoutX="43.0" layoutY="41.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />-->
-      <TableView fx:id="tablePfView" layoutX="9.0" layoutY="108.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="193.0" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.rowSpan="46">
-        <columns>
-            <TableColumn maxWidth="-Infinity" minWidth="60.0" prefWidth="60.0" text="Date">
-                 <cellValueFactory>
-                  <PropertyValueFactory property="pfDate" />
-              </cellValueFactory>
-            </TableColumn>
-            <TableColumn editable="false" maxWidth="-Infinity" minWidth="130.0" prefWidth="130.0" sortable="false" text="Comment">
-                 <cellValueFactory>
-                  <PropertyValueFactory property="pfComment" />
-              </cellValueFactory>
-            </TableColumn>
-        </columns>
-      </TableView>
-      <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow comments" textAlignment="CENTER" underline="true" wrappingWidth="194.4814453125" GridPane.columnIndex="8" GridPane.rowIndex="5">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Text>
-      <Button fx:id="seeDataBu" alignment="CENTER_RIGHT" onAction="#getAllCharts" prefHeight="48.0" prefWidth="78.0" text="GO! GO!" textAlignment="RIGHT" textFill="#16a11d" GridPane.columnIndex="4" GridPane.rowIndex="53" GridPane.rowSpan="3">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Button>
+            
+             <Text fill="#8d0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity value" GridPane.columnIndex="1" GridPane.rowIndex="22" />
+         <TextField fx:id="huValue" layoutX="215.0" layoutY="617.0" prefHeight="27.0" prefWidth="77.0" promptText="humidity value" GridPane.columnIndex="2" GridPane.rowIndex="22" />
+         <Text fill="#8d0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity date" GridPane.columnIndex="1" GridPane.rowIndex="24" />
+         <DatePicker fx:id="huDatePicker" layoutX="118.0" layoutY="700.0" promptText="humidity date" GridPane.columnIndex="2" GridPane.rowIndex="24" />
+         <Text fill="#8d0a0a" strokeType="OUTSIDE" strokeWidth="0.0" text="Humidity comment" GridPane.columnIndex="1" GridPane.rowIndex="26" />
+         <TextField fx:id="huComment" layoutX="118.0" layoutY="740.0" prefHeight="27.0" prefWidth="167.0" promptText="humidity comment" GridPane.columnIndex="2" GridPane.rowIndex="26" />
+         <Button layoutX="116.0" layoutY="460.0" mnemonicParsing="false" onAction="#handlePostHu" prefHeight="27.0" prefWidth="154.0" text="Save humidity value" textFill="#8d0a0a" GridPane.columnIndex="2" GridPane.rowIndex="28" />
+         
+         <AreaChart fx:id="huChart" layoutX="322.0" layoutY="310.0" prefHeight="251.0" prefWidth="752.0" title="Area chart with humidity data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="20" GridPane.rowSpan="12">
+           <xAxis>
+             <CategoryAxis label="Date" side="BOTTOM" />
+           </xAxis>
+           <yAxis>
+             <NumberAxis autoRanging="false" label="\%" side="LEFT" upperBound="100" />
+           </yAxis>
+         </AreaChart>
+         
+         <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Input for pollen:" underline="true" GridPane.columnIndex="1" GridPane.rowIndex="37">
+            <font>
+               <Font name="System Bold" size="18.0" />
+            </font>
+         </Text>
+         
+         <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Birk value" GridPane.columnIndex="1" GridPane.rowIndex="39" />
+         <TextField fx:id="birkValue" layoutX="117.0" layoutY="660.0" prefHeight="33.0" prefWidth="223.0" promptText="birk value" GridPane.columnIndex="2" GridPane.rowIndex="39" />
+         
+         <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Sagebrush value" GridPane.columnIndex="1" GridPane.rowIndex="41" />
+         <TextField fx:id="sagebrushValue" layoutX="117.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" promptText="Sagebrush value" GridPane.columnIndex="2" GridPane.rowIndex="41" />
+         
+         <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Elm value" GridPane.columnIndex="1" GridPane.rowIndex="43" />
+         <TextField fx:id="elmValue" layoutX="117.0" layoutY="617.0" prefHeight="27.0" prefWidth="133.0" promptText="Elm value" GridPane.columnIndex="2" GridPane.rowIndex="43" />
+         
+         <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="El value" GridPane.columnIndex="1" GridPane.rowIndex="45" />
+          <TextField fx:id="elValue" layoutX="120.0" layoutY="380.0" prefHeight="27.0" prefWidth="184.0" promptText="El value" GridPane.columnIndex="2" GridPane.rowIndex="45" />
+         
+         <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Grass value" GridPane.columnIndex="1" GridPane.rowIndex="47" />
+         <TextField fx:id="grassValue" layoutX="215.0" layoutY="575.0" prefHeight="27.0" prefWidth="77.0" promptText="Grass value" GridPane.columnIndex="2" GridPane.rowIndex="47" />
+         
+         <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Pollen date" GridPane.columnIndex="1" GridPane.rowIndex="49" />
+          <DatePicker fx:id="alDatePicker" layoutX="118.0" layoutY="418.0" promptText="pollen date" GridPane.columnIndex="2" GridPane.rowIndex="49" />
+         
+          <Text fill="#0829e8" strokeType="OUTSIDE" strokeWidth="0.0" text="Pollen comment" GridPane.columnIndex="1" GridPane.rowIndex="51" />
+          <TextField fx:id="alComment" prefHeight="27.0" prefWidth="77.0" promptText="pollen comment" GridPane.columnIndex="2" GridPane.rowIndex="51" />
+         
+        <Button mnemonicParsing="false" onAction="#handlePostAl" prefHeight="27.0" prefWidth="154.0" text="Save pollen values" textFill="#0829e8" GridPane.columnIndex="2" GridPane.rowIndex="53" />
+         
+         <BarChart fx:id="alChart" layoutX="322.0" layoutY="535.0" prefHeight="154.0" prefWidth="494.0" title="Bar chart with pollen data" GridPane.columnIndex="4" GridPane.columnSpan="4" GridPane.rowIndex="36" GridPane.rowSpan="14">
+           <xAxis>
+             <CategoryAxis label="Date" side="BOTTOM" fx:id="xAxisBar" />
+           </xAxis>
+           <yAxis>
+             <NumberAxis label="AMT/m^3" side="LEFT" />
+           </yAxis>
+         </BarChart>
+         
+         
+         <DatePicker fx:id="fromDatePicker" layoutX="553.0" layoutY="770.0" prefHeight="27.0" prefWidth="136.0" promptText="From date" GridPane.columnIndex="5" GridPane.rowIndex="51" />
+         <DatePicker fx:id="toDatePicker" layoutX="841.0" layoutY="770.0" prefHeight="27.0" prefWidth="136.0" promptText="To date" GridPane.columnIndex="6" GridPane.rowIndex="51">
+            <GridPane.margin>
+               <Insets />
+            </GridPane.margin>
+      </DatePicker>
+          <Button fx:id="buttonSearch" alignment="CENTER_RIGHT" layoutX="735.0" layoutY="812.0" onAction="#handleSearchByDate" prefHeight="30.0" prefWidth="134.0" text="SEARCH DATES" textAlignment="CENTER" textFill="#d7940f" GridPane.columnIndex="7" GridPane.rowIndex="51">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Button>
+         
+            <!--<TextField fx:id="textFieldSearch" layoutX="43.0" layoutY="41.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />-->
+         <TableView fx:id="tablePfView" layoutX="9.0" layoutY="108.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="193.0" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.rowSpan="46">
+           <columns>
+               <TableColumn maxWidth="-Infinity" minWidth="60.0" prefWidth="60.0" text="Date">
+                    <cellValueFactory>
+                     <PropertyValueFactory property="pfDate" />
+                 </cellValueFactory>
+               </TableColumn>
+               <TableColumn editable="false" maxWidth="-Infinity" minWidth="130.0" prefWidth="130.0" sortable="false" text="Comment">
+                    <cellValueFactory>
+                     <PropertyValueFactory property="pfComment" />
+                 </cellValueFactory>
+               </TableColumn>
+           </columns>
+         </TableView>
+         <Text fill="#5d0bdd" strokeType="OUTSIDE" strokeWidth="0.0" text="Peakflow comments" textAlignment="CENTER" underline="true" wrappingWidth="194.4814453125" GridPane.columnIndex="8" GridPane.rowIndex="5">
+            <font>
+               <Font size="18.0" />
+            </font>
+         </Text>
+         <Button fx:id="seeDataBu" alignment="CENTER_RIGHT" onAction="#getAllCharts" prefHeight="48.0" prefWidth="104.0" text="Get All Data" textAlignment="RIGHT" textFill="#16a11d" GridPane.columnIndex="4" GridPane.rowIndex="53" GridPane.rowSpan="3">
+            <font>
+               <Font size="14.0" />
+            </font>
+         </Button>
+   </children>
       
    
    <columnConstraints>

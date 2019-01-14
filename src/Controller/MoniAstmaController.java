@@ -101,6 +101,7 @@ public class MoniAstmaController implements Initializable {
         
     @FXML
     private DatePicker alDatePicker;
+    
     //// String converter to set DatePickers to dd-MM-yyyy format in view.
     
     StringConverter stringConverter;
@@ -195,8 +196,8 @@ public class MoniAstmaController implements Initializable {
       lineChartData.addAll(seriesPf,seriesBl);
       pfChart.setData(lineChartData);
     
-      seriesPf.setName("Peak flow monitoration values");
-      seriesBl.setName("Peak flow Baseline values");
+      seriesPf.setName("Peakflow monitoration values");
+      seriesBl.setName("Peakflow Baseline values");
       
       client.close();
       
@@ -404,8 +405,8 @@ public class MoniAstmaController implements Initializable {
         lineChartData.addAll(seriesS,seriesBl);
         pfChart.setData(lineChartData);
     
-        seriesS.setName("Peak flow monitoration values");
-        seriesBl.setName("Peak flow Baseline values");
+        seriesS.setName("Peakflow monitoration values");
+        seriesBl.setName("Peakflow Baseline values");
         
         client.close();
     }
