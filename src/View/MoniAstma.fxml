@@ -122,7 +122,7 @@
             <!--<TextField fx:id="textFieldSearch" layoutX="43.0" layoutY="41.0" onAction="#handleSearchAction" prefHeight="27.0" prefWidth="398.0" />-->
          <TableView fx:id="tablePfView" layoutX="9.0" layoutY="108.0" maxWidth="-Infinity" minWidth="-Infinity" prefHeight="240.0" prefWidth="193.0" GridPane.columnIndex="8" GridPane.rowIndex="7" GridPane.rowSpan="46">
            <columns>
-               <TableColumn maxWidth="-Infinity" minWidth="60.0" prefWidth="60.0" text="Date">
+               <TableColumn editable="false" maxWidth="-Infinity" minWidth="60.0" prefWidth="60.0" sortable="false" text="Date">
                     <cellValueFactory>
                      <PropertyValueFactory property="pfDate" />
                  </cellValueFactory>
