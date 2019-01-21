@@ -35,7 +35,7 @@ import javafx.scene.control.Alert;
 
         public void getPostAlertError(){
             String sh = "Input missing or format is wrong ";
-            String s = "Empty input or the format of the input value is wrong. Value must be a rounded number.!";
+            String s = "Empty input or the format of the input value is wrong. Value must be a rounded number. ";
             alertError.setHeaderText(sh);
             alertError.setContentText(s);
             alertError.showAndWait();
@@ -43,7 +43,7 @@ import javafx.scene.control.Alert;
         
         public void getPostPfSuccesInfo(){
             String sh = "The peakflow input has been saved! ";
-            String s = "Please ensure to input humidity and pollen data for this date before clicking Get All Data to update charts!. ";
+            String s = "Please ensure to input humidity and pollen data before clicking Get All Data. ";
             alertInfo.setHeaderText(sh);
             alertInfo.setContentText(s);
             alertInfo.showAndWait();
@@ -51,7 +51,7 @@ import javafx.scene.control.Alert;
         
         public void getPostHuSuccesInfo(){
             String sh = "The humidity input has been saved! ";
-            String s =  "Please ensure to also input pollen data on this date before clicking Get All Data to update charts!. ";
+            String s =  "Please ensure to also input pollen data before clicking Get All Data. ";
             alertInfo.setHeaderText(sh);
             alertInfo.setContentText(s);
             alertInfo.showAndWait();
@@ -59,7 +59,7 @@ import javafx.scene.control.Alert;
         
         public void getPostAlSuccesInfo(){
             String sh = "The pollen input has been saved! ";
-            String s = "Please ensure that you have made inputs for peakflow and pollen on this date before clicking Get All Data to update charts!. ";
+            String s = "Please ensure that you have made inputs for peakflow and pollen before clicking Get All Data. ";
             alertInfo.setHeaderText(sh);
             alertInfo.setContentText(s);
             alertInfo.showAndWait();
